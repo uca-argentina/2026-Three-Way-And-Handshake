@@ -30,3 +30,31 @@ aDiceSet := DiceSet withDice: (OrderedCollection with: aDie with: aSecondDie).
 
 self assert: aDiceSet getNumberOfDice equals: 2. 
 ]
+
+{ #category : 'tests' }
+DiceSetTest >> test003WhenADiceSetWithBothDiceWith6SidesThenTheResultIsBetween1And12 [
+
+| aDiceSet aDie aSecondDie |
+
+aDie := Die withSides: 6.
+aSecondDie := Die withSides: 6.
+
+aDiceSet := DiceSet withDice: (OrderedCollection with: aDie with: aSecondDie). 
+
+
+self assert: (aDiceSet toss between: 1 and: 12). 
+]
+
+{ #category : 'tests' }
+DiceSetTest >> test004WhenADiceSetIsEmptyThenItCannotBeTossed [
+
+	| aDiceSet |
+	aDiceSet := DiceSet withDice: OrderedCollection new.
+	self
+		should: [ aDiceSet toss]
+		raise: Error
+		withExceptionDo: [ :error |
+			self
+				assert: error messageText
+				equals: 'A dice set cannot be tossed when is empty']
+]

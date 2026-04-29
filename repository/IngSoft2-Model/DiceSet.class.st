@@ -23,3 +23,14 @@ DiceSet >> getNumberOfDice [
 DiceSet >> initializeWithDice: aDieCollection [
 	dice := aDieCollection.
 ]
+
+{ #category : 'as yet unclassified' }
+DiceSet >> toss [
+
+	| diceRollResult |
+	
+	dice isEmpty ifTrue: [ Error signal: 'A dice set cannot be tossed when is empty' ].
+	 
+	diceRollResult := (dice collect: [ :die | die roll ]) sum.
+	^ diceRollResult
+]
