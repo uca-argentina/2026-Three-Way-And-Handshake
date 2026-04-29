@@ -1,17 +1,32 @@
 Class {
 	#name : 'Die',
 	#superclass : 'Object',
+	#instVars : [
+		'numberOfSides'
+	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'as yet unclassified' }
-Die class >> roll [
-	^ 1.
+Die class >> withSides: aNumberOfSides [
+
+	aNumberOfSides < 1 ifTrue: [ Error signal: 'Die sides cannot be negative or zero'].
+	
+	^(self new) initializeWithSides: aNumberOfSides .
 ]
 
 { #category : 'as yet unclassified' }
-Die class >> withSides: aNumberOfSides [
+Die >> getNumberOfSides [
+	^numberOfSides .
+]
 
-	aNumberOfSides < 1 ifTrue: [ Error signal: 'Die sides cannot be negative or zero']
+{ #category : 'initialization' }
+Die >> initializeWithSides: aNumberOfSides [
+	numberOfSides:= aNumberOfSides .
+]
+
+{ #category : 'as yet unclassified' }
+Die >> roll [
+	^ numberOfSides atRandom.
 ]

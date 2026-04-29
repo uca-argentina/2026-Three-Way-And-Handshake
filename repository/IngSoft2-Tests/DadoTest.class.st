@@ -18,16 +18,16 @@ DadoTest >> test001WhenTheSidesAreNegativeThenADieCannotBeCreated [
 ]
 
 { #category : 'tests' }
-DadoTest >> test002WhenAOneSidedDieIsRolledThenTheOutcomeIsOne [
+DadoTest >> test002WhenADieIsInitializedWithOneSideThenADieHasOneSide [
 
 | aDie |
 aDie:= Die withSides: 1.
 
-self assert: aDie roll equals: 1.
+self assert: aDie getNumberOfSides equals: 1.
 ]
 
 { #category : 'tests' }
-DadoTest >> test003 [
+DadoTest >> test003WhenADieWithNSidesIsRolledThenTheOutcomeIsBetween1AndN [
 
 | aDie|
 aDie:= Die withSides: 5.
