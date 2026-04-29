@@ -34,3 +34,15 @@ aDie:= Die withSides: 5.
 
 self assert: (aDie roll between: 1 and: 5).
 ]
+
+{ #category : 'tests' }
+DadoTest >> test004WhenTheSidesAreOtherThanIntegerTypeThenADieCannotBeCreated [
+
+	self
+		should: [ Die withSides: 'a' ]
+		raise: Error
+		withExceptionDo: [ :error |
+			self
+				assert: error messageText
+				equals: 'Die sides cannot be other than integer type']
+]
