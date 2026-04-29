@@ -6,5 +6,10 @@ Class {
 }
 
 { #category : 'tests' }
-ShipTest >> test001 [
+ShipTest >> test001WhenAShipIsSetWithId1ThenTheIdIs1 [
+
+| aShip |
+aShip := Ship withId: 1.
+
+self assert: aShip getId equals: 1.
 ]

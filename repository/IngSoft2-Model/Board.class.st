@@ -2,7 +2,8 @@ Class {
 	#name : 'Board',
 	#superclass : 'Object',
 	#instVars : [
-		'boardSize'
+		'boardSize',
+		'collectionOfShips'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -20,6 +21,16 @@ Board class >> withSize: aNumberOfSquares [
 ]
 
 { #category : 'as yet unclassified' }
+Board class >> withSize: aBoardSize andShips: aCollectionOfShips [ 
+	^ (self new) initializeWithSize: aBoardSize andShips: aCollectionOfShips. 
+]
+
+{ #category : 'as yet unclassified' }
+Board >> getAmountOfShips [
+^collectionOfShips size.
+]
+
+{ #category : 'as yet unclassified' }
 Board >> getSize [
 	^ boardSize .
 ]
@@ -27,4 +38,10 @@ Board >> getSize [
 { #category : 'initialization' }
 Board >> initializeWithSize: aNumberOfSquares [ 
 boardSize:= aNumberOfSquares .
+]
+
+{ #category : 'initialization' }
+Board >> initializeWithSize: aBoardSize andShips: aCollectionOfShips [ 
+boardSize:= aBoardSize.
+collectionOfShips:= aCollectionOfShips.
 ]
