@@ -1,0 +1,39 @@
+Class {
+	#name : 'BoardTest',
+	#superclass : 'TestCase',
+	#category : 'IngSoft2-Tests',
+	#package : 'IngSoft2-Tests'
+}
+
+{ #category : 'tests' }
+BoardTest >> test001WhenABoardWithSize10IsCreatedThenTheSizeIs10 [
+
+| aBoard |
+aBoard:= Board withSize: 10.
+
+self assert: aBoard getSize equals: 10.
+]
+
+{ #category : 'tests' }
+BoardTest >> test002WhenABoardIsSetWithSize0OrSmallerThenItIsNotInstantiated [
+
+self
+		should: [ Board withSize: 0 ]
+		raise: Error
+		withExceptionDo: [ :error |
+			self
+				assert: error messageText
+				equals: 'Board size cannot be negative or zero']
+]
+
+{ #category : 'tests' }
+BoardTest >> test002WhenABoardIsSetWithSizeOtherThanIntegerThenItIsNotInstantiated [
+
+self
+		should: [ Board withSize: 'aaaaa' ]
+		raise: Error
+		withExceptionDo: [ :error |
+			self
+				assert: error messageText
+				equals: 'Board size cannot be other than integer']
+]
