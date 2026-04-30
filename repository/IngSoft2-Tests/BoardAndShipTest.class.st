@@ -6,7 +6,7 @@ Class {
 }
 
 { #category : 'tests' }
-BoardAndShipTest >> test001WhenABoarIsCreatedWithOneShipThenItHasOneShip [
+BoardAndShipTest >> test001WhenABoardIsCreatedWithOneShipThenItHasOneShip [
 
 	| aShip aCollectionOfShips aBoard |
 	aShip := Ship withId: 1.
