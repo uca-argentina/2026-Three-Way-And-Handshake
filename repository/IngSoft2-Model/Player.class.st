@@ -33,11 +33,6 @@ Player class >> withName: aName andShip: aShip [
 	^ self new initializeWithName: aName andShip: aShip
 ]
 
-{ #category : 'as yet unclassified' }
-Player >> getId [
-^ id.
-]
-
 { #category : 'private' }
 Player >> getName [
 ^name.

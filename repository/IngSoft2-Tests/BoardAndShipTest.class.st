@@ -44,3 +44,17 @@ BoardAndShipTest >> test003WhenTheBoardIsInitializedWithNoShipsThenMoreCanBeAdde
 
 	self assert: aBoard getAmountOfShips equals: 1.
 ]
+
+{ #category : 'tests' }
+BoardAndShipTest >> test004WhenABoardIsAskedToMoveAShipTo5ThenThePositionOfSaidShipis5 [
+
+	| aShip aBoard |
+	aShip := Ship withId: 1.
+
+	aBoard := Board withSize: 10.
+	aBoard addShip: aShip.
+	
+	aBoard moveShip: aShip toPosition: 5.
+
+	self assert: (aBoard getPositionOf: aShip) equals: 5.
+]

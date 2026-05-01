@@ -3,7 +3,7 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'boardSize',
-		'collectionOfShips'
+		'shipsDictionary'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -27,12 +27,17 @@ Board class >> withSize: aBoardSize andShips: aCollectionOfShips [
 
 { #category : 'adding' }
 Board >> addShip: aShipToBeAdded [ 
-collectionOfShips add: aShipToBeAdded.
+shipsDictionary at: aShipToBeAdded put: 0.
 ]
 
 { #category : 'as yet unclassified' }
 Board >> getAmountOfShips [
-^collectionOfShips size.
+^ shipsDictionary size.
+]
+
+{ #category : 'as yet unclassified' }
+Board >> getPositionOf: aShip [ 
+^ (aShip getPosition).
 ]
 
 { #category : 'as yet unclassified' }
@@ -43,11 +48,20 @@ Board >> getSize [
 { #category : 'initialization' }
 Board >> initializeWithSize: aNumberOfSquares [ 
 boardSize:= aNumberOfSquares. 
-collectionOfShips:= OrderedCollection new.
+shipsDictionary:= Dictionary new.
 ]
 
 { #category : 'initialization' }
 Board >> initializeWithSize: aBoardSize andShips: aCollectionOfShips [ 
 boardSize:= aBoardSize.
-collectionOfShips:= aCollectionOfShips.
+shipsDictionary:= Dictionary new.
+
+aCollectionOfShips do: [:each | shipsDictionary at: each put: 0].
+]
+
+{ #category : 'as yet unclassified' }
+Board >> moveShip: aShip toPosition: aPosition [ 
+"HABRIA QUE VALIDAR QUE LA NAVE ESTE JUGANDO DENTRO DE ESTE TABLERO, ES DECRI QUE LA NAVE SEA UN JUGADOR REGISTRADO"
+"HABRIA QUE VALIDAR QUE LA POSITION ES VALIDA DENTRO DEL TABLERO"
+aShip setPositionTo: aPosition.
 ]
