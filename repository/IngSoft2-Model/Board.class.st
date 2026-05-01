@@ -60,8 +60,22 @@ aCollectionOfShips do: [:each | shipsDictionary at: each put: 0].
 ]
 
 { #category : 'as yet unclassified' }
-Board >> moveShip: aShip toPosition: aPosition [ 
-"HABRIA QUE VALIDAR QUE LA NAVE ESTE JUGANDO DENTRO DE ESTE TABLERO, ES DECRI QUE LA NAVE SEA UN JUGADOR REGISTRADO"
-"HABRIA QUE VALIDAR QUE LA POSITION ES VALIDA DENTRO DEL TABLERO"
+Board >> isPositionBetweenLimits: aPosition [
+
+aPosition <= boardSize ifFalse: [ Error signal: 'The Position is outside of limits' ].
+]
+
+{ #category : 'testing' }
+Board >> isShipOnBoard: aShip [ 
+
+(shipsDictionary includesKey: aShip) ifFalse: [Error signal: 'The Ship is not on board'].
+]
+
+{ #category : 'as yet unclassified' }
+Board >> moveShip: aShip toPosition: aPosition [
+
+self isShipOnBoard: aShip.
+self isPositionBetweenLimits: aPosition.
+
 aShip setPositionTo: aPosition.
 ]
