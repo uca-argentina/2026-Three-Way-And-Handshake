@@ -25,6 +25,11 @@ Board class >> withSize: aBoardSize andShips: aCollectionOfShips [
 	^ (self new) initializeWithSize: aBoardSize andShips: aCollectionOfShips. 
 ]
 
+{ #category : 'adding' }
+Board >> addShip: aShipToBeAdded [ 
+collectionOfShips add: aShipToBeAdded.
+]
+
 { #category : 'as yet unclassified' }
 Board >> getAmountOfShips [
 ^collectionOfShips size.
@@ -37,7 +42,8 @@ Board >> getSize [
 
 { #category : 'initialization' }
 Board >> initializeWithSize: aNumberOfSquares [ 
-boardSize:= aNumberOfSquares .
+boardSize:= aNumberOfSquares. 
+collectionOfShips:= OrderedCollection new.
 ]
 
 { #category : 'initialization' }
