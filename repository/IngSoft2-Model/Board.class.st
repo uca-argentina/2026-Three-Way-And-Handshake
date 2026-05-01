@@ -37,7 +37,7 @@ Board >> getAmountOfShips [
 
 { #category : 'as yet unclassified' }
 Board >> getPositionOf: aShip [ 
-^ (aShip getPosition).
+^ (shipsDictionary at: aShip).
 ]
 
 { #category : 'as yet unclassified' }
@@ -77,5 +77,10 @@ Board >> moveShip: aShip toPosition: aPosition [
 self isShipOnBoard: aShip.
 self isPositionBetweenLimits: aPosition.
 
-aShip setPositionTo: aPosition.
+self setPositionOf: aShip to: aPosition.
+]
+
+{ #category : 'initialization' }
+Board >> setPositionOf: aShip to: aPosition [ 
+	shipsDictionary at: aShip put: aPosition.
 ]

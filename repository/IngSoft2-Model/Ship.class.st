@@ -2,8 +2,7 @@ Class {
 	#name : 'Ship',
 	#superclass : 'Object',
 	#instVars : [
-		'shipId',
-		'position'
+		'shipId'
 	],
 	#classInstVars : [
 		'shipId'
@@ -23,17 +22,6 @@ Ship >> getId [
 ]
 
 { #category : 'initialization' }
-Ship >> getPosition [
-
-^position.
-]
-
-{ #category : 'initialization' }
 Ship >> initializeWithId: anId [ 
 shipId:= anId.
-]
-
-{ #category : 'initialization' }
-Ship >> setPositionTo: aPosition [ 
-position:= aPosition.
 ]
