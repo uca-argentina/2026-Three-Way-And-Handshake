@@ -38,7 +38,7 @@ GameTest >> test002WhenAGameIsCreatedWithABoardAndSpaceShipThenThePositionOfTheS
 	
 	aGame := Game withABoard: aBoard.
 
-	self assert: (aGame getPositionOfSpaceShip: aFirstShip onTheBoard: aBoard) equals: 0.
+	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 0.
 ]
 
 { #category : 'running' }
@@ -60,7 +60,7 @@ GameTest >> test003WhenAShipRollsADieAndTheOutcomeIs5ThenItMoves5Positions [
 	
 	aGame moveShip: aFirstShip toPosition: (aLoadedDie roll).
 
-	self assert: (aGame getPositionOfSpaceShip: aFirstShip onTheBoard: aBoard) equals: 5.
+	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 5.
 ]
 
 { #category : 'running' }
@@ -83,7 +83,7 @@ GameTest >> test004WhenAShipReachTheEndOfTheBoardThenTheGameIsOver [
 	aGame moveShip: aFirstShip toPosition: (aLoadedDie roll).
 
 	self assert: aGame over.
-	self assert: (aGame getPositionOfSpaceShip: aFirstShip onTheBoard: aBoard) equals: 10.
+	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 10.
 ]
 
 { #category : 'running' }
@@ -106,7 +106,7 @@ GameTest >> test005WhenAShipMovesButDoesNotReachTheEndOfTheBoardThenTheGameIsNot
 	aGame moveShip: aFirstShip toPosition: (aLoadedDie roll).
 
 	self deny: aGame over.
-	self assert: (aGame getPositionOfSpaceShip: aFirstShip onTheBoard: aBoard) equals: 5.
+	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 5.
 ]
 
 { #category : 'running' }
@@ -129,6 +129,6 @@ GameTest >> test006WhenAShipIsTheFirstToReachTheEndThenItIsTheWinner [
 	aGame moveShip: aFirstShip toPosition: (aLoadedDie roll).
 
 	self assert: aGame over.
-	self assert: (aGame getPositionOfSpaceShip: aFirstShip onTheBoard: aBoard) equals: 10.
+	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 10.
 	self assert: aGame getWinner equals: aFirstShip 
 ]

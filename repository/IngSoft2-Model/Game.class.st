@@ -20,8 +20,7 @@ Game >> checkGameOverFor: aShip [
 
 	| currentPositionOfShip |
 	currentPositionOfShip := self
-		                         getPositionOfSpaceShip: aShip
-		                         onTheBoard: board.
+		                         getPositionOfSpaceShip: aShip.
 
 	^ currentPositionOfShip = board getSize ifTrue: [
 			  isOver := true.
@@ -29,7 +28,7 @@ Game >> checkGameOverFor: aShip [
 ]
 
 { #category : 'as yet unclassified' }
-Game >> getPositionOfSpaceShip: aShip onTheBoard: aBoard [ 
+Game >> getPositionOfSpaceShip: aShip [
 	^board getPositionOf: aShip.
 	
 ]
