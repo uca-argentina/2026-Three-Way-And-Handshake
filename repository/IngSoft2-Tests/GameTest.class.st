@@ -6,21 +6,42 @@ Class {
 }
 
 { #category : 'running' }
-GameTest >> test003ElJuegoTerminadoDeberiaSerAlgoAsi [
+GameTest >> test001WhenAGameIsCreatedThenItCanBeKnownThatItEnds [
+
+| aGame |
+aGame := Game new.
+
+self assert: aGame over.
 
 
-| aShip aPlayer aBoard aLoadedDie |
-aShip:= Ship withId: 1.
-aPlayer:= Player withName: 'Gianni' andShip: aShip.
+]
 
-aBoard := Board withSize: 10.
-aBoard addShip: aShip.
+{ #category : 'running' }
+GameTest >> test002WhenAGameIsCreatedThenItCanBePlayed [
 
-aLoadedDie:= LoadedDie mustRoll: 5.
-
-self assert: true equals: true
-
-"self assert: aBoard getShipPosition: aShip equals: 5."
+	| aGame |
 
 
+	aGame := Game new.
+	
+	aGame play.
+
+	self assert: aGame getWinner equals: 1
+]
+
+{ #category : 'running' }
+GameTest >> test003WhenAGameIsCreatedWithABoardAndSpaceShipThenThePositionOfTheSpaceShipItIs0 [
+
+
+
+	|aGame aFirstShip aCollectionOfShips aBoard |
+	aFirstShip := Ship withId: 1.
+
+	aCollectionOfShips := #( aFirstShip ) asOrderedCollection.
+
+	aBoard := Board withSize: 10 andShips: aCollectionOfShips.
+	
+	aGame := Game withABoard: aBoard.
+
+	self assert: (aGame getPositionOfSpaceShip: aFirstShip onTheBoard: aBoard) equals: 0.
 ]
