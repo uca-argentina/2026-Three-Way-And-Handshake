@@ -11,7 +11,7 @@ BoardAndShipTest >> test001WhenABoardIsCreatedWithOneShipThenItHasOneShip [
 	| aShip aCollectionOfShips aBoard |
 	aShip := Ship withId: 1.
 
-	aCollectionOfShips := #( aShip ) asOrderedCollection.
+	aCollectionOfShips := OrderedCollection with: aShip.
 
 	aBoard := Board withSize: 10 andShips: aCollectionOfShips.
 
@@ -25,7 +25,7 @@ BoardAndShipTest >> test002WhenABoardIsInitializedWithACollectionOfShipsThenMore
 	aFirstShip := Ship withId: 1.
 	aSecondShip := Ship withId: 2.
 
-	aCollectionOfShips := #( aFirstShip ) asOrderedCollection.
+	aCollectionOfShips := OrderedCollection with: aFirstShip .
 
 	aBoard := Board withSize: 10 andShips: aCollectionOfShips.
 	aBoard addShip: aSecondShip.
@@ -36,10 +36,11 @@ BoardAndShipTest >> test002WhenABoardIsInitializedWithACollectionOfShipsThenMore
 { #category : 'tests' }
 BoardAndShipTest >> test003WhenTheBoardIsInitializedWithNoShipsThenMoreCanBeAddedFurther [
 
-	| aShip aBoard |
+	| aShip aBoard aCollectionOfShips |
 	aShip := Ship withId: 1.
+	aCollectionOfShips := OrderedCollection new.
 
-	aBoard := Board withSize: 10.
+	aBoard := Board withSize: 10 andShips: aCollectionOfShips.
 	aBoard addShip: aShip.
 
 	self assert: aBoard getAmountOfShips equals: 1.
@@ -48,10 +49,11 @@ BoardAndShipTest >> test003WhenTheBoardIsInitializedWithNoShipsThenMoreCanBeAdde
 { #category : 'tests' }
 BoardAndShipTest >> test004WhenABoardIsAskedToMoveAShipTo5ThenThePositionOfSaidShipis5 [
 
-	| aShip aBoard |
+	| aShip aBoard aCollectionOfShips |
 	aShip := Ship withId: 1.
+	aCollectionOfShips := OrderedCollection new.
 
-	aBoard := Board withSize: 10.
+	aBoard := Board withSize: 10 andShips: aCollectionOfShips.
 	aBoard addShip: aShip.
 	
 	aBoard moveShip: aShip toPosition: 5.
@@ -62,10 +64,13 @@ BoardAndShipTest >> test004WhenABoardIsAskedToMoveAShipTo5ThenThePositionOfSaidS
 { #category : 'tests' }
 BoardAndShipTest >> test005WhenAShipExteriorToTheBoardIsAskedToMoveThenAnErrorIsRaisedAndConditionsRemainUnchanged [
 
-	| aShip aBoard |
+	| aShip aBoard aCollectionOfShips |
 	aShip := Ship withId: 1.
+	
+	aCollectionOfShips := OrderedCollection new.
 
-	aBoard := Board withSize: 10.
+	aBoard := Board withSize: 10 andShips: aCollectionOfShips.
+	
 
 	self
 		should: [ aBoard moveShip: aShip toPosition: 5 ]
@@ -81,10 +86,11 @@ BoardAndShipTest >> test006WhenAShipIsAskedToMoveOutsideOfBoardBoundsThenAnError
 
 probablemente el board reciba una cantidad de positions que tiene que saltar y automaticamente analice hasta donde tiene que ir ya que alguien podria rollear mas de la cantidad de cuadrados que le faltan para terminar"
 
-	| aShip aBoard |
+	| aShip aBoard aCollectionOfShips |
 	aShip := Ship withId: 1.
+	aCollectionOfShips := OrderedCollection new.
 
-	aBoard := Board withSize: 10.
+	aBoard := Board withSize: 10 andShips: aCollectionOfShips.
 	aBoard addShip: aShip.
 
 	self

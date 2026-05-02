@@ -9,19 +9,14 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'instance creation' }
-Board class >> withSize: aNumberOfSquares [
-
-	aNumberOfSquares isInteger ifFalse: [
-		Error signal: 'Board size cannot be other than integer' ].
-	aNumberOfSquares < 1 ifTrue: [
-		Error signal: 'Board size cannot be negative or zero' ].
-
-	^ self new initializeWithSize: aNumberOfSquares
-]
-
 { #category : 'as yet unclassified' }
 Board class >> withSize: aBoardSize andShips: aCollectionOfShips [ 
+
+	aBoardSize isInteger ifFalse: [
+		Error signal: 'Board size cannot be other than integer' ].
+	aBoardSize < 1 ifTrue: [
+		Error signal: 'Board size cannot be negative or zero' ].
+	
 	^ (self new) initializeWithSize: aBoardSize andShips: aCollectionOfShips. 
 ]
 
@@ -46,17 +41,11 @@ Board >> getSize [
 ]
 
 { #category : 'initialization' }
-Board >> initializeWithSize: aNumberOfSquares [ 
-boardSize:= aNumberOfSquares. 
-shipsDictionary:= Dictionary new.
-]
-
-{ #category : 'initialization' }
 Board >> initializeWithSize: aBoardSize andShips: aCollectionOfShips [ 
 boardSize:= aBoardSize.
 shipsDictionary:= Dictionary new.
 
-aCollectionOfShips do: [:each | shipsDictionary at: each put: 0].
+aCollectionOfShips do: [:ship | shipsDictionary at: ship put: 0].
 ]
 
 { #category : 'as yet unclassified' }

@@ -16,7 +16,8 @@ Game class >> withABoard: aBoard [
 
 { #category : 'as yet unclassified' }
 Game >> getPositionOfSpaceShip: aShip onTheBoard: aBoard [ 
-	^0
+	^board getPositionOf: aShip.
+	
 ]
 
 { #category : 'as yet unclassified' }
@@ -27,6 +28,11 @@ Game >> getWinner [
 { #category : 'initialization' }
 Game >> initializeWithABoard: aBoard [ 
 	board := aBoard
+]
+
+{ #category : 'as yet unclassified' }
+Game >> moveShip: aShip toPosition: aPosition [
+	board moveShip: aShip toPosition: aPosition.
 ]
 
 { #category : 'modes' }

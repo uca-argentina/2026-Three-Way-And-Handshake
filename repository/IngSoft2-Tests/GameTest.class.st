@@ -37,11 +37,33 @@ GameTest >> test003WhenAGameIsCreatedWithABoardAndSpaceShipThenThePositionOfTheS
 	|aGame aFirstShip aCollectionOfShips aBoard |
 	aFirstShip := Ship withId: 1.
 
-	aCollectionOfShips := #( aFirstShip ) asOrderedCollection.
+	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
 	aBoard := Board withSize: 10 andShips: aCollectionOfShips.
 	
 	aGame := Game withABoard: aBoard.
 
 	self assert: (aGame getPositionOfSpaceShip: aFirstShip onTheBoard: aBoard) equals: 0.
+]
+
+{ #category : 'running' }
+GameTest >> test004WhenAShipRollsADieAndTheOutcomeIs5ThenItMoves5Positions [
+
+
+	|aGame aFirstShip aCollectionOfShips aBoard aLoadedDie|
+	aFirstShip := Ship withId: 1.
+
+	aCollectionOfShips := OrderedCollection with: aFirstShip.
+
+	aBoard := Board withSize: 10 andShips: aCollectionOfShips.
+	aBoard addShip: aFirstShip.
+	
+	aGame := Game withABoard: aBoard.
+	
+	
+	aLoadedDie:= LoadedDie mustRoll: 5.
+	
+	aGame moveShip: aFirstShip toPosition: (aLoadedDie roll).
+
+	self assert: (aGame getPositionOfSpaceShip: aFirstShip onTheBoard: aBoard) equals: 5.
 ]
