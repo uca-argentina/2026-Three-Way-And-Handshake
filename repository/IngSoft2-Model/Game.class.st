@@ -3,7 +3,8 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'winner',
-		'board'
+		'board',
+		'isOver'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -12,6 +13,19 @@ Class {
 { #category : 'as yet unclassified' }
 Game class >> withABoard: aBoard [ 
 	^(self new) initializeWithABoard: aBoard.
+]
+
+{ #category : 'as yet unclassified' }
+Game >> checkGameOverFor: aShip [
+
+	| currentPositionOfShip |
+	currentPositionOfShip := self
+		                         getPositionOfSpaceShip: aShip
+		                         onTheBoard: board.
+
+	^ currentPositionOfShip = board getSize ifTrue: [
+			  isOver := true.
+			  winner := aShip ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -27,20 +41,19 @@ Game >> getWinner [
 
 { #category : 'initialization' }
 Game >> initializeWithABoard: aBoard [ 
-	board := aBoard
+	board := aBoard.
+	isOver := false.
+	winner := nil.
 ]
 
 { #category : 'as yet unclassified' }
 Game >> moveShip: aShip toPosition: aPosition [
+
 	board moveShip: aShip toPosition: aPosition.
+	self checkGameOverFor: aShip
 ]
 
 { #category : 'modes' }
 Game >> over [
-	^true
-]
-
-{ #category : 'as yet unclassified' }
-Game >> play [
-	winner := 1.
+	^isOver.
 ]
