@@ -8,26 +8,24 @@ Class {
 { #category : 'running' }
 GameTest >> test001WhenAGameIsCreatedAndNoShipMovesThenItIsNoOver [
 
-
-
-
-	|aGame aFirstShip aCollectionOfShips aBoard aLoadedDie |
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie |
 	aFirstShip := Ship withId: 1.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
 
 
-	aBoard := Board withSize: 10 andShips: aCollectionOfShips.
-	
-	aLoadedDie := LoadedDie mustRoll: #(5).
-	
-	aGame := Game withABoard: aBoard andShips: aCollectionOfShips  andDiceSet: aLoadedDie.
+	aBoard := Board withSize: 10.
+
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+
+	aGame := Game
+		         withABoard: aBoard
+		         andShips: aCollectionOfShips
+		         andDiceSet: aLoadedDie.
 
 
-	self deny: aGame over.
-
-
+	self deny: aGame over
 ]
 
 { #category : 'running' }
@@ -38,7 +36,7 @@ GameTest >> test002WhenAGameIsCreatedWithABoardAndSpaceShipThenThePositionOfTheS
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
-	aBoard := Board withSize: 10 andShips: aCollectionOfShips.
+	aBoard := Board withSize: 10.
 	
 	aLoadedDie := LoadedDie mustRoll: #(1).
 	
@@ -56,7 +54,7 @@ GameTest >> test003WhenAShipRollsADieAndTheOutcomeIs5ThenItMoves5Positions [
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
-	aBoard := Board withSize: 10 andShips: aCollectionOfShips.
+	aBoard := Board withSize: 10.
 	
 	aLoadedDie:= LoadedDie mustRoll: #(5).
 	
@@ -76,7 +74,7 @@ GameTest >> test004WhenAShipReachTheEndOfTheBoardThenTheGameIsOver [
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
-	aBoard := Board withSize: 10 andShips: aCollectionOfShips.
+	aBoard := Board withSize: 10.
 	
 	aLoadedDie:= LoadedDie mustRoll: #(10).
 	
@@ -97,7 +95,7 @@ GameTest >> test005WhenAShipMovesButDoesNotReachTheEndOfTheBoardThenTheGameIsNot
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
-	aBoard := Board withSize: 10 andShips: aCollectionOfShips.
+	aBoard := Board withSize: 10.
 		
 	aLoadedDie:= LoadedDie mustRoll: #(5).
 	
@@ -118,7 +116,7 @@ GameTest >> test006WhenAShipIsTheFirstToReachTheEndThenItIsTheWinner [
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
-	aBoard := Board withSize: 10 andShips: aCollectionOfShips.
+	aBoard := Board withSize: 10.
 	
 	aLoadedDie:= LoadedDie mustRoll: #(10).
 	
@@ -140,7 +138,7 @@ GameTest >> test007WhenAShipIsOnPosition0AndRolls5TwiceThenItMovesToPosition10 [
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
-	aBoard := Board withSize: 10 andShips: aCollectionOfShips.
+	aBoard := Board withSize: 10.
 	
 	aLoadedDie:= LoadedDie mustRoll: #(5 5).
 	
@@ -165,7 +163,7 @@ GameTest >> test008WhenAGameWith2ShipsPlayThenEachShipPlaysAtATurn [
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 	aCollectionOfShips add: aSecondShip.
 
-	aBoard := Board withSize: 10 andShips: aCollectionOfShips.
+	aBoard := Board withSize: 10.
 	
 	aFirstLoadedDie:= LoadedDie mustRoll: #(6 4).
 	

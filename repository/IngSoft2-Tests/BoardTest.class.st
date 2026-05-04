@@ -8,38 +8,31 @@ Class {
 { #category : 'tests' }
 BoardTest >> test001WhenABoardWithSize10IsCreatedThenTheSizeIs10 [
 
-| aBoard aCollectionOfShips |
-	aCollectionOfShips := OrderedCollection new.
+	| aBoard |
+	aBoard := Board withSize: 10.
 
-	aBoard := Board withSize: 10 andShips: aCollectionOfShips.
-
-self assert: aBoard getSize equals: 10.
+	self assert: aBoard getSize equals: 10
 ]
 
 { #category : 'tests' }
 BoardTest >> test002WhenABoardIsSetWithSize0OrSmallerThenItIsNotInstantiated [
-	| aCollectionOfShips aBoard |
-	aCollectionOfShips := OrderedCollection new.
 
-	
-
-self
-		should: [ aBoard := Board withSize: 0 andShips: aCollectionOfShips. ]
+	| aBoard |
+	self
+		should: [ aBoard := Board withSize: 0 ]
 		raise: Error
 		withExceptionDo: [ :error |
-			self
-				assert: error messageText
-				equals: 'Board size cannot be negative or zero']
+				self
+					assert: error messageText
+					equals: 'Board size cannot be negative or zero' ]
 ]
 
 { #category : 'tests' }
 BoardTest >> test003WhenABoardIsSetWithSizeOtherThanIntegerThenItIsNotInstantiated [
 
-	| aBoard aCollectionOfShips |
-	aCollectionOfShips := OrderedCollection new.
+	| aBoard |
 	self
-		should: [
-		aBoard := Board withSize: 'aaaa' andShips: aCollectionOfShips ]
+		should: [ aBoard := Board withSize: 'aaaa' ]
 		raise: Error
 		withExceptionDo: [ :error |
 				self

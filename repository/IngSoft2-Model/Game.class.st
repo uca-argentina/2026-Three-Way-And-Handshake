@@ -32,6 +32,12 @@ Game >> checkGameOverFor: aShip [
 ]
 
 { #category : 'as yet unclassified' }
+Game >> getAmountOfShips [
+
+	^ shipsDictionary size.
+]
+
+{ #category : 'as yet unclassified' }
 Game >> getPositionOfSpaceShip: aShip [
 	^shipsDictionary at: aShip
 	
