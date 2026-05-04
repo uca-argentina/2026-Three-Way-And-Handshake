@@ -5,9 +5,9 @@ Class {
 		'winner',
 		'board',
 		'isOver',
-		'currentPositionOfShip',
-		'ships',
-		'diceSet'
+		'diceSet',
+		'index',
+		'shipsDictionary'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -37,7 +37,7 @@ Game >> checkGameOverFor: aShip [
 
 { #category : 'as yet unclassified' }
 Game >> getPositionOfSpaceShip: aShip [
-	^board getPositionOf: aShip.
+	^shipsDictionary at: aShip
 	
 ]
 
@@ -57,17 +57,22 @@ Game >> initializeWithABoard: aBoard [
 { #category : 'initialization' }
 Game >> initializeWithABoard: aBoard andShips: aCollectionOfShips andDiceSet: aDiceSet [
 	board := aBoard.
-	ships := aCollectionOfShips.
+	shipsDictionary := Dictionary new.
 	diceSet := aDiceSet.
+	index := 0.
+	
+	aCollectionOfShips do: [:ship | shipsDictionary at: ship put: 0].
 	
 ]
 
 { #category : 'as yet unclassified' }
 Game >> moveShip: aShip toPosition: aPosition [
 
-	board moveShip: aShip toPosition: currentPositionOfShip + aPosition.
-	currentPositionOfShip := currentPositionOfShip + aPosition.
+	|currentPositionOfShip |
+	currentPositionOfShip := shipsDictionary at: aShip.
+	shipsDictionary at: aShip put: (currentPositionOfShip + aPosition).
 	self checkGameOverFor: aShip
+
 ]
 
 { #category : 'modes' }
@@ -77,6 +82,10 @@ Game >> over [
 
 { #category : 'as yet unclassified' }
 Game >> play [
-	| aDiceToss |
-	aDiceToss := diceSet toss.
+	| aDiceToss currentShip |
+	aDiceToss := diceSet roll.
+	index := index + 1.
+	
+	currentShip:= (shipsDictionary keys) at: index.
+	self moveShip: currentShip toPosition: aDiceToss.
 ]

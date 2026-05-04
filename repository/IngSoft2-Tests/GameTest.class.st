@@ -154,19 +154,19 @@ GameTest >> test007WhenAShipIsOnPosition0AndRolls5TwiceThenItMovesToPosition10 [
 ]
 
 { #category : 'running' }
-GameTest >> test008 [
+GameTest >> test008WhenAGameWith2ShipsPlayThenEachShipPlaysAtATurn [
 
 
-	|aGame aFirstShip aCollectionOfShips aBoard aFirstLoadedDie aSecondShip aDiceSet |
+	|aGame aFirstShip aCollectionOfShips aBoard aFirstLoadedDie aSecondShip |
 	aFirstShip := Ship withId: 1.
-	aSecondShip := Ship withId: 1.
+	aSecondShip := Ship withId: 2.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 	aCollectionOfShips add: aSecondShip.
 
 	aBoard := Board withSize: 10 andShips: aCollectionOfShips.
 	
-	aFirstLoadedDie:= LoadedDie mustRoll: #(6).
+	aFirstLoadedDie:= LoadedDie mustRoll: #(6 4).
 	
 	aGame := Game withABoard: aBoard andShips: aCollectionOfShips andDiceSet: aFirstLoadedDie.
 	
