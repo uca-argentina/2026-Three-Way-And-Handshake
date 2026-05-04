@@ -7,16 +7,12 @@ Class {
 		'isOver',
 		'diceSet',
 		'index',
-		'shipsDictionary'
+		'shipsDictionary',
+		'ships'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
-
-{ #category : 'as yet unclassified' }
-Game class >> withABoard: aBoard [ 
-	^(self new) initializeWithABoard: aBoard.
-]
 
 { #category : 'as yet unclassified' }
 Game class >> withABoard: aBoard andShips: aCollectionOfShips andDiceSet: aDiceSet [
@@ -47,19 +43,14 @@ Game >> getWinner [
 ]
 
 { #category : 'initialization' }
-Game >> initializeWithABoard: aBoard [ 
-	board := aBoard.
-	currentPositionOfShip := 0.
-	isOver := false.
-	winner := nil.
-]
-
-{ #category : 'initialization' }
 Game >> initializeWithABoard: aBoard andShips: aCollectionOfShips andDiceSet: aDiceSet [
 	board := aBoard.
+	ships := aCollectionOfShips.
 	shipsDictionary := Dictionary new.
 	diceSet := aDiceSet.
 	index := 0.
+	isOver := false.
+	winner := nil.
 	
 	aCollectionOfShips do: [:ship | shipsDictionary at: ship put: 0].
 	
@@ -84,8 +75,8 @@ Game >> over [
 Game >> play [
 	| aDiceToss currentShip |
 	aDiceToss := diceSet roll.
-	index := index + 1.
+	index := (index \\ shipsDictionary keys size) + 1.
 	
-	currentShip:= (shipsDictionary keys) at: index.
+	currentShip:= ships at: index.
 	self moveShip: currentShip toPosition: aDiceToss.
 ]
