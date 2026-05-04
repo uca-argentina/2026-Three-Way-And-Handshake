@@ -55,7 +55,7 @@ GameTest >> test003WhenAShipRollsADieAndTheOutcomeIs5ThenItMoves5Positions [
 	aGame := Game withABoard: aBoard.
 	
 	
-	aLoadedDie:= LoadedDie mustRoll: 5.
+	aLoadedDie:= LoadedDie mustRoll: #(5).
 	
 	aGame moveShip: aFirstShip toPosition: (aLoadedDie roll).
 
@@ -76,7 +76,7 @@ GameTest >> test004WhenAShipReachTheEndOfTheBoardThenTheGameIsOver [
 	aGame := Game withABoard: aBoard.
 	
 	
-	aLoadedDie:= LoadedDie mustRoll: 10.
+	aLoadedDie:= LoadedDie mustRoll: #(10).
 	
 	aGame moveShip: aFirstShip toPosition: (aLoadedDie roll).
 
@@ -98,7 +98,7 @@ GameTest >> test005WhenAShipMovesButDoesNotReachTheEndOfTheBoardThenTheGameIsNot
 	aGame := Game withABoard: aBoard.
 	
 	
-	aLoadedDie:= LoadedDie mustRoll: 5.
+	aLoadedDie:= LoadedDie mustRoll: #(5).
 	
 	aGame moveShip: aFirstShip toPosition: (aLoadedDie roll).
 
@@ -120,7 +120,7 @@ GameTest >> test006WhenAShipIsTheFirstToReachTheEndThenItIsTheWinner [
 	aGame := Game withABoard: aBoard.
 	
 	
-	aLoadedDie:= LoadedDie mustRoll: 10.
+	aLoadedDie:= LoadedDie mustRoll: #(10).
 	
 	aGame moveShip: aFirstShip toPosition: (aLoadedDie roll).
 
@@ -143,7 +143,7 @@ GameTest >> test007WhenAShipIsOnPosition0AndRolls5TwiceThenItMovesToPosition10 [
 	aGame := Game withABoard: aBoard.
 	
 	
-	aLoadedDie:= LoadedDie mustRoll: 5.
+	aLoadedDie:= LoadedDie mustRoll: #(5 5).
 	
 	aGame moveShip: aFirstShip toPosition: (aLoadedDie roll).
 	aGame moveShip: aFirstShip toPosition: (aLoadedDie roll).
@@ -151,4 +151,28 @@ GameTest >> test007WhenAShipIsOnPosition0AndRolls5TwiceThenItMovesToPosition10 [
 	self assert: aGame over.
 	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 10.
 	self assert: aGame getWinner equals: aFirstShip 
+]
+
+{ #category : 'running' }
+GameTest >> test008 [
+
+
+	|aGame aFirstShip aCollectionOfShips aBoard aFirstLoadedDie aSecondShip aDiceSet |
+	aFirstShip := Ship withId: 1.
+	aSecondShip := Ship withId: 1.
+
+	aCollectionOfShips := OrderedCollection with: aFirstShip.
+	aCollectionOfShips add: aSecondShip.
+
+	aBoard := Board withSize: 10 andShips: aCollectionOfShips.
+	
+	aFirstLoadedDie:= LoadedDie mustRoll: #(6).
+	
+	aGame := Game withABoard: aBoard andShips: aCollectionOfShips andDiceSet: aFirstLoadedDie.
+	
+	aGame play.
+	aGame play.
+
+	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 6.
+	self assert: (aGame getPositionOfSpaceShip: aSecondShip) equals: 4.
 ]

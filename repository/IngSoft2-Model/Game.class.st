@@ -5,7 +5,9 @@ Class {
 		'winner',
 		'board',
 		'isOver',
-		'currentPositionOfShip'
+		'currentPositionOfShip',
+		'ships',
+		'diceSet'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -14,6 +16,11 @@ Class {
 { #category : 'as yet unclassified' }
 Game class >> withABoard: aBoard [ 
 	^(self new) initializeWithABoard: aBoard.
+]
+
+{ #category : 'as yet unclassified' }
+Game class >> withABoard: aBoard andShips: aCollectionOfShips andDiceSet: aDiceSet [
+	 ^self new initializeWithABoard: aBoard andShips: aCollectionOfShips andDiceSet: aDiceSet 
 ]
 
 { #category : 'as yet unclassified' }
@@ -47,6 +54,14 @@ Game >> initializeWithABoard: aBoard [
 	winner := nil.
 ]
 
+{ #category : 'initialization' }
+Game >> initializeWithABoard: aBoard andShips: aCollectionOfShips andDiceSet: aDiceSet [
+	board := aBoard.
+	ships := aCollectionOfShips.
+	diceSet := aDiceSet.
+	
+]
+
 { #category : 'as yet unclassified' }
 Game >> moveShip: aShip toPosition: aPosition [
 
@@ -58,4 +73,10 @@ Game >> moveShip: aShip toPosition: aPosition [
 { #category : 'modes' }
 Game >> over [
 	^isOver.
+]
+
+{ #category : 'as yet unclassified' }
+Game >> play [
+	| aDiceToss |
+	aDiceToss := diceSet toss.
 ]
