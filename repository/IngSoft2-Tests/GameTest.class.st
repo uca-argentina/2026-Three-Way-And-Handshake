@@ -128,3 +128,27 @@ GameTest >> test006WhenAShipIsTheFirstToReachTheEndThenItIsTheWinner [
 	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 10.
 	self assert: aGame getWinner equals: aFirstShip 
 ]
+
+{ #category : 'running' }
+GameTest >> test007WhenAShipIsOnPosition0AndRolls5TwiceThenItMovesToPosition10 [
+
+
+	|aGame aFirstShip aCollectionOfShips aBoard aLoadedDie|
+	aFirstShip := Ship withId: 1.
+
+	aCollectionOfShips := OrderedCollection with: aFirstShip.
+
+	aBoard := Board withSize: 10 andShips: aCollectionOfShips.
+	
+	aGame := Game withABoard: aBoard.
+	
+	
+	aLoadedDie:= LoadedDie mustRoll: 5.
+	
+	aGame moveShip: aFirstShip toPosition: (aLoadedDie roll).
+	aGame moveShip: aFirstShip toPosition: (aLoadedDie roll).
+
+	self assert: aGame over.
+	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 10.
+	self assert: aGame getWinner equals: aFirstShip 
+]

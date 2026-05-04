@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'winner',
 		'board',
-		'isOver'
+		'isOver',
+		'currentPositionOfShip'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -41,6 +42,7 @@ Game >> getWinner [
 { #category : 'initialization' }
 Game >> initializeWithABoard: aBoard [ 
 	board := aBoard.
+	currentPositionOfShip := 0.
 	isOver := false.
 	winner := nil.
 ]
@@ -48,7 +50,8 @@ Game >> initializeWithABoard: aBoard [
 { #category : 'as yet unclassified' }
 Game >> moveShip: aShip toPosition: aPosition [
 
-	board moveShip: aShip toPosition: aPosition.
+	board moveShip: aShip toPosition: currentPositionOfShip + aPosition.
+	currentPositionOfShip := currentPositionOfShip + aPosition.
 	self checkGameOverFor: aShip
 ]
 
