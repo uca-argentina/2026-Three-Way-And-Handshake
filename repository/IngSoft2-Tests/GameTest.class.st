@@ -51,7 +51,6 @@ GameTest >> test003WhenAShipRollsADieAndTheOutcomeIs5ThenItMoves5Positions [
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
 	aBoard := Board withSize: 10 andShips: aCollectionOfShips.
-	aBoard addShip: aFirstShip.
 	
 	aGame := Game withABoard: aBoard.
 	
@@ -73,7 +72,6 @@ GameTest >> test004WhenAShipReachTheEndOfTheBoardThenTheGameIsOver [
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
 	aBoard := Board withSize: 10 andShips: aCollectionOfShips.
-	aBoard addShip: aFirstShip.
 	
 	aGame := Game withABoard: aBoard.
 	
@@ -96,7 +94,6 @@ GameTest >> test005WhenAShipMovesButDoesNotReachTheEndOfTheBoardThenTheGameIsNot
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
 	aBoard := Board withSize: 10 andShips: aCollectionOfShips.
-	aBoard addShip: aFirstShip.
 	
 	aGame := Game withABoard: aBoard.
 	
@@ -119,7 +116,6 @@ GameTest >> test006WhenAShipIsTheFirstToReachTheEndThenItIsTheWinner [
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
 	aBoard := Board withSize: 10 andShips: aCollectionOfShips.
-	aBoard addShip: aFirstShip.
 	
 	aGame := Game withABoard: aBoard.
 	
