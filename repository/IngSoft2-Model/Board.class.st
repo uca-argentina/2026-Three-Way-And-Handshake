@@ -9,14 +9,26 @@ Class {
 }
 
 { #category : 'instance creation' }
-Board class >> withSize: aBoardSize [
+Board class >> cannotBeNegativeOrZero: aBoardSize [
+
+	aBoardSize < 1 ifTrue: [
+		Error signal: 'Board size cannot be negative or zero' ]
+]
+
+{ #category : 'instance creation' }
+Board class >> cannotBeOtherThanInteger: aBoardSize [
 
 	aBoardSize isInteger ifFalse: [
-		Error signal: 'Board size cannot be other than integer' ].
-	aBoardSize < 1 ifTrue: [
-		Error signal: 'Board size cannot be negative or zero' ].
+		Error signal: 'Board size cannot be other than integer' ]
+]
 
-	^ self new initializeWithSize: aBoardSize.
+{ #category : 'instance creation' }
+Board class >> withSize: aBoardSize [
+
+	self cannotBeOtherThanInteger: aBoardSize.
+	self cannotBeNegativeOrZero: aBoardSize.
+
+	^ self new initializeWithSize: aBoardSize
 ]
 
 { #category : 'as yet unclassified' }

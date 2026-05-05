@@ -22,6 +22,7 @@ Ship >> getId [
 ]
 
 { #category : 'initialization' }
-Ship >> initializeWithId: anId [ 
-shipId:= anId.
+Ship >> initializeWithId: anId [
+
+	shipId := anId
 ]

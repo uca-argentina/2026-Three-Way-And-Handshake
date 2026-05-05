@@ -14,16 +14,26 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-LoadedDie class >> mustRoll: aSetOfRolls [
+LoadedDie class >> cannotBeNegativeOrZero: aSetOfRolls [
+
+	aSetOfRolls do: [ :aNumberToBeRolled |
+			aNumberToBeRolled < 1 ifTrue: [
+				Error signal: 'LoadedDie sides cannot be negative or zero' ] ]
+]
+
+{ #category : 'as yet unclassified' }
+LoadedDie class >> cannotBeOtherThanInteger: aSetOfRolls [
 
 	aSetOfRolls do: [ :aNumberToBeRolled |
 			aNumberToBeRolled isInteger ifFalse: [
-				Error signal: 'LoadedDie sides cannot be other than integer type' ] ].
-		
-		
-	aSetOfRolls do: [ :aNumberToBeRolled |
-			aNumberToBeRolled < 1 ifTrue: [
-				Error signal: 'LoadedDie sides cannot be negative or zero' ] ].
+				Error signal: 'LoadedDie sides cannot be other than integer type' ] ]
+]
+
+{ #category : 'as yet unclassified' }
+LoadedDie class >> mustRoll: aSetOfRolls [
+
+	self cannotBeOtherThanInteger: aSetOfRolls.
+	self cannotBeNegativeOrZero: aSetOfRolls.
 
 	^ self new initializeWithMustRoll: aSetOfRolls
 ]
