@@ -58,6 +58,11 @@ Game >> initializeWithABoard: aBoard andShips: aCollectionOfShips andDiceSet: aD
 	aCollectionOfShips do: [ :ship | shipsDictionary at: ship put: 0 ]
 ]
 
+{ #category : 'modes' }
+Game >> isOver [
+	^ (winner isMemberOf: Ship).
+]
+
 { #category : 'as yet unclassified' }
 Game >> moveShip: aShip toPosition: aRollResult [
 
@@ -71,17 +76,12 @@ Game >> moveShip: aShip toPosition: aRollResult [
 
 ]
 
-{ #category : 'modes' }
-Game >> over [
-	^ (winner isMemberOf: Ship).
-]
-
 { #category : 'as yet unclassified' }
 Game >> play [
-	| aDiceToss currentShip |
-	aDiceToss := diceSet roll.
+	| aDiceRoll currentShip |
+	aDiceRoll := diceSet roll.
 	index := (index \\ shipsDictionary keys size) + 1.
 	
 	currentShip:= ships at: index.
-	self moveShip: currentShip toPosition: aDiceToss.
+	self moveShip: currentShip toPosition: aDiceRoll.
 ]

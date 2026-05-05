@@ -25,7 +25,7 @@ GameTest >> test001WhenAGameIsCreatedAndNoShipMovesThenItIsNotOver [
 		         andDiceSet: aLoadedDie.
 
 
-	self deny: aGame over
+	self deny: aGame isOver
 ]
 
 { #category : 'running' }
@@ -82,7 +82,7 @@ GameTest >> test004WhenAShipReachTheEndOfTheBoardThenTheGameIsOver [
 	
 	aGame play.
 
-	self assert: aGame over.
+	self assert: aGame isOver.
 	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 10.
 ]
 
@@ -103,7 +103,7 @@ GameTest >> test005WhenAShipMovesButDoesNotReachTheEndOfTheBoardThenTheGameIsNot
 	
 	aGame play.
 
-	self deny: aGame over.
+	self deny: aGame isOver.
 	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 5.
 ]
 
@@ -124,7 +124,7 @@ GameTest >> test006WhenAShipIsTheFirstToReachTheEndThenItIsTheWinner [
 	
 	aGame play.
 
-	self assert: aGame over.
+	self assert: aGame isOver.
 	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 10.
 	self assert: aGame getWinner equals: aFirstShip 
 ]
@@ -147,7 +147,7 @@ GameTest >> test007WhenAShipIsOnPosition0AndRolls5TwiceThenItMovesToPosition10 [
 	aGame play.
 	aGame play.
 
-	self assert: aGame over.
+	self assert: aGame isOver.
 	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 10.
 	self assert: aGame getWinner equals: aFirstShip 
 ]
@@ -225,7 +225,7 @@ GameTest >> test010WhenAShipsRollIsGreaterThanTheAmountOfSquaresToFinishThenFina
 	
 	aGame play.
 
-	self assert: aGame over.
+	self assert: aGame isOver.
 	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 9.
 	self assert: aGame getWinner equals: aFirstShip 
 ]
