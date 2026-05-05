@@ -42,7 +42,7 @@ DiceSetTest >> test003WhenADiceSetWithBothDiceWith6SidesThenTheResultIsBetween1A
 		            (OrderedCollection with: aDie with: aSecondDie).
 
 
-	self assert: (aDiceSet toss between: 1 and: 12)
+	self assert: (aDiceSet roll between: 1 and: 12)
 ]
 
 { #category : 'tests' }
@@ -51,7 +51,7 @@ DiceSetTest >> test004WhenADiceSetIsEmptyThenItCannotBeTossed [
 	| aDiceSet |
 	aDiceSet := DiceSet withDice: OrderedCollection new.
 	self
-		should: [ aDiceSet toss ]
+		should: [ aDiceSet roll ]
 		raise: Error
 		withExceptionDo: [ :error |
 				self

@@ -32,7 +32,7 @@ DiceSet >> initializeWithDice: aDieCollection [
 ]
 
 { #category : 'as yet unclassified' }
-DiceSet >> toss [
+DiceSet >> roll [
 
 	| diceRollResult |
 	self aDiceSetCannotBeEmpty.

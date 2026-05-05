@@ -6,7 +6,7 @@ Class {
 }
 
 { #category : 'running' }
-GameTest >> test001WhenAGameIsCreatedAndNoShipMovesThenItIsNoOver [
+GameTest >> test001WhenAGameIsCreatedAndNoShipMovesThenItIsNotOver [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie |
 	aFirstShip := Ship withId: 1.
@@ -153,9 +153,10 @@ GameTest >> test007WhenAShipIsOnPosition0AndRolls5TwiceThenItMovesToPosition10 [
 ]
 
 { #category : 'running' }
-GameTest >> test008WhenAGameWith2ShipsPlayThenEachShipPlaysAtATurn [
+GameTest >> test008WhenAGameWith2ShipsPlayThenEachShipPlaysAtATurnAndLoadedDieGoesBackToFirstValue [
 
 
+"module implementation on aritmethic calc"
 	|aGame aFirstShip aCollectionOfShips aBoard aFirstLoadedDie aSecondShip |
 	aFirstShip := Ship withId: 1.
 	aSecondShip := Ship withId: 2.
@@ -165,13 +166,66 @@ GameTest >> test008WhenAGameWith2ShipsPlayThenEachShipPlaysAtATurn [
 
 	aBoard := Board withSize: 10.
 	
-	aFirstLoadedDie:= LoadedDie mustRoll: #(6 4).
+	aFirstLoadedDie:= LoadedDie mustRoll: #(4 4).
 	
 	aGame := Game withABoard: aBoard andShips: aCollectionOfShips andDiceSet: aFirstLoadedDie.
 	
 	aGame play.
 	aGame play.
+	aGame play.
 
-	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 6.
+	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 8.
 	self assert: (aGame getPositionOfSpaceShip: aSecondShip) equals: 4.
+]
+
+{ #category : 'running' }
+GameTest >> test009WhenASetOfLoadedDiceIsRolledThenTheSumOfDiceComesInOrder [
+
+	| aGame aFirstShip aCollectionOfShips aCollectionOfDice aBoard aFirstLoadedDie aSecondLoadedDie aSecondShip aDiceSet |
+	aFirstShip := Ship withId: 1.
+	aSecondShip := Ship withId: 2.
+
+	aCollectionOfShips := OrderedCollection with: aFirstShip.
+	aCollectionOfShips add: aSecondShip.
+	aBoard := Board withSize: 10.
+
+	aFirstLoadedDie := LoadedDie mustRoll: #( 4 2 ).
+	aSecondLoadedDie := LoadedDie mustRoll: #( 3 4 ).
+
+	aCollectionOfDice := OrderedCollection with: aFirstLoadedDie.
+	aCollectionOfDice add: aSecondLoadedDie.
+
+	aDiceSet := DiceSet withDice: aCollectionOfDice.
+
+	aGame := Game
+		         withABoard: aBoard
+		         andShips: aCollectionOfShips
+		         andDiceSet: aDiceSet.
+	aGame play.
+	aGame play.
+
+	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 7.
+	self assert: (aGame getPositionOfSpaceShip: aSecondShip) equals: 6
+]
+
+{ #category : 'running' }
+GameTest >> test010 [
+
+
+	|aGame aFirstShip aCollectionOfShips aBoard aLoadedDie|
+	aFirstShip := Ship withId: 1.
+
+	aCollectionOfShips := OrderedCollection with: aFirstShip.
+
+	aBoard := Board withSize: 9.
+	
+	aLoadedDie:= LoadedDie mustRoll: #(10).
+	
+	aGame := Game withABoard: aBoard andShips: aCollectionOfShips  andDiceSet: aLoadedDie.
+	
+	aGame play.
+
+	self assert: aGame over.
+	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 10.
+	self assert: aGame getWinner equals: aFirstShip 
 ]

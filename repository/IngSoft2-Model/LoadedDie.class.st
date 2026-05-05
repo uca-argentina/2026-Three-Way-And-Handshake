@@ -39,16 +39,17 @@ LoadedDie class >> mustRoll: aSetOfRolls [
 ]
 
 { #category : 'initialization' }
-LoadedDie >> initializeWithMustRoll: aSetOfRolls [ 
-setOfRolls:= aSetOfRolls.
-index := 0.
+LoadedDie >> initializeWithMustRoll: aSetOfRolls [
+
+	setOfRolls := aSetOfRolls.
+	index := 0
 ]
 
 { #category : 'as yet unclassified' }
 LoadedDie >> roll [
 
-	index := index + 1.
-	^setOfRolls at: index.
+	index := index \\ setOfRolls size + 1.
+	^ setOfRolls at: index
 ]
 
 { #category : 'as yet unclassified' }

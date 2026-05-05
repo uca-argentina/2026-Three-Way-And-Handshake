@@ -39,8 +39,8 @@ Game >> getAmountOfShips [
 
 { #category : 'as yet unclassified' }
 Game >> getPositionOfSpaceShip: aShip [
-	^shipsDictionary at: aShip
-	
+
+	^ shipsDictionary at: aShip
 ]
 
 { #category : 'as yet unclassified' }
@@ -50,16 +50,17 @@ Game >> getWinner [
 
 { #category : 'initialization' }
 Game >> initializeWithABoard: aBoard andShips: aCollectionOfShips andDiceSet: aDiceSet [
+
 	board := aBoard.
 	ships := aCollectionOfShips.
-	shipsDictionary := Dictionary new.
 	diceSet := aDiceSet.
-	index := 0.
+	
+	index := 0. "Indice que representa que nave juega"
 	isOver := false.
 	winner := nil.
-	
-	aCollectionOfShips do: [:ship | shipsDictionary at: ship put: 0].
-	
+
+	shipsDictionary := Dictionary new.
+	aCollectionOfShips do: [ :ship | shipsDictionary at: ship put: 0 ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -67,6 +68,7 @@ Game >> moveShip: aShip toPosition: aPosition [
 
 	|currentPositionOfShip |
 	currentPositionOfShip := shipsDictionary at: aShip.
+	
 	shipsDictionary at: aShip put: (currentPositionOfShip + aPosition).
 	self checkGameOverFor: aShip
 
