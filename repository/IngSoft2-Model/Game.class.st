@@ -25,6 +25,19 @@ Game >> aGameCannotBeOver [
 ]
 
 { #category : 'as yet unclassified' }
+Game >> aGameIsNotOverYet [
+
+	self isOver ifFalse: [ Error signal: 'The game is not over yet.' ]
+]
+
+{ #category : 'initialization' }
+Game >> cannotBeEmpty: aCollectionOfShips [
+
+	aCollectionOfShips isEmpty ifTrue: [
+		Error signal: 'A game must have at least one ship.' ]
+]
+
+{ #category : 'as yet unclassified' }
 Game >> checkGameOverFor: aShip [
 
 	| currentPositionOfShip |
@@ -40,6 +53,12 @@ Game >> getAmountOfShips [
 ]
 
 { #category : 'as yet unclassified' }
+Game >> getCurrentShip [
+
+	^ ships at: index \\ ships size + 1
+]
+
+{ #category : 'as yet unclassified' }
 Game >> getPositionOfSpaceShip: aShip [
 
 	^ shipsDictionary at: aShip
@@ -48,17 +67,19 @@ Game >> getPositionOfSpaceShip: aShip [
 { #category : 'as yet unclassified' }
 Game >> getWinner [
 
-	self isOver ifFalse: [ Error signal: 'The game is not over yet.' ].
+	self aGameIsNotOverYet.
 	^ winner
 ]
 
 { #category : 'initialization' }
 Game >> initializeWithABoard: aBoard andShips: aCollectionOfShips andDiceSet: aDiceSet [
 
+	self cannotBeEmpty: aCollectionOfShips.
+
 	board := aBoard.
 	ships := aCollectionOfShips. "Consider removing variable as its already integrated on shipsDictionary"
 	diceSet := aDiceSet.
-	
+
 	index := 0. "index for Ships turns"
 	winner := EmptyShip new.
 

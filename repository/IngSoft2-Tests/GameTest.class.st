@@ -279,3 +279,43 @@ GameTest >> test012WhenTheGameIsNotOverThenAskingForWinnerRaisesError [
 	self should: [ aGame getWinner ] raise: Error withExceptionDo: [ :error |
 		self assert: error messageText equals: 'The game is not over yet.' ]
 ]
+
+{ #category : 'running' }
+GameTest >> test013WhenTheLastShipPlaysThenItIsFirstShipTurnAgain [
+
+	| aGame aFirstShip aSecondShip aCollectionOfShips aBoard aLoadedDie |
+	aFirstShip := Ship withId: 1.
+	aSecondShip := Ship withId: 2.
+	aCollectionOfShips := OrderedCollection
+		                      with: aFirstShip
+		                      with: aSecondShip.
+	aBoard := Board withSize: 20.
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aGame := Game
+		         withABoard: aBoard
+		         andShips: aCollectionOfShips
+		         andDiceSet: aLoadedDie.
+	aGame play.
+	aGame play.
+	self assert: aGame getCurrentShip equals: aFirstShip
+]
+
+{ #category : 'running' }
+GameTest >> test014WhenAGameIsCreatedWithNoShipsThenItCannotBeInstantiated [
+
+	| aBoard aLoadedDie aCollectionOfShips |
+	aBoard := Board withSize: 10.
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aCollectionOfShips := OrderedCollection new.
+	self
+		should: [
+				Game
+					withABoard: aBoard
+					andShips: aCollectionOfShips
+					andDiceSet: aLoadedDie ]
+		raise: Error
+		withExceptionDo: [ :error |
+				self
+					assert: error messageText
+					equals: 'A game must have at least one ship.' ]
+]
