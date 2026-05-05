@@ -166,7 +166,7 @@ GameTest >> test008WhenAGameWith2ShipsPlayThenEachShipPlaysAtATurnAndLoadedDieGo
 
 	aBoard := Board withSize: 10.
 	
-	aFirstLoadedDie:= LoadedDie mustRoll: #(4 4).
+	aFirstLoadedDie:= LoadedDie mustRoll: #(4 3).
 	
 	aGame := Game withABoard: aBoard andShips: aCollectionOfShips andDiceSet: aFirstLoadedDie.
 	
@@ -175,37 +175,7 @@ GameTest >> test008WhenAGameWith2ShipsPlayThenEachShipPlaysAtATurnAndLoadedDieGo
 	aGame play.
 
 	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 8.
-	self assert: (aGame getPositionOfSpaceShip: aSecondShip) equals: 4.
-]
-
-{ #category : 'running' }
-GameTest >> test009WhenASetOfLoadedDiceIsRolledThen [
-
-	| aFirstShip aSecondShip aCollectionOfShips aBoard aFirstLoadedDie aSecondLoadedDie aCollectionOfDice aDiceSet aGame |
-	aFirstShip := Ship withId: 1.
-	aSecondShip := Ship withId: 2.
-
-	aCollectionOfShips := OrderedCollection with: aFirstShip.
-	aCollectionOfShips add: aSecondShip.
-	aBoard := Board withSize: 10.
-
-	aFirstLoadedDie := LoadedDie mustRoll: #( 4 2 ).
-	aSecondLoadedDie := LoadedDie mustRoll: #( 3 4 ).
-
-	aCollectionOfDice := OrderedCollection with: aFirstLoadedDie.
-	aCollectionOfDice add: aSecondLoadedDie.
-
-	aDiceSet := DiceSet withDice: aCollectionOfDice.
-
-	aGame := Game
-		         withABoard: aBoard
-		         andShips: aCollectionOfShips
-		         andDiceSet: aDiceSet.
-	aGame play.
-	aGame play.
-
-	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 7.
-	self assert: (aGame getPositionOfSpaceShip: aSecondShip) equals: 6
+	self assert: (aGame getPositionOfSpaceShip: aSecondShip) equals: 3.
 ]
 
 { #category : 'running' }
@@ -239,7 +209,7 @@ GameTest >> test009WhenASetOfLoadedDiceIsRolledThenTheSumOfDiceComesInOrder [
 ]
 
 { #category : 'running' }
-GameTest >> test010WhenAShipRollsHigherThanTheAmountOfSquaresToFinishThenFinalPositionIsAtFinish [
+GameTest >> test010WhenAShipsRollIsGreaterThanTheAmountOfSquaresToFinishThenFinalPositionIsAtFinish [
 
 
 	|aGame aFirstShip aCollectionOfShips aBoard aLoadedDie|
