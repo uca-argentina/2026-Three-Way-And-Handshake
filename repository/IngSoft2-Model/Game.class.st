@@ -19,6 +19,12 @@ Game class >> withABoard: aBoard andShips: aCollectionOfShips andDiceSet: aDiceS
 ]
 
 { #category : 'as yet unclassified' }
+Game >> aGameCannotBeOver [
+
+	self isOver ifTrue: [ Error signal: 'The game is already over.' ]
+]
+
+{ #category : 'as yet unclassified' }
 Game >> checkGameOverFor: aShip [
 
 	| currentPositionOfShip |
@@ -41,7 +47,9 @@ Game >> getPositionOfSpaceShip: aShip [
 
 { #category : 'as yet unclassified' }
 Game >> getWinner [
-	^ winner.
+
+	self isOver ifFalse: [ Error signal: 'The game is not over yet.' ].
+	^ winner
 ]
 
 { #category : 'initialization' }
@@ -78,10 +86,12 @@ Game >> moveShip: aShip toPosition: aRollResult [
 
 { #category : 'as yet unclassified' }
 Game >> play [
+
 	| aDiceRoll currentShip |
+	self aGameCannotBeOver.
 	aDiceRoll := diceSet roll.
-	index := (index \\ shipsDictionary keys size) + 1.
-	
-	currentShip:= ships at: index.
-	self moveShip: currentShip toPosition: aDiceRoll.
+	index := index \\ shipsDictionary keys size + 1.
+
+	currentShip := ships at: index.
+	self moveShip: currentShip toPosition: aDiceRoll
 ]

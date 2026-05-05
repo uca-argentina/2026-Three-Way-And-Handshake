@@ -32,7 +32,7 @@ DiceSetTest >> test002WhenADiceSetIsCreatedWithMDiceThenItHasMDice [
 ]
 
 { #category : 'tests' }
-DiceSetTest >> test003WhenADiceSetWithBothDiceWith6SidesThenTheResultIsBetween1And12 [
+DiceSetTest >> test003WhenADiceSetWithBothDiceWith6SidesThenTheResultIsBetween2And12 [
 
 	| aDiceSet aDie aSecondDie |
 	aDie := Die withSides: 6.
@@ -42,7 +42,7 @@ DiceSetTest >> test003WhenADiceSetWithBothDiceWith6SidesThenTheResultIsBetween1A
 		            (OrderedCollection with: aDie with: aSecondDie).
 
 
-	self assert: (aDiceSet roll between: 1 and: 12)
+	self assert: (aDiceSet roll between: 2 and: 12)
 ]
 
 { #category : 'tests' }

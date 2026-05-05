@@ -110,23 +110,25 @@ GameTest >> test005WhenAShipMovesButDoesNotReachTheEndOfTheBoardThenTheGameIsNot
 { #category : 'running' }
 GameTest >> test006WhenAShipIsTheFirstToReachTheEndThenItIsTheWinner [
 
-
-	|aGame aFirstShip aCollectionOfShips aBoard aLoadedDie|
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie |
 	aFirstShip := Ship withId: 1.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
 	aBoard := Board withSize: 10.
-	
-	aLoadedDie:= LoadedDie mustRoll: #(10).
-	
-	aGame := Game withABoard: aBoard andShips: aCollectionOfShips  andDiceSet: aLoadedDie.
-	
+
+	aLoadedDie := LoadedDie mustRoll: #( 10 ).
+
+	aGame := Game
+		         withABoard: aBoard
+		         andShips: aCollectionOfShips
+		         andDiceSet: aLoadedDie.
+
 	aGame play.
 
 	self assert: aGame isOver.
 	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 10.
-	self assert: aGame getWinner equals: aFirstShip 
+	self assert: aGame getWinner equals: aFirstShip
 ]
 
 { #category : 'running' }
@@ -228,4 +230,52 @@ GameTest >> test010WhenAShipsRollIsGreaterThanTheAmountOfSquaresToFinishThenFina
 	self assert: aGame isOver.
 	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 9.
 	self assert: aGame getWinner equals: aFirstShip 
+]
+
+{ #category : 'running' }
+GameTest >> test011WhenTheGameIsOverThenNoMoreTurnsCanBePlayed [
+
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie |
+	aFirstShip := Ship withId: 1.
+
+	aCollectionOfShips := OrderedCollection with: aFirstShip.
+
+	aBoard := Board withSize: 10.
+
+	aLoadedDie := LoadedDie mustRoll: #( 10 ).
+
+	aGame := Game
+		         withABoard: aBoard
+		         andShips: aCollectionOfShips
+		         andDiceSet: aLoadedDie.
+
+	aGame play.
+
+	self assert: aGame isOver.
+	self should: [ aGame play ] raise: Error withExceptionDo: [ :error |
+		self assert: error messageText equals: 'The game is already over.' ]
+]
+
+{ #category : 'running' }
+GameTest >> test012WhenTheGameIsNotOverThenAskingForWinnerRaisesError [
+
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie |
+	aFirstShip := Ship withId: 1.
+
+	aCollectionOfShips := OrderedCollection with: aFirstShip.
+
+	aBoard := Board withSize: 10.
+
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+
+	aGame := Game
+		         withABoard: aBoard
+		         andShips: aCollectionOfShips
+		         andDiceSet: aLoadedDie.
+
+	aGame play.
+
+	self deny: aGame isOver.
+	self should: [ aGame getWinner ] raise: Error withExceptionDo: [ :error |
+		self assert: error messageText equals: 'The game is not over yet.' ]
 ]
