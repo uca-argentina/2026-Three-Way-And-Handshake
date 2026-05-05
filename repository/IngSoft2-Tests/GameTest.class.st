@@ -179,6 +179,36 @@ GameTest >> test008WhenAGameWith2ShipsPlayThenEachShipPlaysAtATurnAndLoadedDieGo
 ]
 
 { #category : 'running' }
+GameTest >> test009WhenASetOfLoadedDiceIsRolledThen [
+
+	| aFirstShip aSecondShip aCollectionOfShips aBoard aFirstLoadedDie aSecondLoadedDie aCollectionOfDice aDiceSet aGame |
+	aFirstShip := Ship withId: 1.
+	aSecondShip := Ship withId: 2.
+
+	aCollectionOfShips := OrderedCollection with: aFirstShip.
+	aCollectionOfShips add: aSecondShip.
+	aBoard := Board withSize: 10.
+
+	aFirstLoadedDie := LoadedDie mustRoll: #( 4 2 ).
+	aSecondLoadedDie := LoadedDie mustRoll: #( 3 4 ).
+
+	aCollectionOfDice := OrderedCollection with: aFirstLoadedDie.
+	aCollectionOfDice add: aSecondLoadedDie.
+
+	aDiceSet := DiceSet withDice: aCollectionOfDice.
+
+	aGame := Game
+		         withABoard: aBoard
+		         andShips: aCollectionOfShips
+		         andDiceSet: aDiceSet.
+	aGame play.
+	aGame play.
+
+	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 7.
+	self assert: (aGame getPositionOfSpaceShip: aSecondShip) equals: 6
+]
+
+{ #category : 'running' }
 GameTest >> test009WhenASetOfLoadedDiceIsRolledThenTheSumOfDiceComesInOrder [
 
 	| aGame aFirstShip aCollectionOfShips aCollectionOfDice aBoard aFirstLoadedDie aSecondLoadedDie aSecondShip aDiceSet |
@@ -209,7 +239,7 @@ GameTest >> test009WhenASetOfLoadedDiceIsRolledThenTheSumOfDiceComesInOrder [
 ]
 
 { #category : 'running' }
-GameTest >> test010 [
+GameTest >> test010WhenTheShipRollsHigherThanTheAmountOfSquaresToFinishThenFinalPositionIsAtFinish [
 
 
 	|aGame aFirstShip aCollectionOfShips aBoard aLoadedDie|
@@ -226,6 +256,6 @@ GameTest >> test010 [
 	aGame play.
 
 	self assert: aGame over.
-	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 10.
+	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 9.
 	self assert: aGame getWinner equals: aFirstShip 
 ]

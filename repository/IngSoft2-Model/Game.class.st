@@ -64,12 +64,14 @@ Game >> initializeWithABoard: aBoard andShips: aCollectionOfShips andDiceSet: aD
 ]
 
 { #category : 'as yet unclassified' }
-Game >> moveShip: aShip toPosition: aPosition [
+Game >> moveShip: aShip toPosition: aRollResult [
 
-	|currentPositionOfShip |
+	|currentPositionOfShip positionToMove |
 	currentPositionOfShip := shipsDictionary at: aShip.
+
+	positionToMove:= (currentPositionOfShip + aRollResult) min: board getSize. "chooses the minimum between (current position + number of squares to move) and the board size which is the maximum limit ergo where game ends"
 	
-	shipsDictionary at: aShip put: (currentPositionOfShip + aPosition).
+	shipsDictionary at: aShip put: positionToMove.
 	self checkGameOverFor: aShip
 
 ]
