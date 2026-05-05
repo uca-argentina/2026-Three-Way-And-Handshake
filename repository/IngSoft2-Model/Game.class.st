@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'winner',
 		'board',
-		'isOver',
 		'diceSet',
 		'index',
 		'shipsDictionary',
@@ -16,19 +15,16 @@ Class {
 
 { #category : 'as yet unclassified' }
 Game class >> withABoard: aBoard andShips: aCollectionOfShips andDiceSet: aDiceSet [
-	 ^self new initializeWithABoard: aBoard andShips: aCollectionOfShips andDiceSet: aDiceSet 
+	 ^ (self new) initializeWithABoard: aBoard andShips: aCollectionOfShips andDiceSet: aDiceSet 
 ]
 
 { #category : 'as yet unclassified' }
 Game >> checkGameOverFor: aShip [
 
 	| currentPositionOfShip |
-	currentPositionOfShip := self
-		                         getPositionOfSpaceShip: aShip.
+	currentPositionOfShip := self getPositionOfSpaceShip: aShip.
 
-	^ currentPositionOfShip = board getSize ifTrue: [
-			  isOver := true.
-			  winner := aShip ]
+	^ currentPositionOfShip = board getSize ifTrue: [ winner := aShip ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -45,19 +41,18 @@ Game >> getPositionOfSpaceShip: aShip [
 
 { #category : 'as yet unclassified' }
 Game >> getWinner [
-	^winner.
+	^ winner.
 ]
 
 { #category : 'initialization' }
 Game >> initializeWithABoard: aBoard andShips: aCollectionOfShips andDiceSet: aDiceSet [
 
 	board := aBoard.
-	ships := aCollectionOfShips.
+	ships := aCollectionOfShips. "Consider removing variable as its already integrated on shipsDictionary"
 	diceSet := aDiceSet.
 	
-	index := 0. "Indice que representa que nave juega"
-	isOver := false.
-	winner := nil.
+	index := 0. "index for Ships turns"
+	winner := EmptyShip new.
 
 	shipsDictionary := Dictionary new.
 	aCollectionOfShips do: [ :ship | shipsDictionary at: ship put: 0 ]
@@ -78,7 +73,7 @@ Game >> moveShip: aShip toPosition: aRollResult [
 
 { #category : 'modes' }
 Game >> over [
-	^isOver.
+	^ (winner isMemberOf: Ship).
 ]
 
 { #category : 'as yet unclassified' }

@@ -239,7 +239,7 @@ GameTest >> test009WhenASetOfLoadedDiceIsRolledThenTheSumOfDiceComesInOrder [
 ]
 
 { #category : 'running' }
-GameTest >> test010WhenTheShipRollsHigherThanTheAmountOfSquaresToFinishThenFinalPositionIsAtFinish [
+GameTest >> test010WhenAShipRollsHigherThanTheAmountOfSquaresToFinishThenFinalPositionIsAtFinish [
 
 
 	|aGame aFirstShip aCollectionOfShips aBoard aLoadedDie|

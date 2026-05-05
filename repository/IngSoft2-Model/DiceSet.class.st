@@ -33,8 +33,8 @@ DiceSet >> initializeWithDice: aDieCollection [
 
 { #category : 'as yet unclassified' }
 DiceSet >> roll [
-
 	| diceRollResult |
+	
 	self aDiceSetCannotBeEmpty.
 
 	diceRollResult := (dice collect: [ :die | die roll ]) sum.
