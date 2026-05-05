@@ -19,15 +19,26 @@ Game class >> withABoard: aBoard andShips: aCollectionOfShips andDiceSet: aDiceS
 ]
 
 { #category : 'as yet unclassified' }
-Game >> aGameCannotBeOver [
+Game >> aGameIsNotOverYet [
+
+	self isOver ifFalse: [ Error signal: 'The game is not over yet.' ]
+]
+
+{ #category : 'as yet unclassified' }
+Game >> aGameIsOver [
 
 	self isOver ifTrue: [ Error signal: 'The game is already over.' ]
 ]
 
 { #category : 'as yet unclassified' }
-Game >> aGameIsNotOverYet [
+Game >> calculateNewPositionFor: aShip withARoll: aRollResult [
 
-	self isOver ifFalse: [ Error signal: 'The game is not over yet.' ]
+	| currentPositionOfShip positionToMove |
+	currentPositionOfShip := self getPositionOfSpaceShip: aShip.
+	positionToMove := currentPositionOfShip + aRollResult min:
+		                    board getSize.
+		
+	^positionToMove.
 ]
 
 { #category : 'initialization' }
@@ -95,10 +106,9 @@ Game >> isOver [
 { #category : 'as yet unclassified' }
 Game >> moveShip: aShip toPosition: aRollResult [
 
-	|currentPositionOfShip positionToMove |
-	currentPositionOfShip := shipsDictionary at: aShip.
-
-	positionToMove:= (currentPositionOfShip + aRollResult) min: board getSize. "chooses the minimum between (current position + number of squares to move) and the board size which is the maximum limit ergo where game ends"
+	|positionToMove|
+	positionToMove := self calculateNewPositionFor: aShip withARoll: aRollResult.
+	
 	
 	shipsDictionary at: aShip put: positionToMove.
 	self checkGameOverFor: aShip
@@ -109,7 +119,7 @@ Game >> moveShip: aShip toPosition: aRollResult [
 Game >> play [
 
 	| aDiceRoll currentShip |
-	self aGameCannotBeOver.
+	self aGameIsOver.
 	aDiceRoll := diceSet roll.
 	index := index \\ shipsDictionary keys size + 1.
 
