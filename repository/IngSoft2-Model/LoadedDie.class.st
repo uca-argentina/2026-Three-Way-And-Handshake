@@ -2,7 +2,9 @@ Class {
 	#name : 'LoadedDie',
 	#superclass : 'Object',
 	#instVars : [
-		'numberToRoll'
+		'numberToRoll',
+		'setOfRolls',
+		'index'
 	],
 	#classInstVars : [
 		'numberToRoll'
@@ -12,27 +14,45 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-LoadedDie class >> mustRoll: aNumberToBeRolled [
+LoadedDie class >> cannotBeNegativeOrZero: aSetOfRolls [
 
-	aNumberToBeRolled isInteger ifFalse: [
-		Error signal: 'LoadedDie sides cannot be other than integer type' ].
-	aNumberToBeRolled < 1 ifTrue: [
-		Error signal: 'LoadedDie sides cannot be negative or zero' ].
-
-	^ self new initializeWithNumberToRoll: aNumberToBeRolled
-]
-
-{ #category : 'initialization' }
-LoadedDie >> initializeWithNumberToRoll: aNumberToBeRolled [ 
-numberToRoll:= aNumberToBeRolled.
+	aSetOfRolls do: [ :aNumberToBeRolled |
+			aNumberToBeRolled < 1 ifTrue: [
+				Error signal: 'LoadedDie sides cannot be negative or zero' ] ]
 ]
 
 { #category : 'as yet unclassified' }
-LoadedDie >> numberToBeRolled [
-	^ numberToRoll.
+LoadedDie class >> cannotBeOtherThanInteger: aSetOfRolls [
+
+	aSetOfRolls do: [ :aNumberToBeRolled |
+			aNumberToBeRolled isInteger ifFalse: [
+				Error signal: 'LoadedDie sides cannot be other than integer type' ] ]
+]
+
+{ #category : 'as yet unclassified' }
+LoadedDie class >> mustRoll: aSetOfRolls [
+
+	self cannotBeOtherThanInteger: aSetOfRolls.
+	self cannotBeNegativeOrZero: aSetOfRolls.
+
+	^ self new initializeWithMustRoll: aSetOfRolls
+]
+
+{ #category : 'initialization' }
+LoadedDie >> initializeWithMustRoll: aSetOfRolls [
+
+	setOfRolls := aSetOfRolls.
+	index := 0
 ]
 
 { #category : 'as yet unclassified' }
 LoadedDie >> roll [
-	^ numberToRoll.
+
+	index := index \\ setOfRolls size + 1.
+	^ setOfRolls at: index
+]
+
+{ #category : 'as yet unclassified' }
+LoadedDie >> rollsToBeRolled [
+	^ setOfRolls .
 ]

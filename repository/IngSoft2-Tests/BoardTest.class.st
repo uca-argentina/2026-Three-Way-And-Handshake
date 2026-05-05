@@ -8,32 +8,34 @@ Class {
 { #category : 'tests' }
 BoardTest >> test001WhenABoardWithSize10IsCreatedThenTheSizeIs10 [
 
-| aBoard |
-aBoard:= Board withSize: 10.
+	| aBoard |
+	aBoard := Board withSize: 10.
 
-self assert: aBoard getSize equals: 10.
+	self assert: aBoard getSize equals: 10
 ]
 
 { #category : 'tests' }
 BoardTest >> test002WhenABoardIsSetWithSize0OrSmallerThenItIsNotInstantiated [
 
-self
-		should: [ Board withSize: 0 ]
+	| aBoard |
+	self
+		should: [ aBoard := Board withSize: 0 ]
 		raise: Error
 		withExceptionDo: [ :error |
-			self
-				assert: error messageText
-				equals: 'Board size cannot be negative or zero']
+				self
+					assert: error messageText
+					equals: 'Board size cannot be negative or zero' ]
 ]
 
 { #category : 'tests' }
-BoardTest >> test002WhenABoardIsSetWithSizeOtherThanIntegerThenItIsNotInstantiated [
+BoardTest >> test003WhenABoardIsSetWithSizeOtherThanIntegerThenItIsNotInstantiated [
 
-self
-		should: [ Board withSize: 'aaaaa' ]
+	| aBoard |
+	self
+		should: [ aBoard := Board withSize: 'aaaa' ]
 		raise: Error
 		withExceptionDo: [ :error |
-			self
-				assert: error messageText
-				equals: 'Board size cannot be other than integer']
+				self
+					assert: error messageText
+					equals: 'Board size cannot be other than integer' ]
 ]

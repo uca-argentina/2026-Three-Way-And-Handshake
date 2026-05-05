@@ -2,37 +2,33 @@ Class {
 	#name : 'Board',
 	#superclass : 'Object',
 	#instVars : [
-		'boardSize',
-		'collectionOfShips'
+		'boardSize'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'instance creation' }
-Board class >> withSize: aNumberOfSquares [
+Board class >> cannotBeNegativeOrZero: aBoardSize [
 
-	aNumberOfSquares isInteger ifFalse: [
-		Error signal: 'Board size cannot be other than integer' ].
-	aNumberOfSquares < 1 ifTrue: [
-		Error signal: 'Board size cannot be negative or zero' ].
-
-	^ self new initializeWithSize: aNumberOfSquares
+	aBoardSize < 1 ifTrue: [
+		Error signal: 'Board size cannot be negative or zero' ]
 ]
 
-{ #category : 'as yet unclassified' }
-Board class >> withSize: aBoardSize andShips: aCollectionOfShips [ 
-	^ (self new) initializeWithSize: aBoardSize andShips: aCollectionOfShips. 
+{ #category : 'instance creation' }
+Board class >> cannotBeOtherThanInteger: aBoardSize [
+
+	aBoardSize isInteger ifFalse: [
+		Error signal: 'Board size cannot be other than integer' ]
 ]
 
-{ #category : 'adding' }
-Board >> addShip: aShipToBeAdded [ 
-collectionOfShips add: aShipToBeAdded.
-]
+{ #category : 'instance creation' }
+Board class >> withSize: aBoardSize [
 
-{ #category : 'as yet unclassified' }
-Board >> getAmountOfShips [
-^collectionOfShips size.
+	self cannotBeOtherThanInteger: aBoardSize.
+	self cannotBeNegativeOrZero: aBoardSize.
+
+	^ self new initializeWithSize: aBoardSize
 ]
 
 { #category : 'as yet unclassified' }
@@ -41,13 +37,15 @@ Board >> getSize [
 ]
 
 { #category : 'initialization' }
-Board >> initializeWithSize: aNumberOfSquares [ 
-boardSize:= aNumberOfSquares. 
-collectionOfShips:= OrderedCollection new.
+Board >> initializeWithSize: aBoardSize [
+
+	boardSize := aBoardSize.
 ]
 
-{ #category : 'initialization' }
-Board >> initializeWithSize: aBoardSize andShips: aCollectionOfShips [ 
-boardSize:= aBoardSize.
-collectionOfShips:= aCollectionOfShips.
+{ #category : 'as yet unclassified' }
+Board >> isPositionBetweenLimits: aPosition [
+
+"possible refactor could be deleting this method since action logic has outgrown case scenario"
+
+aPosition <= boardSize ifFalse: [ Error signal: 'The Position is outside of limits' ].
 ]

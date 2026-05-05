@@ -13,3 +13,15 @@ aShip := Ship withId: 1.
 
 self assert: aShip getId equals: 1.
 ]
+
+{ #category : 'tests' }
+ShipTest >> test002WhenAShipIdIsOtherThanIntegerThenObjectCannotBeInstantiated [
+
+self
+		should: [ Ship withId: 'b' ]
+		raise: Error
+		withExceptionDo: [ :error |
+			self
+				assert: error messageText
+				equals: 'Ship ID cannot be other than integer type']
+]

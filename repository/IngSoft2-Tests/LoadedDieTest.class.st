@@ -9,9 +9,9 @@ Class {
 LoadedDieTest >> test001WhenALoadedDieIsSetToRoll5TheValueIsSet [
 
 | aLoadedDie |
-aLoadedDie:= LoadedDie mustRoll: 5.
+aLoadedDie:= LoadedDie mustRoll: #(5).
 
-self assert: aLoadedDie numberToBeRolled equals: 5.
+self assert: aLoadedDie rollsToBeRolled equals: #(5).
 
 
 ]
@@ -20,7 +20,7 @@ self assert: aLoadedDie numberToBeRolled equals: 5.
 LoadedDieTest >> test002WhenALoadedDieIsSetToRoll5ItRolls5 [
 
 | aLoadedDie |
-aLoadedDie:= LoadedDie mustRoll: 5.
+aLoadedDie:= LoadedDie mustRoll: #(5).
 
 self assert: aLoadedDie roll equals: 5.
 
@@ -31,7 +31,7 @@ self assert: aLoadedDie roll equals: 5.
 LoadedDieTest >> test003WhenTheLoadedDieIsSetToRollNegativeNumberThenClassCannotBeInstantiated [
 
 self
-		should: [ LoadedDie mustRoll: -1 ]
+		should: [ LoadedDie mustRoll: #(-1) ]
 		raise: Error
 		withExceptionDo: [ :error |
 			self
@@ -43,7 +43,7 @@ self
 LoadedDieTest >> test004WhenTheLoadedDieIsSetToRollOtherThanIntegerThenClassCannotBeInstantiated [
 
 self
-		should: [ LoadedDie mustRoll: 'b' ]
+		should: [ LoadedDie mustRoll: #('b') ]
 		raise: Error
 		withExceptionDo: [ :error |
 			self
