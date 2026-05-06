@@ -88,11 +88,12 @@ Game >> initializeWithABoard: aBoard andShips: aCollectionOfShips andDiceSet: aD
 	self cannotBeEmpty: aCollectionOfShips.
 
 	board := aBoard.
-	ships := aCollectionOfShips. 
+	ships := aCollectionOfShips.
 	diceSet := aDiceSet.
 
-	index := 0. 
+	index := 0.
 	winner := nil.
+
 	shipsDictionary := Dictionary new.
 	aCollectionOfShips do: [ :ship | shipsDictionary at: ship put: 0 ]
 ]
