@@ -40,7 +40,7 @@ Game class >> withABoard: aBoard andShips: aCollectionOfShips andDiceSet: aDiceS
 	self cannotBeEmpty: aCollectionOfShips.
 	self boardIsValidInstance: aBoard.
 	self isValidDice: aDiceSet.
-	^ self new
+	^ (self new)
 		  initializeWithABoard: aBoard
 		  andShips: aCollectionOfShips
 		  andDiceSet: aDiceSet
@@ -67,11 +67,6 @@ Game >> calculateNewPositionFor: aShip withARoll: aRollResult [
 		                    board getSize.
 		
 	^positionToMove.
-]
-
-{ #category : 'initialization' }
-Game >> cannotBeEmpty: aCollectionOfShips [ 
-	^ self class cannotBeEmpty: aCollectionOfShips 
 ]
 
 { #category : 'as yet unclassified' }
