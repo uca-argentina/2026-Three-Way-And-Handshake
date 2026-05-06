@@ -5,17 +5,45 @@ Class {
 		'winner',
 		'board',
 		'diceSet',
-		'index',
 		'shipsDictionary',
-		'ships'
+		'ships',
+		'shipIndex'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'as yet unclassified' }
+Game class >> boardIsValidInstance: aBoard [ 
+	(aBoard isMemberOf: Board) ifFalse: [
+				Error signal: 'Game did not receive a valid instance of Board'].
+]
+
+{ #category : 'initialization' }
+Game class >> cannotBeEmpty: aCollectionOfShips [
+
+	aCollectionOfShips isEmpty ifTrue: [
+		Error signal: 'A game must have at least one ship.' ]
+]
+
+{ #category : 'as yet unclassified' }
+Game class >> isValidDice: aDiceSet [
+
+	((aDiceSet isMemberOf: DiceSet) | (aDiceSet isMemberOf: LoadedDie) | (aDiceSet isMemberOf: Die))
+		ifFalse: [
+		Error signal: 'Game did not receive a valid instance of Dice' ]
+]
+
+{ #category : 'as yet unclassified' }
 Game class >> withABoard: aBoard andShips: aCollectionOfShips andDiceSet: aDiceSet [
-	 ^ (self new) initializeWithABoard: aBoard andShips: aCollectionOfShips andDiceSet: aDiceSet 
+
+	self cannotBeEmpty: aCollectionOfShips.
+	self boardIsValidInstance: aBoard.
+	self isValidDice: aDiceSet.
+	^ self new
+		  initializeWithABoard: aBoard
+		  andShips: aCollectionOfShips
+		  andDiceSet: aDiceSet
 ]
 
 { #category : 'as yet unclassified' }
@@ -42,10 +70,8 @@ Game >> calculateNewPositionFor: aShip withARoll: aRollResult [
 ]
 
 { #category : 'initialization' }
-Game >> cannotBeEmpty: aCollectionOfShips [
-
-	aCollectionOfShips isEmpty ifTrue: [
-		Error signal: 'A game must have at least one ship.' ]
+Game >> cannotBeEmpty: aCollectionOfShips [ 
+	^ self class cannotBeEmpty: aCollectionOfShips 
 ]
 
 { #category : 'as yet unclassified' }
@@ -66,7 +92,7 @@ Game >> getAmountOfShips [
 { #category : 'as yet unclassified' }
 Game >> getCurrentShip [
 
-	^ ships at: index \\ ships size + 1
+	^ ships at: shipIndex \\ ships size + 1
 ]
 
 { #category : 'as yet unclassified' }
@@ -85,13 +111,11 @@ Game >> getWinner [
 { #category : 'initialization' }
 Game >> initializeWithABoard: aBoard andShips: aCollectionOfShips andDiceSet: aDiceSet [
 
-	self cannotBeEmpty: aCollectionOfShips.
-
 	board := aBoard.
 	ships := aCollectionOfShips.
 	diceSet := aDiceSet.
 
-	index := 0.
+	shipIndex := 0.
 	winner := nil.
 
 	shipsDictionary := Dictionary new.
@@ -121,8 +145,8 @@ Game >> play [
 	| aDiceRoll currentShip |
 	self aGameIsOver.
 	aDiceRoll := diceSet roll.
-	index := index \\ shipsDictionary keys size + 1.
+	shipIndex := shipIndex \\ shipsDictionary keys size + 1.
 
-	currentShip := ships at: index.
+	currentShip := ships at: shipIndex.
 	self moveShip: currentShip toPosition: aDiceRoll
 ]
