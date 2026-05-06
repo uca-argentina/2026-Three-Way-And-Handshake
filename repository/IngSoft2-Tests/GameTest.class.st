@@ -318,3 +318,41 @@ GameTest >> test014WhenAGameIsCreatedWithNoShipsThenItCannotBeInstantiated [
 					assert: error messageText
 					equals: 'A game must have at least one ship.' ]
 ]
+
+{ #category : 'running' }
+GameTest >> test015WhenAGameReceivesAnUnvalidBoardThenGameCannotBeInstantiated [
+
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie |
+	aFirstShip := Ship withId: 1.
+
+	aCollectionOfShips := OrderedCollection with: aFirstShip.
+
+	aBoard := 'hello'.
+
+	aLoadedDie := LoadedDie mustRoll: #( 10 ).
+
+	self should: [ aGame := Game
+		         withABoard: aBoard
+		         andShips: aCollectionOfShips
+		         andDiceSet: aLoadedDie. ] raise: Error withExceptionDo: [ :error |
+		self assert: error messageText equals: 'Game did not receive a valid instance of Board' ]
+]
+
+{ #category : 'running' }
+GameTest >> test016WhenAGameReceivesAnUnvalidInstanceOfDiceThenGameCannotBeInitialized [
+
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie |
+	aFirstShip := Ship withId: 1.
+
+	aCollectionOfShips := OrderedCollection with: aFirstShip.
+
+	aBoard := Board withSize: 10.
+
+	aLoadedDie := 5.
+
+	self should: [ aGame := Game
+		         withABoard: aBoard
+		         andShips: aCollectionOfShips
+		         andDiceSet: aLoadedDie. ] raise: Error withExceptionDo: [ :error |
+		self assert: error messageText equals: 'Game did not receive a valid instance of Dice' ]
+]
