@@ -41,11 +41,3 @@ Board >> initializeWithSize: aBoardSize [
 
 	boardSize := aBoardSize.
 ]
-
-{ #category : 'as yet unclassified' }
-Board >> isPositionBetweenLimits: aPosition [
-
-"possible refactor could be deleting this method since action logic has outgrown case scenario"
-
-aPosition <= boardSize ifFalse: [ Error signal: 'The Position is outside of limits' ].
-]

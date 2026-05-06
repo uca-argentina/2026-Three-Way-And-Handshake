@@ -25,7 +25,8 @@ GameTest >> test001WhenAGameIsCreatedAndNoShipMovesThenItIsNotOver [
 		         andDiceSet: aLoadedDie.
 
 
-	self deny: aGame isOver
+	self deny: aGame isOver.
+	self assert: aGame getAmountOfShips equals: 1.
 ]
 
 { #category : 'running' }

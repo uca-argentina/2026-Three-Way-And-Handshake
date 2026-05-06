@@ -88,11 +88,11 @@ Game >> initializeWithABoard: aBoard andShips: aCollectionOfShips andDiceSet: aD
 	self cannotBeEmpty: aCollectionOfShips.
 
 	board := aBoard.
-	ships := aCollectionOfShips. "Consider removing variable as its already integrated on shipsDictionary"
+	ships := aCollectionOfShips.
 	diceSet := aDiceSet.
 
-	index := 0. "index for Ships turns"
-	winner := EmptyShip new.
+	index := 0.
+	winner := nil.
 
 	shipsDictionary := Dictionary new.
 	aCollectionOfShips do: [ :ship | shipsDictionary at: ship put: 0 ]
