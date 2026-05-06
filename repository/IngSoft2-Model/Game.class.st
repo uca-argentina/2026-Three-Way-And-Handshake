@@ -5,9 +5,9 @@ Class {
 		'winner',
 		'board',
 		'diceSet',
-		'index',
 		'shipsDictionary',
-		'ships'
+		'ships',
+		'shipIndex'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -92,7 +92,7 @@ Game >> getAmountOfShips [
 { #category : 'as yet unclassified' }
 Game >> getCurrentShip [
 
-	^ ships at: index \\ ships size + 1
+	^ ships at: shipIndex \\ ships size + 1
 ]
 
 { #category : 'as yet unclassified' }
@@ -115,7 +115,7 @@ Game >> initializeWithABoard: aBoard andShips: aCollectionOfShips andDiceSet: aD
 	ships := aCollectionOfShips.
 	diceSet := aDiceSet.
 
-	index := 0.
+	shipIndex := 0.
 	winner := nil.
 
 	shipsDictionary := Dictionary new.
@@ -145,8 +145,8 @@ Game >> play [
 	| aDiceRoll currentShip |
 	self aGameIsOver.
 	aDiceRoll := diceSet roll.
-	index := index \\ shipsDictionary keys size + 1.
+	shipIndex := shipIndex \\ shipsDictionary keys size + 1.
 
-	currentShip := ships at: index.
+	currentShip := ships at: shipIndex.
 	self moveShip: currentShip toPosition: aDiceRoll
 ]
