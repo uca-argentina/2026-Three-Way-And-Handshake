@@ -29,7 +29,7 @@ Game class >> cannotBeEmpty: aCollectionOfShips [
 { #category : 'as yet unclassified' }
 Game class >> isValidDice: aDiceSet [
 
-	((aDiceSet isMemberOf: DiceSet) or: (aDiceSet isMemberOf: LoadedDie))
+	((aDiceSet isMemberOf: DiceSet) | (aDiceSet isMemberOf: LoadedDie) | (aDiceSet isMemberOf: Die))
 		ifFalse: [
 		Error signal: 'Game did not receive a valid instance of Dice' ]
 ]
