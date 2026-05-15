@@ -49,9 +49,9 @@ DiceSetTest >> test003WhenADiceSetWithBothDiceWith6SidesThenTheResultIsBetween2A
 DiceSetTest >> test004WhenADiceSetIsEmptyThenItCannotBeTossed [
 
 	| aDiceSet |
-	aDiceSet := DiceSet withDice: OrderedCollection new.
+	
 	self
-		should: [ aDiceSet roll ]
+		should: [aDiceSet := DiceSet withDice: OrderedCollection new. ]
 		raise: Error
 		withExceptionDo: [ :error |
 				self
