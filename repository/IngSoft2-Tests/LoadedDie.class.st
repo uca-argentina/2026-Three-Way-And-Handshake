@@ -2,15 +2,11 @@ Class {
 	#name : 'LoadedDie',
 	#superclass : 'Object',
 	#instVars : [
-		'numberToRoll',
 		'setOfRolls',
 		'index'
 	],
-	#classInstVars : [
-		'numberToRoll'
-	],
-	#category : 'IngSoft2-Model',
-	#package : 'IngSoft2-Model'
+	#category : 'IngSoft2-Tests',
+	#package : 'IngSoft2-Tests'
 }
 
 { #category : 'as yet unclassified' }
