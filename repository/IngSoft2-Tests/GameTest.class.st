@@ -20,9 +20,9 @@ GameTest >> test001WhenAGameIsCreatedAndNoShipMovesThenItIsNotOver [
 	aLoadedDie := LoadedDie mustRoll: #( 5 ).
 
 	aGame := Game
-		         withABoard: aBoard
-		         andShips: aCollectionOfShips
-		         andDiceSet: aLoadedDie.
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aLoadedDie.
 
 
 	self deny: aGame isOver.
@@ -41,7 +41,7 @@ GameTest >> test002WhenAGameIsCreatedWithABoardAndSpaceShipThenThePositionOfTheS
 	
 	aLoadedDie := LoadedDie mustRoll: #(1).
 	
-	aGame := Game withABoard: aBoard andShips: aCollectionOfShips  andDiceSet: aLoadedDie.
+	aGame := Game playedOn: aBoard by: aCollectionOfShips  throwing: aLoadedDie.
 
 	self assert: (aGame positionOf: aFirstShip) equals: 0.
 ]
@@ -59,7 +59,7 @@ GameTest >> test003WhenAShipRollsADieAndTheOutcomeIs5ThenItMoves5Positions [
 	
 	aLoadedDie:= LoadedDie mustRoll: #(5).
 	
-	aGame := Game withABoard: aBoard andShips: aCollectionOfShips  andDiceSet: aLoadedDie.
+	aGame := Game playedOn: aBoard by: aCollectionOfShips  throwing: aLoadedDie.
 	
 	aGame play.
 
@@ -79,7 +79,7 @@ GameTest >> test004WhenAShipReachTheEndOfTheBoardThenTheGameIsOver [
 	
 	aLoadedDie:= LoadedDie mustRoll: #(10).
 	
-	aGame := Game withABoard: aBoard andShips: aCollectionOfShips  andDiceSet: aLoadedDie.
+	aGame := Game playedOn: aBoard by: aCollectionOfShips  throwing: aLoadedDie.
 	
 	aGame play.
 
@@ -100,7 +100,7 @@ GameTest >> test005WhenAShipMovesButDoesNotReachTheEndOfTheBoardThenTheGameIsNot
 		
 	aLoadedDie:= LoadedDie mustRoll: #(5).
 	
-	aGame := Game withABoard: aBoard andShips: aCollectionOfShips  andDiceSet: aLoadedDie.
+	aGame := Game playedOn: aBoard by: aCollectionOfShips  throwing: aLoadedDie.
 	
 	aGame play.
 
@@ -121,9 +121,9 @@ GameTest >> test006WhenAShipIsTheFirstToReachTheEndThenItIsTheWinner [
 	aLoadedDie := LoadedDie mustRoll: #( 10 ).
 
 	aGame := Game
-		         withABoard: aBoard
-		         andShips: aCollectionOfShips
-		         andDiceSet: aLoadedDie.
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aLoadedDie.
 
 	aGame play.
 
@@ -145,7 +145,7 @@ GameTest >> test007WhenAShipIsOnPosition0AndRolls5TwiceThenItMovesToPosition10 [
 	
 	aLoadedDie:= LoadedDie mustRoll: #(5 5).
 	
-	aGame := Game withABoard: aBoard andShips: aCollectionOfShips  andDiceSet: aLoadedDie.
+	aGame := Game playedOn: aBoard by: aCollectionOfShips  throwing: aLoadedDie.
 		
 	aGame play.
 	aGame play.
@@ -169,7 +169,7 @@ GameTest >> test008WhenAGameWith2ShipsPlayThenEachShipPlaysAtATurnAndLoadedDieGo
 	
 	aFirstLoadedDie:= LoadedDie mustRoll: #(4 3).
 	
-	aGame := Game withABoard: aBoard andShips: aCollectionOfShips andDiceSet: aFirstLoadedDie.
+	aGame := Game playedOn: aBoard by: aCollectionOfShips throwing: aFirstLoadedDie.
 	
 	aGame play.
 	aGame play.
@@ -199,9 +199,9 @@ GameTest >> test009WhenASetOfLoadedDiceIsRolledThenTheSumOfDiceComesInOrder [
 	aDiceSet := DiceSet withDice: aCollectionOfDice.
 
 	aGame := Game
-		         withABoard: aBoard
-		         andShips: aCollectionOfShips
-		         andDiceSet: aDiceSet.
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aDiceSet.
 	aGame play.
 	aGame play.
 
@@ -222,7 +222,7 @@ GameTest >> test010WhenAShipsRollIsGreaterThanTheAmountOfSquaresToFinishThenFina
 	
 	aLoadedDie:= LoadedDie mustRoll: #(10).
 	
-	aGame := Game withABoard: aBoard andShips: aCollectionOfShips  andDiceSet: aLoadedDie.
+	aGame := Game playedOn: aBoard by: aCollectionOfShips  throwing: aLoadedDie.
 	
 	aGame play.
 
@@ -244,9 +244,9 @@ GameTest >> test011WhenTheGameIsOverThenNoMoreTurnsCanBePlayed [
 	aLoadedDie := LoadedDie mustRoll: #( 10 ).
 
 	aGame := Game
-		         withABoard: aBoard
-		         andShips: aCollectionOfShips
-		         andDiceSet: aLoadedDie.
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aLoadedDie.
 
 	aGame play.
 
@@ -268,9 +268,9 @@ GameTest >> test012WhenTheGameIsNotOverThenAskingForWinnerRaisesError [
 	aLoadedDie := LoadedDie mustRoll: #( 5 ).
 
 	aGame := Game
-		         withABoard: aBoard
-		         andShips: aCollectionOfShips
-		         andDiceSet: aLoadedDie.
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aLoadedDie.
 
 	aGame play.
 
@@ -291,9 +291,9 @@ GameTest >> test013WhenTheLastShipPlaysThenItIsFirstShipTurnAgain [
 	aBoard := Board withSize: 20.
 	aLoadedDie := LoadedDie mustRoll: #( 5 ).
 	aGame := Game
-		         withABoard: aBoard
-		         andShips: aCollectionOfShips
-		         andDiceSet: aLoadedDie.
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aLoadedDie.
 	aGame play.
 	aGame play.
 	self assert: aGame currentShip equals: aFirstShip
@@ -309,9 +309,9 @@ GameTest >> test014WhenAGameIsCreatedWithNoShipsThenItCannotBeInstantiated [
 	self
 		should: [
 				Game
-					withABoard: aBoard
-					andShips: aCollectionOfShips
-					andDiceSet: aLoadedDie ]
+					playedOn: aBoard
+					by: aCollectionOfShips
+					throwing: aLoadedDie ]
 		raise: Error
 		withExceptionDo: [ :error |
 				self
@@ -332,9 +332,9 @@ GameTest >> test015WhenAGameReceivesAnUnvalidBoardThenGameCannotBeInstantiated [
 	aLoadedDie := LoadedDie mustRoll: #( 10 ).
 
 	self should: [ aGame := Game
-		         withABoard: aBoard
-		         andShips: aCollectionOfShips
-		         andDiceSet: aLoadedDie. ] raise: Error withExceptionDo: [ :error |
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aLoadedDie. ] raise: Error withExceptionDo: [ :error |
 		self assert: error messageText equals: 'Game did not receive a valid instance of Board' ]
 ]
 
@@ -351,8 +351,8 @@ GameTest >> test016WhenAGameReceivesAnUnvalidInstanceOfDiceThenGameCannotBeIniti
 	aLoadedDie := 5.
 
 	self should: [ aGame := Game
-		         withABoard: aBoard
-		         andShips: aCollectionOfShips
-		         andDiceSet: aLoadedDie. ] raise: Error withExceptionDo: [ :error |
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aLoadedDie. ] raise: Error withExceptionDo: [ :error |
 		self assert: error messageText equals: 'Game did not receive a valid instance of Dice' ]
 ]

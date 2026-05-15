@@ -35,15 +35,15 @@ Game class >> isValidDice: aDiceSet [
 ]
 
 { #category : 'as yet unclassified' }
-Game class >> withABoard: aBoard andShips: aCollectionOfShips andDiceSet: aDiceSet [
+Game class >> playedOn: aBoard by: someShips throwing: aDiceSet [
 
-	self cannotBeEmpty: aCollectionOfShips.
+	self cannotBeEmpty: someShips.
 	self boardIsValidInstance: aBoard.
 	self isValidDice: aDiceSet.
 	^ (self new)
-		  initializeWithABoard: aBoard
-		  andShips: aCollectionOfShips
-		  andDiceSet: aDiceSet
+		  initializePlayedOn: aBoard
+		  by: someShips
+		  throwing: aDiceSet
 ]
 
 { #category : 'as yet unclassified' }
@@ -76,32 +76,23 @@ Game >> calculateNewPositionFor: aShip withARoll: aRollResult [
 ]
 
 { #category : 'as yet unclassified' }
-Game >> checkGameOverFor: aShip [
-
-	| currentPositionOfShip |
-	currentPositionOfShip := self positionOf: aShip.
-
-	^ currentPositionOfShip = board size ifTrue: [ winner := aShip ]
-]
-
-{ #category : 'as yet unclassified' }
 Game >> currentShip [
 
 	^ ships at: shipIndex \\ ships size + 1
 ]
 
 { #category : 'initialization' }
-Game >> initializeWithABoard: aBoard andShips: aCollectionOfShips andDiceSet: aDiceSet [
+Game >> initializePlayedOn: aBoard by: someShips throwing: aDiceSet [
 
 	board := aBoard.
-	ships := aCollectionOfShips.
+	ships := someShips.
 	diceSet := aDiceSet.
 
 	shipIndex := 0.
 	winner := nil.
 
 	shipsDictionary := Dictionary new.
-	aCollectionOfShips do: [ :ship | shipsDictionary at: ship put: 0 ]
+	someShips do: [ :ship | shipsDictionary at: ship put: 0 ]
 ]
 
 { #category : 'modes' }
@@ -118,7 +109,7 @@ Game >> moveShip: aShip toPosition: aRollResult [
 	
 	
 	shipsDictionary at: aShip put: positionToMove.
-	self checkGameOverFor: aShip
+	self updateWinnerIfGameEndedFor: aShip
 
 ]
 
@@ -138,6 +129,12 @@ Game >> play [
 Game >> positionOf: aShip [
 
 	^ shipsDictionary at: aShip
+]
+
+{ #category : 'as yet unclassified' }
+Game >> updateWinnerIfGameEndedFor: aShip [
+
+	(self positionOf: aShip) = board size ifTrue: [ winner := aShip ]
 ]
 
 { #category : 'as yet unclassified' }
