@@ -320,7 +320,7 @@ GameTest >> test014WhenAGameIsCreatedWithNoShipsThenItCannotBeInstantiated [
 ]
 
 { #category : 'running' }
-GameTest >> test015WhenAGameReceivesAnUnvalidBoardThenGameCannotBeInstantiated [
+GameTest >> test015WhenAGameReceivesAnInvalidBoardThenGameCannotBeInstantiated [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie |
 	aFirstShip := Ship withId: 1.
@@ -339,7 +339,7 @@ GameTest >> test015WhenAGameReceivesAnUnvalidBoardThenGameCannotBeInstantiated [
 ]
 
 { #category : 'running' }
-GameTest >> test016WhenAGameReceivesAnUnvalidInstanceOfDiceThenGameCannotBeInitialized [
+GameTest >> test016WhenAGameReceivesAnInvalidInstanceOfDiceThenGameCannotBeInitialized [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie |
 	aFirstShip := Ship withId: 1.
