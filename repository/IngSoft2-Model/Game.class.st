@@ -47,21 +47,21 @@ Game class >> withABoard: aBoard andShips: aCollectionOfShips andDiceSet: aDiceS
 ]
 
 { #category : 'as yet unclassified' }
-Game >> aGameIsNotOverYet [
+Game >> amountOfShips [
+
+	^ shipsDictionary size.
+]
+
+{ #category : 'as yet unclassified' }
+Game >> assertGameIsNotOver [
 
 	self isOver ifFalse: [ Error signal: 'The game is not over yet.' ]
 ]
 
 { #category : 'as yet unclassified' }
-Game >> aGameIsOver [
+Game >> assertGameIsOver [
 
 	self isOver ifTrue: [ Error signal: 'The game is already over.' ]
-]
-
-{ #category : 'as yet unclassified' }
-Game >> amountOfShips [
-
-	^ shipsDictionary size.
 ]
 
 { #category : 'as yet unclassified' }
@@ -125,7 +125,7 @@ Game >> moveShip: aShip toPosition: aRollResult [
 Game >> play [
 
 	| aDiceRoll currentShip |
-	self aGameIsOver.
+	self assertGameIsOver.
 	aDiceRoll := diceSet roll.
 	shipIndex := shipIndex \\ shipsDictionary keys size + 1.
 
@@ -142,6 +142,6 @@ Game >> positionOf: aShip [
 { #category : 'as yet unclassified' }
 Game >> winner [
 
-	self aGameIsNotOverYet.
+	self assertGameIsNotOver.
 	^ winner
 ]
