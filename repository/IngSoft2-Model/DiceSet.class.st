@@ -21,14 +21,14 @@ DiceSet >> aDiceSetCannotBeEmpty [
 		Error signal: 'A dice set cannot be tossed when is empty' ]
 ]
 
-{ #category : 'as yet unclassified' }
-DiceSet >> getNumberOfDice [ 
-	^dice size
-]
-
 { #category : 'initialization' }
 DiceSet >> initializeWithDice: aDieCollection [ 
 	dice := aDieCollection.
+]
+
+{ #category : 'as yet unclassified' }
+DiceSet >> numberOfDice [ 
+	^dice size
 ]
 
 { #category : 'as yet unclassified' }

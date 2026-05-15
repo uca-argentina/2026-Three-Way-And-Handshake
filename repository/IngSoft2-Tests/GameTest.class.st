@@ -26,7 +26,7 @@ GameTest >> test001WhenAGameIsCreatedAndNoShipMovesThenItIsNotOver [
 
 
 	self deny: aGame isOver.
-	self assert: aGame getAmountOfShips equals: 1.
+	self assert: aGame amountOfShips equals: 1.
 ]
 
 { #category : 'running' }
@@ -43,7 +43,7 @@ GameTest >> test002WhenAGameIsCreatedWithABoardAndSpaceShipThenThePositionOfTheS
 	
 	aGame := Game withABoard: aBoard andShips: aCollectionOfShips  andDiceSet: aLoadedDie.
 
-	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 0.
+	self assert: (aGame positionOf: aFirstShip) equals: 0.
 ]
 
 { #category : 'running' }
@@ -63,7 +63,7 @@ GameTest >> test003WhenAShipRollsADieAndTheOutcomeIs5ThenItMoves5Positions [
 	
 	aGame play.
 
-	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 5.
+	self assert: (aGame positionOf: aFirstShip) equals: 5.
 ]
 
 { #category : 'running' }
@@ -84,7 +84,7 @@ GameTest >> test004WhenAShipReachTheEndOfTheBoardThenTheGameIsOver [
 	aGame play.
 
 	self assert: aGame isOver.
-	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 10.
+	self assert: (aGame positionOf: aFirstShip) equals: 10.
 ]
 
 { #category : 'running' }
@@ -105,7 +105,7 @@ GameTest >> test005WhenAShipMovesButDoesNotReachTheEndOfTheBoardThenTheGameIsNot
 	aGame play.
 
 	self deny: aGame isOver.
-	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 5.
+	self assert: (aGame positionOf: aFirstShip) equals: 5.
 ]
 
 { #category : 'running' }
@@ -128,8 +128,8 @@ GameTest >> test006WhenAShipIsTheFirstToReachTheEndThenItIsTheWinner [
 	aGame play.
 
 	self assert: aGame isOver.
-	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 10.
-	self assert: aGame getWinner equals: aFirstShip
+	self assert: (aGame positionOf: aFirstShip) equals: 10.
+	self assert: aGame winner equals: aFirstShip
 ]
 
 { #category : 'running' }
@@ -151,8 +151,8 @@ GameTest >> test007WhenAShipIsOnPosition0AndRolls5TwiceThenItMovesToPosition10 [
 	aGame play.
 
 	self assert: aGame isOver.
-	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 10.
-	self assert: aGame getWinner equals: aFirstShip 
+	self assert: (aGame positionOf: aFirstShip) equals: 10.
+	self assert: aGame winner equals: aFirstShip 
 ]
 
 { #category : 'running' }
@@ -175,8 +175,8 @@ GameTest >> test008WhenAGameWith2ShipsPlayThenEachShipPlaysAtATurnAndLoadedDieGo
 	aGame play.
 	aGame play.
 
-	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 8.
-	self assert: (aGame getPositionOfSpaceShip: aSecondShip) equals: 3.
+	self assert: (aGame positionOf: aFirstShip) equals: 8.
+	self assert: (aGame positionOf: aSecondShip) equals: 3.
 ]
 
 { #category : 'running' }
@@ -205,8 +205,8 @@ GameTest >> test009WhenASetOfLoadedDiceIsRolledThenTheSumOfDiceComesInOrder [
 	aGame play.
 	aGame play.
 
-	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 7.
-	self assert: (aGame getPositionOfSpaceShip: aSecondShip) equals: 6
+	self assert: (aGame positionOf: aFirstShip) equals: 7.
+	self assert: (aGame positionOf: aSecondShip) equals: 6
 ]
 
 { #category : 'running' }
@@ -227,8 +227,8 @@ GameTest >> test010WhenAShipsRollIsGreaterThanTheAmountOfSquaresToFinishThenFina
 	aGame play.
 
 	self assert: aGame isOver.
-	self assert: (aGame getPositionOfSpaceShip: aFirstShip) equals: 9.
-	self assert: aGame getWinner equals: aFirstShip 
+	self assert: (aGame positionOf: aFirstShip) equals: 9.
+	self assert: aGame winner equals: aFirstShip 
 ]
 
 { #category : 'running' }
@@ -275,7 +275,7 @@ GameTest >> test012WhenTheGameIsNotOverThenAskingForWinnerRaisesError [
 	aGame play.
 
 	self deny: aGame isOver.
-	self should: [ aGame getWinner ] raise: Error withExceptionDo: [ :error |
+	self should: [ aGame winner ] raise: Error withExceptionDo: [ :error |
 		self assert: error messageText equals: 'The game is not over yet.' ]
 ]
 
@@ -296,7 +296,7 @@ GameTest >> test013WhenTheLastShipPlaysThenItIsFirstShipTurnAgain [
 		         andDiceSet: aLoadedDie.
 	aGame play.
 	aGame play.
-	self assert: aGame getCurrentShip equals: aFirstShip
+	self assert: aGame currentShip equals: aFirstShip
 ]
 
 { #category : 'running' }

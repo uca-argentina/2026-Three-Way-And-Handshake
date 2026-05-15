@@ -26,7 +26,7 @@ Ship class >> withId: anId [
 ]
 
 { #category : 'as yet unclassified' }
-Ship >> getId [
+Ship >> id [
 	^ shipId.
 ]
 

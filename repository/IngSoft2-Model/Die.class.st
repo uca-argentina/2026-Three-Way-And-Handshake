@@ -32,14 +32,14 @@ Die class >> withSides: aNumberOfSides [
 	^ self new initializeWithSides: aNumberOfSides
 ]
 
-{ #category : 'as yet unclassified' }
-Die >> getNumberOfSides [ 
-	^numberOfSides .
-]
-
 { #category : 'initialization' }
 Die >> initializeWithSides: aNumberOfSides [ 
 	numberOfSides:= aNumberOfSides .
+]
+
+{ #category : 'as yet unclassified' }
+Die >> numberOfSides [ 
+	^numberOfSides .
 ]
 
 { #category : 'as yet unclassified' }

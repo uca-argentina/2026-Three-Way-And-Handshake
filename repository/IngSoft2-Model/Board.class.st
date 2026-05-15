@@ -31,13 +31,13 @@ Board class >> withSize: aBoardSize [
 	^ self new initializeWithSize: aBoardSize
 ]
 
-{ #category : 'as yet unclassified' }
-Board >> getSize [
-	^ boardSize .
-]
-
 { #category : 'initialization' }
 Board >> initializeWithSize: aBoardSize [
 
 	boardSize := aBoardSize.
+]
+
+{ #category : 'as yet unclassified' }
+Board >> size [
+	^ boardSize .
 ]

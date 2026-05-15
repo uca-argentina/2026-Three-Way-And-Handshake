@@ -59,12 +59,18 @@ Game >> aGameIsOver [
 ]
 
 { #category : 'as yet unclassified' }
+Game >> amountOfShips [
+
+	^ shipsDictionary size.
+]
+
+{ #category : 'as yet unclassified' }
 Game >> calculateNewPositionFor: aShip withARoll: aRollResult [
 
 	| currentPositionOfShip positionToMove |
-	currentPositionOfShip := self getPositionOfSpaceShip: aShip.
+	currentPositionOfShip := self positionOf: aShip.
 	positionToMove := currentPositionOfShip + aRollResult min:
-		                    board getSize.
+		                    board size.
 		
 	^positionToMove.
 ]
@@ -73,34 +79,15 @@ Game >> calculateNewPositionFor: aShip withARoll: aRollResult [
 Game >> checkGameOverFor: aShip [
 
 	| currentPositionOfShip |
-	currentPositionOfShip := self getPositionOfSpaceShip: aShip.
+	currentPositionOfShip := self positionOf: aShip.
 
-	^ currentPositionOfShip = board getSize ifTrue: [ winner := aShip ]
+	^ currentPositionOfShip = board size ifTrue: [ winner := aShip ]
 ]
 
 { #category : 'as yet unclassified' }
-Game >> getAmountOfShips [
-
-	^ shipsDictionary size.
-]
-
-{ #category : 'as yet unclassified' }
-Game >> getCurrentShip [
+Game >> currentShip [
 
 	^ ships at: shipIndex \\ ships size + 1
-]
-
-{ #category : 'as yet unclassified' }
-Game >> getPositionOfSpaceShip: aShip [
-
-	^ shipsDictionary at: aShip
-]
-
-{ #category : 'as yet unclassified' }
-Game >> getWinner [
-
-	self aGameIsNotOverYet.
-	^ winner
 ]
 
 { #category : 'initialization' }
@@ -144,4 +131,17 @@ Game >> play [
 
 	currentShip := ships at: shipIndex.
 	self moveShip: currentShip toPosition: aDiceRoll
+]
+
+{ #category : 'as yet unclassified' }
+Game >> positionOf: aShip [
+
+	^ shipsDictionary at: aShip
+]
+
+{ #category : 'as yet unclassified' }
+Game >> winner [
+
+	self aGameIsNotOverYet.
+	^ winner
 ]

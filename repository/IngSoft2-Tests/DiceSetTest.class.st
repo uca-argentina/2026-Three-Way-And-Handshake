@@ -14,7 +14,7 @@ aDie := Die withSides: 6.
 aDiceSet := DiceSet withDice: (OrderedCollection with: aDie). 
 
 
-self assert: aDiceSet getNumberOfDice equals: 1.
+self assert: aDiceSet numberOfDice equals: 1.
 ]
 
 { #category : 'tests' }
@@ -28,7 +28,7 @@ DiceSetTest >> test002WhenADiceSetIsCreatedWithMDiceThenItHasMDice [
 		            (OrderedCollection with: aDie with: aSecondDie).
 
 
-	self assert: aDiceSet getNumberOfDice equals: 2
+	self assert: aDiceSet numberOfDice equals: 2
 ]
 
 { #category : 'tests' }

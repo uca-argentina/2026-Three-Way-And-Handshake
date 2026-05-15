@@ -23,7 +23,7 @@ DieTest >> test002WhenADieIsInitializedWithOneSideThenADieHasOneSide [
 	| aDie |
 	aDie := Die withSides: 1.
 
-	self assert: aDie getNumberOfSides equals: 1
+	self assert: aDie numberOfSides equals: 1
 ]
 
 { #category : 'tests' }
