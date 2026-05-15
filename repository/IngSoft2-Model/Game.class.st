@@ -15,7 +15,7 @@ Class {
 
 { #category : 'as yet unclassified' }
 Game class >> boardIsValidInstance: aBoard [ 
-	(aBoard isMemberOf: Board) ifFalse: [
+	(aBoard isKindOf: Board) ifFalse: [
 				Error signal: 'Game did not receive a valid instance of Board'].
 ]
 
@@ -29,7 +29,7 @@ Game class >> cannotBeEmpty: aCollectionOfShips [
 { #category : 'as yet unclassified' }
 Game class >> isValidDice: aDiceSet [
 
-	((aDiceSet isMemberOf: DiceSet) | (aDiceSet isMemberOf: LoadedDie) | (aDiceSet isMemberOf: Die))
+	(aDiceSet respondsTo: #roll)
 		ifFalse: [
 		Error signal: 'Game did not receive a valid instance of Dice' ]
 ]
@@ -106,7 +106,8 @@ Game >> initializeWithABoard: aBoard andShips: aCollectionOfShips andDiceSet: aD
 
 { #category : 'modes' }
 Game >> isOver [
-	^ (winner isMemberOf: Ship).
+
+	^ winner isNotNil
 ]
 
 { #category : 'as yet unclassified' }
