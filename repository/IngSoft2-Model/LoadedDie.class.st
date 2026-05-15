@@ -14,15 +14,7 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-LoadedDie class >> cannotBeNegativeOrZero: aSetOfRolls [
-
-	aSetOfRolls do: [ :aNumberToBeRolled |
-			aNumberToBeRolled < 1 ifTrue: [
-				Error signal: 'LoadedDie sides cannot be negative or zero' ] ]
-]
-
-{ #category : 'as yet unclassified' }
-LoadedDie class >> cannotBeOtherThanInteger: aSetOfRolls [
+LoadedDie class >> assertInteger: aSetOfRolls [
 
 	aSetOfRolls do: [ :aNumberToBeRolled |
 			aNumberToBeRolled isInteger ifFalse: [
@@ -30,10 +22,18 @@ LoadedDie class >> cannotBeOtherThanInteger: aSetOfRolls [
 ]
 
 { #category : 'as yet unclassified' }
+LoadedDie class >> assertPositiveSize: aSetOfRolls [
+
+	aSetOfRolls do: [ :aNumberToBeRolled |
+			aNumberToBeRolled < 1 ifTrue: [
+				Error signal: 'LoadedDie sides cannot be negative or zero' ] ]
+]
+
+{ #category : 'as yet unclassified' }
 LoadedDie class >> mustRoll: aSetOfRolls [
 
-	self cannotBeOtherThanInteger: aSetOfRolls.
-	self cannotBeNegativeOrZero: aSetOfRolls.
+	self assertInteger: aSetOfRolls.
+	self assertPositiveSize: aSetOfRolls.
 
 	^ self new initializeWithMustRoll: aSetOfRolls
 ]

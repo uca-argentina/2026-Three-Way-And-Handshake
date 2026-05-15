@@ -12,7 +12,7 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-Ship class >> cannotBeOtherThanInteger: anId [
+Ship class >> assertInteger: anId [
 
 	anId isInteger ifFalse: [
 		Error signal: 'Ship ID cannot be other than integer type' ]
@@ -21,7 +21,7 @@ Ship class >> cannotBeOtherThanInteger: anId [
 { #category : 'as yet unclassified' }
 Ship class >> withId: anId [
 
-	self cannotBeOtherThanInteger: anId.
+	self assertInteger: anId.
 	^ (self new) initializeWithId: anId
 ]
 
