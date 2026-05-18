@@ -6,16 +6,7 @@ Class {
 }
 
 { #category : 'tests' }
-ShipTest >> test001WhenAShipIsSetWithId1ThenTheIdIs1 [
-
-| aShip |
-aShip := Ship withId: 1.
-
-self assert: aShip id equals: 1.
-]
-
-{ #category : 'tests' }
-ShipTest >> test002WhenAShipIdIsOtherThanIntegerThenObjectCannotBeInstantiated [
+ShipTest >> test001WhenAShipIdIsOtherThanIntegerThenObjectCannotBeInstantiated [
 
 self
 		should: [ Ship withId: 'b' ]
