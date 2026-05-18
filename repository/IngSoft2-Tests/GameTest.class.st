@@ -356,3 +356,30 @@ GameTest >> test016WhenAGameReceivesAnInvalidInstanceOfDiceThenGameCannotBeIniti
 		         throwing: aLoadedDie. ] raise: Error withExceptionDo: [ :error |
 		self assert: error messageText equals: 'Game did not receive a valid instance of Dice' ]
 ]
+
+{ #category : 'running' }
+GameTest >> test017WhenFirstShipPlaysThenSecondShipPlaysNext [
+
+	| aGame aFirstShip aSecondShip aCollectionOfShips aBoard aLoadedDie |
+	aFirstShip := Ship withId: 1.
+	aSecondShip := Ship withId: 2.
+
+	aCollectionOfShips := OrderedCollection
+		                      with: aFirstShip
+		                      with: aSecondShip.
+
+	aBoard := Board withSize: 20.
+
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+
+	aGame := Game
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aLoadedDie.
+
+	aGame play.
+	aGame play.
+
+	self assert: (aGame positionOf: aSecondShip) equals: 5.
+	self assert: (aGame positionOf: aFirstShip) equals: 5
+]
