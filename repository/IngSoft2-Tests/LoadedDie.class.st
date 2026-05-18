@@ -43,7 +43,7 @@ LoadedDie >> initializeWithMustRoll: aSetOfRolls [
 
 { #category : 'as yet unclassified' }
 LoadedDie >> roll [
-
+ "Comentario de prueba"
 	index := index \\ setOfRolls size + 1.
 	^ setOfRolls at: index
 ]
