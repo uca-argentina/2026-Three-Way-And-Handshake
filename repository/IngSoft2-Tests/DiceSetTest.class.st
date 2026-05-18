@@ -32,17 +32,19 @@ DiceSetTest >> test002WhenADiceSetIsCreatedWithMDiceThenItHasMDice [
 ]
 
 { #category : 'tests' }
-DiceSetTest >> test003WhenADiceSetWithBothDiceWith6SidesThenTheResultIsBetween2And12 [
+DiceSetTest >> test003WhenADiceSetIsRolledThenTheResultIsTheSumOfEachDieRoll [
 
-	| aDiceSet aDie aSecondDie |
-	aDie := Die withSides: 6.
-	aSecondDie := Die withSides: 6.
+	| aDiceSet aFirstLoadedDie aSecondLoadedDie |
+	aFirstLoadedDie := LoadedDie mustRoll: #( 3 ).
+	aSecondLoadedDie := LoadedDie mustRoll: #( 4 ).
 
 	aDiceSet := DiceSet withDice:
-		            (OrderedCollection with: aDie with: aSecondDie).
+		            (OrderedCollection
+			             with: aFirstLoadedDie
+			             with: aSecondLoadedDie).
 
 
-	self assert: (aDiceSet roll between: 2 and: 12)
+	self assert: aDiceSet roll equals: 7
 ]
 
 { #category : 'tests' }
