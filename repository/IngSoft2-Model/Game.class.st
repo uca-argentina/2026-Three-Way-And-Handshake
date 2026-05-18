@@ -14,32 +14,32 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-Game class >> boardIsValidInstance: aBoard [ 
+Game class >> assertIsValidBoard: aBoard [ 
 	(aBoard isKindOf: Board) ifFalse: [
 				Error signal: 'Game did not receive a valid instance of Board'].
 ]
 
+{ #category : 'as yet unclassified' }
+Game class >> assertIsValidDiceSet: aDiceSet [
+
+	(aDiceSet isKindOf: DiceSet )
+		ifFalse: [
+		Error signal: 'Game did not receive a valid instance of DiceSet' ]
+]
+
 { #category : 'initialization' }
-Game class >> cannotBeEmpty: aCollectionOfShips [
+Game class >> assertNotEmpty: aCollectionOfShips [
 
 	aCollectionOfShips isEmpty ifTrue: [
 		Error signal: 'A game must have at least one ship.' ]
 ]
 
 { #category : 'as yet unclassified' }
-Game class >> isValidDice: aDiceSet [
-
-	(aDiceSet respondsTo: #roll)
-		ifFalse: [
-		Error signal: 'Game did not receive a valid instance of Dice' ]
-]
-
-{ #category : 'as yet unclassified' }
 Game class >> playedOn: aBoard by: someShips throwing: aDiceSet [
 
-	self cannotBeEmpty: someShips.
-	self boardIsValidInstance: aBoard.
-	self isValidDice: aDiceSet.
+	self assertNotEmpty: someShips.
+	self assertIsValidBoard: aBoard.
+	self assertIsValidDiceSet: aDiceSet.
 	^ (self new)
 		  initializePlayedOn: aBoard
 		  by: someShips

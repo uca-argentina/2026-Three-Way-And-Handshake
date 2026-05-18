@@ -8,110 +8,73 @@ Class {
 { #category : 'running' }
 GameTest >> test001WhenAGameIsCreatedAndNoShipMovesThenItIsNotOver [
 
-	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie |
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withId: 1.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
-
-
 	aBoard := Board withSize: 10.
 
 	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
 
 	aGame := Game
 		         playedOn: aBoard
 		         by: aCollectionOfShips
-		         throwing: aLoadedDie.
-
+		         throwing: aDiceSet.
 
 	self deny: aGame isOver.
-	self assert: aGame amountOfShips equals: 1.
+	self assert: aGame amountOfShips equals: 1
 ]
 
 { #category : 'running' }
 GameTest >> test002WhenAGameIsCreatedWithABoardAndSpaceShipThenThePositionOfTheSpaceShipItIs0 [
 
-	|aGame aFirstShip aCollectionOfShips aBoard aLoadedDie |
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withId: 1.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
 	aBoard := Board withSize: 10.
-	
-	aLoadedDie := LoadedDie mustRoll: #(1).
-	
-	aGame := Game playedOn: aBoard by: aCollectionOfShips  throwing: aLoadedDie.
 
-	self assert: (aGame positionOf: aFirstShip) equals: 0.
+	aLoadedDie := LoadedDie mustRoll: #( 1 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+
+	aGame := Game
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aDiceSet.
+
+	self assert: (aGame positionOf: aFirstShip) equals: 0
 ]
 
 { #category : 'running' }
 GameTest >> test003WhenAShipRollsADieAndTheOutcomeIs5ThenItMoves5Positions [
 
-
-	|aGame aFirstShip aCollectionOfShips aBoard aLoadedDie|
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withId: 1.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
 	aBoard := Board withSize: 10.
-	
-	aLoadedDie:= LoadedDie mustRoll: #(5).
-	
-	aGame := Game playedOn: aBoard by: aCollectionOfShips  throwing: aLoadedDie.
-	
+
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+
+	aGame := Game
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aDiceSet.
+
 	aGame play.
 
-	self assert: (aGame positionOf: aFirstShip) equals: 5.
+	self assert: (aGame positionOf: aFirstShip) equals: 5
 ]
 
 { #category : 'running' }
 GameTest >> test004WhenAShipReachTheEndOfTheBoardThenTheGameIsOver [
 
-
-	|aGame aFirstShip aCollectionOfShips aBoard aLoadedDie|
-	aFirstShip := Ship withId: 1.
-
-	aCollectionOfShips := OrderedCollection with: aFirstShip.
-
-	aBoard := Board withSize: 10.
-	
-	aLoadedDie:= LoadedDie mustRoll: #(10).
-	
-	aGame := Game playedOn: aBoard by: aCollectionOfShips  throwing: aLoadedDie.
-	
-	aGame play.
-
-	self assert: aGame isOver.
-	self assert: (aGame positionOf: aFirstShip) equals: 10.
-]
-
-{ #category : 'running' }
-GameTest >> test005WhenAShipMovesButDoesNotReachTheEndOfTheBoardThenTheGameIsNotOver [
-
-
-	|aGame aFirstShip aCollectionOfShips aBoard aLoadedDie|
-	aFirstShip := Ship withId: 1.
-
-	aCollectionOfShips := OrderedCollection with: aFirstShip.
-
-	aBoard := Board withSize: 10.
-		
-	aLoadedDie:= LoadedDie mustRoll: #(5).
-	
-	aGame := Game playedOn: aBoard by: aCollectionOfShips  throwing: aLoadedDie.
-	
-	aGame play.
-
-	self deny: aGame isOver.
-	self assert: (aGame positionOf: aFirstShip) equals: 5.
-]
-
-{ #category : 'running' }
-GameTest >> test006WhenAShipIsTheFirstToReachTheEndThenItIsTheWinner [
-
-	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie |
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withId: 1.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
@@ -119,11 +82,60 @@ GameTest >> test006WhenAShipIsTheFirstToReachTheEndThenItIsTheWinner [
 	aBoard := Board withSize: 10.
 
 	aLoadedDie := LoadedDie mustRoll: #( 10 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
 
 	aGame := Game
 		         playedOn: aBoard
 		         by: aCollectionOfShips
-		         throwing: aLoadedDie.
+		         throwing: aDiceSet.
+
+	aGame play.
+
+	self assert: aGame isOver.
+	self assert: (aGame positionOf: aFirstShip) equals: 10
+]
+
+{ #category : 'running' }
+GameTest >> test005WhenAShipMovesButDoesNotReachTheEndOfTheBoardThenTheGameIsNotOver [
+
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
+	aFirstShip := Ship withId: 1.
+
+	aCollectionOfShips := OrderedCollection with: aFirstShip.
+
+	aBoard := Board withSize: 10.
+
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+
+	aGame := Game
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aDiceSet.
+
+	aGame play.
+
+	self deny: aGame isOver.
+	self assert: (aGame positionOf: aFirstShip) equals: 5
+]
+
+{ #category : 'running' }
+GameTest >> test006WhenAShipIsTheFirstToReachTheEndThenItIsTheWinner [
+
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
+	aFirstShip := Ship withId: 1.
+
+	aCollectionOfShips := OrderedCollection with: aFirstShip.
+
+	aBoard := Board withSize: 10.
+
+	aLoadedDie := LoadedDie mustRoll: #( 10 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+
+	aGame := Game
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aDiceSet.
 
 	aGame play.
 
@@ -135,30 +147,33 @@ GameTest >> test006WhenAShipIsTheFirstToReachTheEndThenItIsTheWinner [
 { #category : 'running' }
 GameTest >> test007WhenAShipIsOnPosition0AndRolls5TwiceThenItMovesToPosition10 [
 
-
-	|aGame aFirstShip aCollectionOfShips aBoard aLoadedDie|
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withId: 1.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
 	aBoard := Board withSize: 10.
-	
-	aLoadedDie:= LoadedDie mustRoll: #(5 5).
-	
-	aGame := Game playedOn: aBoard by: aCollectionOfShips  throwing: aLoadedDie.
-		
+
+	aLoadedDie := LoadedDie mustRoll: #( 5 5 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+
+	aGame := Game
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aDiceSet.
+
 	aGame play.
 	aGame play.
 
 	self assert: aGame isOver.
 	self assert: (aGame positionOf: aFirstShip) equals: 10.
-	self assert: aGame winner equals: aFirstShip 
+	self assert: aGame winner equals: aFirstShip
 ]
 
 { #category : 'running' }
 GameTest >> test008WhenTwoShipsPlayThreeTurnsThenFirstShipMovedTwiceAndSecondShipMovedOnce [
 
-	|aGame aFirstShip aCollectionOfShips aBoard aFirstLoadedDie aSecondShip |
+	| aGame aFirstShip aCollectionOfShips aBoard aFirstLoadedDie aSecondShip aDiceSet |
 	aFirstShip := Ship withId: 1.
 	aSecondShip := Ship withId: 2.
 
@@ -166,17 +181,22 @@ GameTest >> test008WhenTwoShipsPlayThreeTurnsThenFirstShipMovedTwiceAndSecondShi
 	aCollectionOfShips add: aSecondShip.
 
 	aBoard := Board withSize: 10.
-	
-	aFirstLoadedDie:= LoadedDie mustRoll: #(4 3).
-	
-	aGame := Game playedOn: aBoard by: aCollectionOfShips throwing: aFirstLoadedDie.
-	
+
+	aFirstLoadedDie := LoadedDie mustRoll: #( 4 3 ).
+	aDiceSet := DiceSet withDice:
+		            (OrderedCollection with: aFirstLoadedDie).
+
+	aGame := Game
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aDiceSet.
+
 	aGame play.
 	aGame play.
 	aGame play.
 
 	self assert: (aGame positionOf: aFirstShip) equals: 8.
-	self assert: (aGame positionOf: aSecondShip) equals: 3.
+	self assert: (aGame positionOf: aSecondShip) equals: 3
 ]
 
 { #category : 'running' }
@@ -212,29 +232,32 @@ GameTest >> test009WhenASetOfLoadedDiceIsRolledThenTheSumOfDiceComesInOrder [
 { #category : 'running' }
 GameTest >> test010WhenAShipsRollIsGreaterThanTheAmountOfSquaresToFinishThenFinalPositionIsAtFinish [
 
-
-	|aGame aFirstShip aCollectionOfShips aBoard aLoadedDie|
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withId: 1.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
 	aBoard := Board withSize: 9.
-	
-	aLoadedDie:= LoadedDie mustRoll: #(10).
-	
-	aGame := Game playedOn: aBoard by: aCollectionOfShips  throwing: aLoadedDie.
-	
+
+	aLoadedDie := LoadedDie mustRoll: #( 10 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+
+	aGame := Game
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aDiceSet.
+
 	aGame play.
 
 	self assert: aGame isOver.
 	self assert: (aGame positionOf: aFirstShip) equals: 9.
-	self assert: aGame winner equals: aFirstShip 
+	self assert: aGame winner equals: aFirstShip
 ]
 
 { #category : 'running' }
 GameTest >> test011WhenTheGameIsOverThenNoMoreTurnsCanBePlayed [
 
-	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie |
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withId: 1.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
@@ -242,11 +265,12 @@ GameTest >> test011WhenTheGameIsOverThenNoMoreTurnsCanBePlayed [
 	aBoard := Board withSize: 10.
 
 	aLoadedDie := LoadedDie mustRoll: #( 10 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
 
 	aGame := Game
 		         playedOn: aBoard
 		         by: aCollectionOfShips
-		         throwing: aLoadedDie.
+		         throwing: aDiceSet.
 
 	aGame play.
 
@@ -258,7 +282,7 @@ GameTest >> test011WhenTheGameIsOverThenNoMoreTurnsCanBePlayed [
 { #category : 'running' }
 GameTest >> test012WhenTheGameIsNotOverThenAskingForWinnerRaisesError [
 
-	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie |
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withId: 1.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
@@ -266,23 +290,27 @@ GameTest >> test012WhenTheGameIsNotOverThenAskingForWinnerRaisesError [
 	aBoard := Board withSize: 10.
 
 	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
 
 	aGame := Game
 		         playedOn: aBoard
 		         by: aCollectionOfShips
-		         throwing: aLoadedDie.
+		         throwing: aDiceSet.
 
 	aGame play.
 
 	self deny: aGame isOver.
-	self should: [ aGame winner ] raise: Error withExceptionDo: [ :error |
-		self assert: error messageText equals: 'The game is not over yet.' ]
+	self
+		should: [ aGame winner ]
+		raise: Error
+		withExceptionDo: [ :error |
+			self assert: error messageText equals: 'The game is not over yet.' ]
 ]
 
 { #category : 'running' }
 GameTest >> test013WhenTheLastShipPlaysThenItIsFirstShipTurnAgain [
 
-	| aGame aFirstShip aSecondShip aCollectionOfShips aBoard aLoadedDie |
+	| aGame aFirstShip aSecondShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withId: 1.
 	aSecondShip := Ship withId: 2.
 	aCollectionOfShips := OrderedCollection
@@ -290,10 +318,11 @@ GameTest >> test013WhenTheLastShipPlaysThenItIsFirstShipTurnAgain [
 		                      with: aSecondShip.
 	aBoard := Board withSize: 20.
 	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
 	aGame := Game
 		         playedOn: aBoard
 		         by: aCollectionOfShips
-		         throwing: aLoadedDie.
+		         throwing: aDiceSet.
 	aGame play.
 	aGame play.
 	self assert: aGame currentShip equals: aFirstShip
@@ -354,28 +383,25 @@ GameTest >> test016WhenAGameReceivesAnInvalidInstanceOfDiceThenGameCannotBeIniti
 		         playedOn: aBoard
 		         by: aCollectionOfShips
 		         throwing: aLoadedDie. ] raise: Error withExceptionDo: [ :error |
-		self assert: error messageText equals: 'Game did not receive a valid instance of Dice' ]
+		self assert: error messageText equals: 'Game did not receive a valid instance of DiceSet' ]
 ]
 
 { #category : 'running' }
 GameTest >> test017WhenFirstShipPlaysThenSecondShipPlaysNext [
 
-	| aGame aFirstShip aSecondShip aCollectionOfShips aBoard aLoadedDie |
+	| aGame aFirstShip aSecondShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withId: 1.
 	aSecondShip := Ship withId: 2.
-
 	aCollectionOfShips := OrderedCollection
 		                      with: aFirstShip
 		                      with: aSecondShip.
-
 	aBoard := Board withSize: 20.
-
 	aLoadedDie := LoadedDie mustRoll: #( 5 ).
-
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
 	aGame := Game
 		         playedOn: aBoard
 		         by: aCollectionOfShips
-		         throwing: aLoadedDie.
+		         throwing: aDiceSet.
 
 	aGame play.
 	aGame play.
