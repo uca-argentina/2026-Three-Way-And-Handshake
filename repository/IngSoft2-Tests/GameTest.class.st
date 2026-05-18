@@ -156,7 +156,7 @@ GameTest >> test007WhenAShipIsOnPosition0AndRolls5TwiceThenItMovesToPosition10 [
 ]
 
 { #category : 'running' }
-GameTest >> test008WhenAGameWith2ShipsPlayThenEachShipPlaysAtATurnAndLoadedDieGoesBackToFirstValue [
+GameTest >> test008WhenTwoShipsPlayThreeTurnsThenFirstShipMovedTwiceAndSecondShipMovedOnce [
 
 	|aGame aFirstShip aCollectionOfShips aBoard aFirstLoadedDie aSecondShip |
 	aFirstShip := Ship withId: 1.
