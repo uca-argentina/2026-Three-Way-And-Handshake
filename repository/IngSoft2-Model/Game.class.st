@@ -139,6 +139,11 @@ Game >> play [
 ]
 
 { #category : 'as yet unclassified' }
+Game >> ranking [
+    ^ ships
+]
+
+{ #category : 'as yet unclassified' }
 Game >> squareOf: aShip [
     ^ (shipsDictionary at: aShip) square
 ]
