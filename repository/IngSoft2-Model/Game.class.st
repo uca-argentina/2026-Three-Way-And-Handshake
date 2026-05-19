@@ -140,17 +140,10 @@ Game >> play [
 
 { #category : 'as yet unclassified' }
 Game >> ranking [
-	"ships asSortedCollection: [ :a :b |
-        | posA posB |
-        posA := shipsDictionary at: a.
-        posB := shipsDictionary at: b.
-        posA lap > posB lap or: [
-            posA lap = posB lap and: [ posA square > posB square ] ] ]
-]"
 	| madeRanking  |
 	
 	
-	madeRanking := ships asSortedCollection: [ :a :b | 
+	madeRanking := ships sort: [ :a :b | 
 		 (shipsDictionary at: a) isAheadOf: (shipsDictionary at: b)]	.
 
     ^ madeRanking 
