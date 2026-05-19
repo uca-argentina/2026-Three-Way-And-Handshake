@@ -22,7 +22,7 @@ Position >> advancedBy: aNumberOfSquares onBoardOfSize: aBoardSize [
 	totalSquares := square + aNumberOfSquares.
 	newLap := lap + (totalSquares // aBoardSize).
 	newSquare := totalSquares \\ aBoardSize.
-	^ Position atLap: newLap square: newSquare
+	^ self class atLap: newLap square: newSquare
 ]
 
 { #category : 'initialization' }

@@ -7,7 +7,8 @@ Class {
 		'diceSet',
 		'shipsDictionary',
 		'ships',
-		'shipIndex'
+		'shipIndex',
+		'targetLaps'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -37,13 +38,24 @@ Game class >> assertNotEmpty: aCollectionOfShips [
 { #category : 'as yet unclassified' }
 Game class >> playedOn: aBoard by: someShips throwing: aDiceSet [
 
+	^ self
+		  playedOn: aBoard
+		  by: someShips
+		  throwing: aDiceSet
+		  winningAt: 1
+]
+
+{ #category : 'accessing' }
+Game class >> playedOn: aBoard by: someShips throwing: aDiceSet winningAt: aNumberOfLaps [
+
 	self assertNotEmpty: someShips.
 	self assertIsValidBoard: aBoard.
 	self assertIsValidDiceSet: aDiceSet.
-	^ (self new)
+	^ self new
 		  initializePlayedOn: aBoard
 		  by: someShips
 		  throwing: aDiceSet
+		  winningAt: aNumberOfLaps
 ]
 
 { #category : 'as yet unclassified' }
@@ -67,12 +79,9 @@ Game >> assertGameIsOver [
 { #category : 'as yet unclassified' }
 Game >> calculateNewPositionFor: aShip withARoll: aRollResult [
 
-	| currentPositionOfShip positionToMove |
-	currentPositionOfShip := self positionOf: aShip.
-	positionToMove := currentPositionOfShip + aRollResult min:
-		                    board size.
-		
-	^positionToMove.
+	| currentPosition |
+	currentPosition := shipsDictionary at: aShip.
+	^ currentPosition advancedBy: aRollResult onBoardOfSize: board size
 ]
 
 { #category : 'as yet unclassified' }
@@ -81,24 +90,28 @@ Game >> currentShip [
 	^ ships at: shipIndex \\ ships size + 1
 ]
 
-{ #category : 'initialization' }
-Game >> initializePlayedOn: aBoard by: someShips throwing: aDiceSet [
+{ #category : 'accessing' }
+Game >> initializePlayedOn: aBoard by: someShips throwing: aDiceSet winningAt: aNumberOfLaps [
 
 	board := aBoard.
 	ships := someShips.
 	diceSet := aDiceSet.
-
+	targetLaps := aNumberOfLaps.
 	shipIndex := 0.
 	winner := nil.
-
 	shipsDictionary := Dictionary new.
-	someShips do: [ :ship | shipsDictionary at: ship put: 0 ]
+	someShips do: [ :ship | shipsDictionary at: ship put: (Position atLap: 0 square: 0) ]
 ]
 
 { #category : 'modes' }
 Game >> isOver [
 
 	^ winner isNotNil
+]
+
+{ #category : 'as yet unclassified' }
+Game >> lapOf: aShip [
+    ^ (shipsDictionary at: aShip) lap
 ]
 
 { #category : 'as yet unclassified' }
@@ -126,15 +139,14 @@ Game >> play [
 ]
 
 { #category : 'as yet unclassified' }
-Game >> positionOf: aShip [
-
-	^ shipsDictionary at: aShip
+Game >> squareOf: aShip [
+    ^ (shipsDictionary at: aShip) square
 ]
 
 { #category : 'as yet unclassified' }
 Game >> updateWinnerIfGameEndedFor: aShip [
 
-	(self positionOf: aShip) = board size ifTrue: [ winner := aShip ]
+	(self lapOf: aShip) >= targetLaps ifTrue: [ winner := aShip ]
 ]
 
 { #category : 'as yet unclassified' }
