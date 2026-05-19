@@ -32,6 +32,18 @@ Position >> initializeAtLap: aLap square: aSquare [
 	square := aSquare
 ]
 
+{ #category : 'testing' }
+Position >> isAheadOf: anotherPosition [ 
+
+	| sameLap |
+	
+    sameLap := (self lap = anotherPosition lap).
+
+    sameLap ifTrue: [ ^ self square > anotherPosition square ].
+
+    ^ self lap > anotherPosition lap
+]
+
 { #category : 'accessing' }
 Position >> lap [
 

@@ -435,7 +435,8 @@ GameTest >> test018WhenAShipAdvancesPastTheEndOfTheBoardThenItIsOnTheNextLap [
 	aGame := Game
 		         playedOn: aBoard
 		         by: aCollectionOfShips
-		         throwing: aDiceSet.
+		         throwing: aDiceSet
+		         winningAt: 3.
 
 	aGame play.
 
@@ -463,4 +464,85 @@ GameTest >> test019WhenAGameIsCreatedWithATargetOf3LapsThenItIsNotOver [
 		         winningAt: 3.
 
 	self deny: aGame isOver
+]
+
+{ #category : 'running' }
+GameTest >> test020WhenAGameHasOneShipThenItIsTheOnlyOneInTheRanking [
+
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
+	aFirstShip := Ship withName: 'Luke'.
+
+	aCollectionOfShips := OrderedCollection with: aFirstShip.
+
+	aBoard := Board withSize: 10.
+
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+
+	aGame := Game
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aDiceSet
+		         winningAt: 1.
+
+	self assert: aGame ranking size equals: 1.
+	self assert: aGame ranking first equals: aFirstShip
+]
+
+{ #category : 'running' }
+GameTest >> test021WhenTheSecondShipIsAheadThenItIsFirstInTheRanking [
+
+	| aGame aFirstShip aSecondShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
+	aFirstShip := Ship withName: 'Luke'.
+	aSecondShip := Ship withName: 'Anakin'.
+
+	aCollectionOfShips := OrderedCollection
+		                      with: aFirstShip
+		                      with: aSecondShip.
+
+	aBoard := Board withSize: 10.
+
+	aLoadedDie := LoadedDie mustRoll: #( 3 7 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+
+	aGame := Game
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aDiceSet
+		         winningAt: 2.
+
+	aGame play.
+	aGame play.
+
+	self assert: aGame ranking first equals: aSecondShip.
+	self assert: aGame ranking second equals: aFirstShip
+]
+
+{ #category : 'running' }
+GameTest >> test022WhenSecondShipHasMoreLapsThenItIsFirstInRanking [
+
+	| aGame aFirstShip aSecondShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
+	aFirstShip := Ship withName: 'Luke'.
+	aSecondShip := Ship withName: 'Anakin'.
+
+	aCollectionOfShips := OrderedCollection
+		                      with: aFirstShip
+		                      with: aSecondShip.
+
+	aBoard := Board withSize: 10.
+
+	aLoadedDie := LoadedDie mustRoll: #( 7 10 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+
+	aGame := Game
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aDiceSet
+		         winningAt: 2.
+
+	aGame play.
+	aGame play.
+
+	self assert: aGame ranking first equals: aSecondShip.
+	self assert: aGame ranking second equals: aFirstShip
 ]

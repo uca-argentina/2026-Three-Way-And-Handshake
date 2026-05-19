@@ -139,6 +139,18 @@ Game >> play [
 ]
 
 { #category : 'as yet unclassified' }
+Game >> ranking [
+	| madeRanking  |
+	
+	
+	madeRanking := ships sort: [ :a :b | 
+		 (shipsDictionary at: a) isAheadOf: (shipsDictionary at: b)]	.
+
+    ^ madeRanking 
+
+]
+
+{ #category : 'as yet unclassified' }
 Game >> squareOf: aShip [
     ^ (shipsDictionary at: aShip) square
 ]
