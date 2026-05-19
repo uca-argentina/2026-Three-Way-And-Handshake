@@ -517,3 +517,32 @@ GameTest >> test021WhenTheSecondShipIsAheadThenItIsFirstInTheRanking [
 	self assert: aGame ranking first equals: aSecondShip.
 	self assert: aGame ranking second equals: aFirstShip
 ]
+
+{ #category : 'running' }
+GameTest >> test022WhenSecondShipHasMoreLapsThenItIsFirstInRanking [
+
+	| aGame aFirstShip aSecondShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
+	aFirstShip := Ship withName: 'Luke'.
+	aSecondShip := Ship withName: 'Anakin'.
+
+	aCollectionOfShips := OrderedCollection
+		                      with: aFirstShip
+		                      with: aSecondShip.
+
+	aBoard := Board withSize: 10.
+
+	aLoadedDie := LoadedDie mustRoll: #( 7 10 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+
+	aGame := Game
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aDiceSet
+		         winningAt: 2.
+
+	aGame play.
+	aGame play.
+
+	self assert: aGame ranking first equals: aSecondShip.
+	self assert: aGame ranking second equals: aFirstShip
+]
