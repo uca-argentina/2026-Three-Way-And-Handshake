@@ -45,7 +45,8 @@ GameTest >> test002WhenAGameIsCreatedWithABoardAndSpaceShipThenThePositionOfTheS
 		         by: aCollectionOfShips
 		         throwing: aDiceSet.
 
-	self assert: (aGame positionOf: aFirstShip) equals: 0
+	self assert: (aGame squareOf: aFirstShip) equals: 0.
+	self assert: (aGame lapOf: aFirstShip) equals: 0.
 ]
 
 { #category : 'running' }
@@ -68,7 +69,8 @@ GameTest >> test003WhenAShipRollsADieAndTheOutcomeIs5ThenItMoves5Positions [
 
 	aGame play.
 
-	self assert: (aGame positionOf: aFirstShip) equals: 5
+	self assert: (aGame squareOf: aFirstShip) equals: 5.
+	self assert: (aGame lapOf: aFirstShip) equals: 0
 ]
 
 { #category : 'running' }
@@ -92,7 +94,8 @@ GameTest >> test004WhenAShipReachTheEndOfTheBoardThenTheGameIsOver [
 	aGame play.
 
 	self assert: aGame isOver.
-	self assert: (aGame positionOf: aFirstShip) equals: 10
+	self assert: (aGame lapOf: aFirstShip) equals: 1.
+	self assert: (aGame squareOf: aFirstShip) equals: 0
 ]
 
 { #category : 'running' }
@@ -116,7 +119,8 @@ GameTest >> test005WhenAShipMovesButDoesNotReachTheEndOfTheBoardThenTheGameIsNot
 	aGame play.
 
 	self deny: aGame isOver.
-	self assert: (aGame positionOf: aFirstShip) equals: 5
+	self assert: (aGame squareOf: aFirstShip) equals: 5.
+	self assert: (aGame lapOf: aFirstShip) equals: 0
 ]
 
 { #category : 'running' }
@@ -140,7 +144,8 @@ GameTest >> test006WhenAShipIsTheFirstToReachTheEndThenItIsTheWinner [
 	aGame play.
 
 	self assert: aGame isOver.
-	self assert: (aGame positionOf: aFirstShip) equals: 10.
+	self assert: (aGame lapOf: aFirstShip) equals: 1.
+	self assert: (aGame squareOf: aFirstShip) equals: 0.
 	self assert: aGame winner equals: aFirstShip
 ]
 
@@ -166,7 +171,8 @@ GameTest >> test007WhenAShipIsOnPosition0AndRolls5TwiceThenItMovesToPosition10 [
 	aGame play.
 
 	self assert: aGame isOver.
-	self assert: (aGame positionOf: aFirstShip) equals: 10.
+	self assert: (aGame lapOf: aFirstShip) equals: 1.
+	self assert: (aGame squareOf: aFirstShip) equals: 0.
 	self assert: aGame winner equals: aFirstShip
 ]
 
@@ -195,8 +201,10 @@ GameTest >> test008WhenTwoShipsPlayThreeTurnsThenFirstShipMovedTwiceAndSecondShi
 	aGame play.
 	aGame play.
 
-	self assert: (aGame positionOf: aFirstShip) equals: 8.
-	self assert: (aGame positionOf: aSecondShip) equals: 3
+	self assert: (aGame squareOf: aFirstShip) equals: 8.
+	self assert: (aGame lapOf: aFirstShip) equals: 0.
+	self assert: (aGame squareOf: aSecondShip) equals: 3.
+	self assert: (aGame lapOf: aSecondShip) equals: 0
 ]
 
 { #category : 'running' }
@@ -225,8 +233,10 @@ GameTest >> test009WhenASetOfLoadedDiceIsRolledThenTheSumOfDiceComesInOrder [
 	aGame play.
 	aGame play.
 
-	self assert: (aGame positionOf: aFirstShip) equals: 7.
-	self assert: (aGame positionOf: aSecondShip) equals: 6
+	self assert: (aGame squareOf: aFirstShip) equals: 7.
+	self assert: (aGame lapOf: aFirstShip) equals: 0.
+	self assert: (aGame squareOf: aSecondShip) equals: 6.
+	self assert: (aGame lapOf: aSecondShip) equals: 0
 ]
 
 { #category : 'running' }
@@ -250,7 +260,8 @@ GameTest >> test010WhenAShipsRollIsGreaterThanTheAmountOfSquaresToFinishThenFina
 	aGame play.
 
 	self assert: aGame isOver.
-	self assert: (aGame positionOf: aFirstShip) equals: 9.
+	self assert: (aGame lapOf: aFirstShip) equals: 1.
+	self assert: (aGame squareOf: aFirstShip) equals: 1.
 	self assert: aGame winner equals: aFirstShip
 ]
 
@@ -406,6 +417,50 @@ GameTest >> test017WhenFirstShipPlaysThenSecondShipPlaysNext [
 	aGame play.
 	aGame play.
 
-	self assert: (aGame positionOf: aSecondShip) equals: 5.
-	self assert: (aGame positionOf: aFirstShip) equals: 5
+	self assert: (aGame squareOf: aSecondShip) equals: 5.
+	self assert: (aGame lapOf: aSecondShip) equals: 0.
+	self assert: (aGame squareOf: aFirstShip) equals: 5.
+	self assert: (aGame lapOf: aFirstShip) equals: 0
+]
+
+{ #category : 'running' }
+GameTest >> test018WhenAShipAdvancesPastTheEndOfTheBoardThenItIsOnTheNextLap [
+
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
+	aFirstShip := Ship withName: 'Luke'.
+	aCollectionOfShips := OrderedCollection with: aFirstShip.
+	aBoard := Board withSize: 10.
+	aLoadedDie := LoadedDie mustRoll: #( 12 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+	aGame := Game
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aDiceSet.
+
+	aGame play.
+
+	self assert: (aGame lapOf: aFirstShip) equals: 1.
+	self assert: (aGame squareOf: aFirstShip) equals: 2
+]
+
+{ #category : 'running' }
+GameTest >> test019WhenAGameIsCreatedWithATargetOf3LapsThenItIsNotOver [
+
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
+	aFirstShip := Ship withName: 'Luke'.
+
+	aCollectionOfShips := OrderedCollection with: aFirstShip.
+
+	aBoard := Board withSize: 10.
+
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+
+	aGame := Game
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aDiceSet
+		         winningAt: 3.
+
+	self deny: aGame isOver
 ]
