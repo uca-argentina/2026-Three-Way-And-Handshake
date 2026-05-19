@@ -6,13 +6,13 @@ Class {
 }
 
 { #category : 'tests' }
-ShipTest >> test001WhenAShipIdIsOtherThanIntegerThenObjectCannotBeInstantiated [
+ShipTest >> test001WhenAShipNameIsOtherThanStringThenObjectCannotBeInstantiated [
 
 self
-		should: [ Ship withId: 'b' ]
+		should: [ Ship withName: 1 ]
 		raise: Error
 		withExceptionDo: [ :error |
 			self
 				assert: error messageText
-				equals: 'Ship ID cannot be other than integer type']
+				equals: 'Ship Name cannot be other than string type']
 ]

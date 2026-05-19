@@ -9,13 +9,6 @@ Class {
 }
 
 { #category : 'instance creation' }
-Board class >> assertInteger: aBoardSize [
-
-	aBoardSize isInteger ifFalse: [
-		Error signal: 'Board size cannot be other than integer' ]
-]
-
-{ #category : 'instance creation' }
 Board class >> assertPositiveSize: aBoardSize [
 
 	aBoardSize < 1 ifTrue: [
@@ -23,9 +16,16 @@ Board class >> assertPositiveSize: aBoardSize [
 ]
 
 { #category : 'instance creation' }
+Board class >> called: aBoardSize [
+
+	aBoardSize isInteger ifFalse: [
+		Error signal: 'Board size cannot be other than integer' ]
+]
+
+{ #category : 'instance creation' }
 Board class >> withSize: aBoardSize [
 
-	self assertInteger: aBoardSize.
+	self called: aBoardSize.
 	self assertPositiveSize: aBoardSize.
 
 	^ self new initializeWithSize: aBoardSize

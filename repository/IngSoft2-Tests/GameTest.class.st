@@ -9,7 +9,7 @@ Class {
 GameTest >> test001WhenAGameIsCreatedAndNoShipMovesThenItIsNotOver [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
-	aFirstShip := Ship withId: 1.
+	aFirstShip := Ship withName: 'Luke'.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
@@ -31,7 +31,7 @@ GameTest >> test001WhenAGameIsCreatedAndNoShipMovesThenItIsNotOver [
 GameTest >> test002WhenAGameIsCreatedWithABoardAndSpaceShipThenThePositionOfTheSpaceShipItIs0 [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
-	aFirstShip := Ship withId: 1.
+	aFirstShip := Ship withName: 'Luke'.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
@@ -52,7 +52,7 @@ GameTest >> test002WhenAGameIsCreatedWithABoardAndSpaceShipThenThePositionOfTheS
 GameTest >> test003WhenAShipRollsADieAndTheOutcomeIs5ThenItMoves5Positions [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
-	aFirstShip := Ship withId: 1.
+	aFirstShip := Ship withName: 'Luke'.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
@@ -75,7 +75,7 @@ GameTest >> test003WhenAShipRollsADieAndTheOutcomeIs5ThenItMoves5Positions [
 GameTest >> test004WhenAShipReachTheEndOfTheBoardThenTheGameIsOver [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
-	aFirstShip := Ship withId: 1.
+	aFirstShip := Ship withName: 'Luke'.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
@@ -99,7 +99,7 @@ GameTest >> test004WhenAShipReachTheEndOfTheBoardThenTheGameIsOver [
 GameTest >> test005WhenAShipMovesButDoesNotReachTheEndOfTheBoardThenTheGameIsNotOver [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
-	aFirstShip := Ship withId: 1.
+	aFirstShip := Ship withName: 'Luke'.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
@@ -123,7 +123,7 @@ GameTest >> test005WhenAShipMovesButDoesNotReachTheEndOfTheBoardThenTheGameIsNot
 GameTest >> test006WhenAShipIsTheFirstToReachTheEndThenItIsTheWinner [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
-	aFirstShip := Ship withId: 1.
+	aFirstShip := Ship withName: 'Luke'.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
@@ -148,7 +148,7 @@ GameTest >> test006WhenAShipIsTheFirstToReachTheEndThenItIsTheWinner [
 GameTest >> test007WhenAShipIsOnPosition0AndRolls5TwiceThenItMovesToPosition10 [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
-	aFirstShip := Ship withId: 1.
+	aFirstShip := Ship withName: 'Luke'.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
@@ -174,8 +174,8 @@ GameTest >> test007WhenAShipIsOnPosition0AndRolls5TwiceThenItMovesToPosition10 [
 GameTest >> test008WhenTwoShipsPlayThreeTurnsThenFirstShipMovedTwiceAndSecondShipMovedOnce [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aFirstLoadedDie aSecondShip aDiceSet |
-	aFirstShip := Ship withId: 1.
-	aSecondShip := Ship withId: 2.
+	aFirstShip := Ship withName: 'Luke'.
+	aSecondShip := Ship withName: 'Anakin'.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 	aCollectionOfShips add: aSecondShip.
@@ -203,8 +203,8 @@ GameTest >> test008WhenTwoShipsPlayThreeTurnsThenFirstShipMovedTwiceAndSecondShi
 GameTest >> test009WhenASetOfLoadedDiceIsRolledThenTheSumOfDiceComesInOrder [
 
 	| aGame aFirstShip aCollectionOfShips aCollectionOfDice aBoard aFirstLoadedDie aSecondLoadedDie aSecondShip aDiceSet |
-	aFirstShip := Ship withId: 1.
-	aSecondShip := Ship withId: 2.
+	aFirstShip := Ship withName: 'Luke'.
+	aSecondShip := Ship withName: 'Anakin'.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 	aCollectionOfShips add: aSecondShip.
@@ -233,7 +233,7 @@ GameTest >> test009WhenASetOfLoadedDiceIsRolledThenTheSumOfDiceComesInOrder [
 GameTest >> test010WhenAShipsRollIsGreaterThanTheAmountOfSquaresToFinishThenFinalPositionIsAtFinish [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
-	aFirstShip := Ship withId: 1.
+	aFirstShip := Ship withName: 'Luke'.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
@@ -258,7 +258,7 @@ GameTest >> test010WhenAShipsRollIsGreaterThanTheAmountOfSquaresToFinishThenFina
 GameTest >> test011WhenTheGameIsOverThenNoMoreTurnsCanBePlayed [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
-	aFirstShip := Ship withId: 1.
+	aFirstShip := Ship withName: 'Luke'.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
@@ -283,7 +283,7 @@ GameTest >> test011WhenTheGameIsOverThenNoMoreTurnsCanBePlayed [
 GameTest >> test012WhenTheGameIsNotOverThenAskingForWinnerRaisesError [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
-	aFirstShip := Ship withId: 1.
+	aFirstShip := Ship withName: 'Luke'.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
@@ -311,8 +311,8 @@ GameTest >> test012WhenTheGameIsNotOverThenAskingForWinnerRaisesError [
 GameTest >> test013WhenTheLastShipPlaysThenItIsFirstShipTurnAgain [
 
 	| aGame aFirstShip aSecondShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
-	aFirstShip := Ship withId: 1.
-	aSecondShip := Ship withId: 2.
+	aFirstShip := Ship withName: 'Luke'.
+	aSecondShip := Ship withName: 'Anakin'.
 	aCollectionOfShips := OrderedCollection
 		                      with: aFirstShip
 		                      with: aSecondShip.
@@ -352,7 +352,7 @@ GameTest >> test014WhenAGameIsCreatedWithNoShipsThenItCannotBeInstantiated [
 GameTest >> test015WhenAGameReceivesAnInvalidBoardThenGameCannotBeInstantiated [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie |
-	aFirstShip := Ship withId: 1.
+	aFirstShip := Ship withName: 'Luke'.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
@@ -371,7 +371,7 @@ GameTest >> test015WhenAGameReceivesAnInvalidBoardThenGameCannotBeInstantiated [
 GameTest >> test016WhenAGameReceivesAnInvalidInstanceOfDiceThenGameCannotBeInitialized [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie |
-	aFirstShip := Ship withId: 1.
+	aFirstShip := Ship withName: 'Luke'.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 
@@ -390,8 +390,8 @@ GameTest >> test016WhenAGameReceivesAnInvalidInstanceOfDiceThenGameCannotBeIniti
 GameTest >> test017WhenFirstShipPlaysThenSecondShipPlaysNext [
 
 	| aGame aFirstShip aSecondShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
-	aFirstShip := Ship withId: 1.
-	aSecondShip := Ship withId: 2.
+	aFirstShip := Ship withName: 'Luke'.
+	aSecondShip := Ship withName: 'Anakin'.
 	aCollectionOfShips := OrderedCollection
 		                      with: aFirstShip
 		                      with: aSecondShip.
