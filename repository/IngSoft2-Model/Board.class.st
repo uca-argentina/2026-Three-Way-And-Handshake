@@ -2,7 +2,7 @@ Class {
 	#name : 'Board',
 	#superclass : 'Object',
 	#instVars : [
-		'boardSize'
+		'squares'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -34,10 +34,10 @@ Board class >> withSize: aBoardSize [
 { #category : 'initialization' }
 Board >> initializeWithSize: aBoardSize [
 
-	boardSize := aBoardSize.
+	squares := OrderedCollection new: 10 withAll: SimpleSquare new.
 ]
 
 { #category : 'as yet unclassified' }
 Board >> size [
-	^ boardSize .
+	^ squares size.
 ]
