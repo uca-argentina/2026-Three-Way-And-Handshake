@@ -319,3 +319,33 @@ SpecialSquaresTest >> test013WhenABoardIsCreatedWithFactoryWithMoonWalkAndHyperJ
     self assert: (aBoard countSquaresOfType: MoonWalk) equals: 10.
     self assert: (aBoard countSquaresOfType: HyperJump) equals: 8.
 ]
+
+{ #category : 'running' }
+SpecialSquaresTest >> test014WhenAShipLandsOnHyperJumpThenItMovesAnMAmountParsecs [
+
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet aSecondShip aSquaresDictionary |
+	aFirstShip := Ship withName: 'Michael Jackson the MoonWalker'.
+	aSecondShip := Ship withName: 'Anakin'.
+
+	aCollectionOfShips := OrderedCollection with: aFirstShip.
+	aCollectionOfShips add: aSecondShip.
+	
+	aSquaresDictionary := Dictionary new.
+	aSquaresDictionary at: 6 put: (HyperJump skipping: #(30 20 10)).
+	
+	aBoard := Board withSize: 10 lengthInParsecs: 100 and: aSquaresDictionary.
+
+	aLoadedDie := LoadedDie mustRoll: #( 6 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+
+	aGame := Game
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aDiceSet.
+
+	aGame play.
+	aGame play.
+	
+	self assert: (aGame squareOf: aFirstShip ) equals: 9.
+	self assert: (aGame squareOf: aSecondShip ) equals: 8.
+]
