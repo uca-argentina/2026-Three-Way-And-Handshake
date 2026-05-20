@@ -37,6 +37,12 @@ Board class >> withSize: anInteger and: anAnomaly on: aPosition [
 	^ (self new) initializeWithSize: anInteger and: anAnomaly on: aPosition
 ]
 
+{ #category : 'as yet unclassified' }
+Board >> everyoneSuffers: aSquarePosition [ 
+
+^ (squares at: aSquarePosition) everyoneSuffers.
+]
+
 { #category : 'initialization' }
 Board >> initializeWithSize: aBoardSize and: anAnomaly on: aPosition [
 

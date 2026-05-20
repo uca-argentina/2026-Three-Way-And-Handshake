@@ -6,6 +6,12 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
+SimpleSquare >> everyoneSuffers [
+
+^ 0.
+]
+
+{ #category : 'as yet unclassified' }
 SimpleSquare >> land [
 
 ^ 0.

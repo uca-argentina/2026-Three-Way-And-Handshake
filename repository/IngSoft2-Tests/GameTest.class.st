@@ -173,6 +173,7 @@ GameTest >> test007WhenAShipIsOnPosition0AndRolls5TwiceThenItMovesToPosition10 [
 	self assert: aGame isOver.
 	self assert: (aGame lapOf: aFirstShip) equals: 1.
 	self assert: (aGame squareOf: aFirstShip) equals: 0.
+	
 	self assert: aGame winner equals: aFirstShip
 ]
 

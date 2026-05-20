@@ -65,6 +65,18 @@ Game >> amountOfShips [
 ]
 
 { #category : 'as yet unclassified' }
+Game >> applyOnEveryone: anEffect but: aShip [
+    shipsDictionary
+        keysAndValuesDo: [ :ship :position |
+            ship = aShip ifFalse: [
+                | newPosition |
+                newPosition := position advancedBy: anEffect onBoardOfSize: board size.
+                shipsDictionary at: ship put: newPosition
+            ]
+        ].
+]
+
+{ #category : 'as yet unclassified' }
 Game >> assertGameIsNotOver [
 
 	self isOver ifFalse: [ Error signal: 'The game is not over yet.' ]
@@ -79,14 +91,18 @@ Game >> assertGameIsOver [
 { #category : 'as yet unclassified' }
 Game >> calculateNewPositionFor: aShip withARoll: aRollResult [
 
-	| currentPosition landingPosition squareEffect moveTo |
+	| currentPosition landingPosition squareEffectOnThisShip aResultAfterEffect squareEffectOnEveryone|
 	currentPosition := shipsDictionary at: aShip.
 	landingPosition := currentPosition advancedBy: aRollResult onBoardOfSize: board size.
 	
-	squareEffect := board landOn: landingPosition square.
+	squareEffectOnThisShip := board landOn: landingPosition square.
+	squareEffectOnEveryone:= board everyoneSuffers: landingPosition square.
 	
-	moveTo:= landingPosition advancedBy: squareEffect onBoardOfSize: board size. 
-	^ moveTo.
+	self applyOnEveryone: squareEffectOnEveryone but: aShip.
+	
+	aResultAfterEffect := landingPosition advancedBy: squareEffectOnThisShip onBoardOfSize: board size.
+	
+	^ aResultAfterEffect.
 ]
 
 { #category : 'as yet unclassified' }
@@ -126,7 +142,7 @@ Game >> moveShip: aShip toPosition: aRollResult [
 	positionToMove := self calculateNewPositionFor: aShip withARoll: aRollResult.
 	
 	shipsDictionary at: aShip put: positionToMove.
-	self updateWinnerIfGameEndedFor: aShip
+	self updateWinnerIfGameEndedFor: aShip.
 
 ]
 
