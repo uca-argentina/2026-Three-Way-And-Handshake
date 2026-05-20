@@ -1,6 +1,6 @@
 Class {
 	#name : 'AtomicBomb',
-	#superclass : 'Object',
+	#superclass : 'Square',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
@@ -8,14 +8,4 @@ Class {
 { #category : 'as yet unclassified' }
 AtomicBomb >> effect [
 	^ 'AtomicBomb'.
-]
-
-{ #category : 'as yet unclassified' }
-AtomicBomb >> everyoneSuffers [
-	^ 0.
-]
-
-{ #category : 'as yet unclassified' }
-AtomicBomb >> land [
-	^ 0.
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : 'WormHole',
-	#superclass : 'Object',
+	#superclass : 'Square',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
@@ -8,12 +8,6 @@ Class {
 { #category : 'as yet unclassified' }
 WormHole >> effect [
 	^ 'WormHole'.
-]
-
-{ #category : 'as yet unclassified' }
-WormHole >> everyoneSuffers [
-
-^ 0.
 ]
 
 { #category : 'as yet unclassified' }

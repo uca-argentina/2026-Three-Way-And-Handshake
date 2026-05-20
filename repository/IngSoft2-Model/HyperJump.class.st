@@ -1,9 +1,8 @@
 Class {
 	#name : 'HyperJump',
-	#superclass : 'Object',
+	#superclass : 'Square',
 	#instVars : [
 		'parsecs',
-		'parsecsToSKip',
 		'callIndex'
 	],
 	#category : 'IngSoft2-Model',
@@ -19,11 +18,6 @@ HyperJump class >> skipping: parsecsToSKip [
 { #category : 'as yet unclassified' }
 HyperJump >> effect [
 	^ 'HyperJump'.
-]
-
-{ #category : 'as yet unclassified' }
-HyperJump >> everyoneSuffers [
-	^ 0.
 ]
 
 { #category : 'initialization' }

@@ -1,6 +1,6 @@
 Class {
 	#name : 'MoonWalk',
-	#superclass : 'Object',
+	#superclass : 'Square',
 	#instVars : [
 		'fallback'
 	],
@@ -26,10 +26,4 @@ MoonWalk >> everyoneSuffers [
 { #category : 'initialization' }
 MoonWalk >> initializeWithAmountToFallback: anAmountToFallback [ 
 	fallback:= anAmountToFallback negated.
-]
-
-{ #category : 'as yet unclassified' }
-MoonWalk >> land [ 
-
-^ 0.
 ]
