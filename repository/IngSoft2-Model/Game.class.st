@@ -66,6 +66,8 @@ Game >> amountOfShips [
 
 { #category : 'as yet unclassified' }
 Game >> applyOnEveryone: anEffect but: aShip [
+
+"podriamos refactorizarlo, lei en algun lado que se podia usar reject para salir del if pero bueno. -G"
     shipsDictionary
         keysAndValuesDo: [ :ship :position |
             ship = aShip ifFalse: [

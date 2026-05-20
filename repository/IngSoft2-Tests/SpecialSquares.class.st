@@ -54,7 +54,7 @@ SpecialSquares >> test002WhenAShipLandsOnAWormholeThenItFallsBackwards4Squares [
 ]
 
 { #category : 'running' }
-SpecialSquares >> test003WhenAShipLandsOnASpeedUpThenItLands4SquaresForwards [
+SpecialSquares >> test003WhenAShipLandsOnASpeedUpThenItLands4SquaresForward [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withName: 'Luke'.
@@ -105,4 +105,59 @@ SpecialSquares >> test004WhenEveryoneJumpsToSquare3ThenAPlayerLandsOnMoonWalkThe
 
 	self assert: (aGame squareOf: aSecondShip) equals: 2.
 	self assert: (aGame squareOf: aThirdShip) equals: 2.
+]
+
+{ #category : 'running' }
+SpecialSquares >> test005WhenAShipLandsOnAHyperJumpThenItLands3ParsecsForward [
+
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
+	aFirstShip := Ship withName: 'Luke'.
+
+	aCollectionOfShips := OrderedCollection with: aFirstShip.
+
+	aBoard := Board withSize: 10 and: (HyperJump skipping: #(3 2 1) ) on: 5.
+
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+
+	aGame := Game
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aDiceSet.
+
+	aGame play.
+
+	self assert: (aGame squareOf: aFirstShip) equals: 8.
+]
+
+{ #category : 'running' }
+SpecialSquares >> test006WhenAShipLandsOnAHyperJumpForTheSecondTimeThenItLands2ParsecsForward [
+
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet aSecondShip aThirdShip |
+	aFirstShip := Ship withName: 'Luke'.
+	aSecondShip := Ship withName: 'Anakin'.
+	aThirdShip := Ship withName: 'George Buttcheeks'.
+
+	aCollectionOfShips := OrderedCollection with: aFirstShip.
+	aCollectionOfShips add: aSecondShip.
+	aCollectionOfShips add: aThirdShip.
+
+	aBoard := Board withSize: 10 and: (HyperJump skipping: #(3 2 1) ) on: 5.
+
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+
+	aGame := Game
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aDiceSet.
+
+	aGame play.
+	aGame play.
+	aGame play.
+
+	self assert: (aGame squareOf: aFirstShip) equals: 8.
+	self assert: (aGame squareOf: aSecondShip) equals: 7.
+	self assert: (aGame squareOf: aThirdShip) equals: 6.
+	
 ]

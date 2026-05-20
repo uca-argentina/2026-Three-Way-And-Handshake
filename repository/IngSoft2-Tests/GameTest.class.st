@@ -243,6 +243,8 @@ GameTest >> test009WhenASetOfLoadedDiceIsRolledThenTheSumOfDiceComesInOrder [
 { #category : 'running' }
 GameTest >> test010WhenAShipsRollIsGreaterThanTheAmountOfSquaresToFinishThenFinalPositionIsAtFinish [
 
+"este no se si fue arreglado o roto por Gianni. creeria que no esta contemplado"
+
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withName: 'Luke'.
 
