@@ -6,8 +6,9 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-WormHole >> effect [
-	^ 'WormHole'.
+WormHole >> applyEffectOn: aGame for: aShip [
+
+	aGame moveShip: aShip toPosition: -4
 ]
 
 { #category : 'as yet unclassified' }

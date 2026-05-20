@@ -6,6 +6,10 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
+Square >> applyEffectOn: aGame for: aShip [
+]
+
+{ #category : 'as yet unclassified' }
 Square >> everyoneSuffers [
 
 	^ 0

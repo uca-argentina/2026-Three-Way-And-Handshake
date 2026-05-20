@@ -89,25 +89,15 @@ Game >> assertGameIsOver [
 { #category : 'as yet unclassified' }
 Game >> calculateNewPositionFor: aShip withARoll: aRollResult [
 
-	| currentPosition landingPosition squareEffectOnThisShip aResultAfterEffect squareEffectOnEveryone |
+	| currentPosition landingPosition  |
 	currentPosition := shipsDictionary at: aShip.
 	landingPosition := currentPosition
 		                   advancedBy: aRollResult
 		                   onBoardOfSize: board size.
 
-	(board effectOn: landingPosition square) = 'AtomicBomb'
-		ifTrue: [aResultAfterEffect:= self everyoneBackToSquareOne: aShip ]
-		ifFalse: [
-				squareEffectOnThisShip := board landOn: landingPosition square. "cuanto avanza esta nave"
-				squareEffectOnEveryone := board everyoneSuffers:
-					                          landingPosition square. "cuanto avanzan el resto de naves"
-				self applyOnEveryone: squareEffectOnEveryone but: aShip.
-
-				aResultAfterEffect := landingPosition
-					                      advancedBy: squareEffectOnThisShip
-					                      onBoardOfSize: board size ].
-
-	^ aResultAfterEffect
+	shipsDictionary at: aShip put: landingPosition.
+   (board squareAt: landingPosition square) applyEffectOn: self for: aShip.
+	^ shipsDictionary at: aShip
 ]
 
 { #category : 'as yet unclassified' }

@@ -6,6 +6,7 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-AtomicBomb >> effect [
-	^ 'AtomicBomb'.
+AtomicBomb >> applyEffectOn: aGame for: aShip [
+
+	aGame everyoneBackToSquareOne: aShip
 ]

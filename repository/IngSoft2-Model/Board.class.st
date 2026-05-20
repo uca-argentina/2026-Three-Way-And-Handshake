@@ -38,11 +38,6 @@ Board class >> withSize: anInteger and: anAnomaly on: aPosition [
 ]
 
 { #category : 'as yet unclassified' }
-Board >> effectOn: aSquare [ 
-	^ (squares at: aSquare) effect.
-]
-
-{ #category : 'as yet unclassified' }
 Board >> everyoneSuffers: aSquarePosition [ 
 
 ^ (squares at: aSquarePosition) everyoneSuffers.
@@ -64,4 +59,9 @@ Board >> landOn: aSquarePosition [
 { #category : 'as yet unclassified' }
 Board >> size [
 	^ squares size.
+]
+
+{ #category : 'as yet unclassified' }
+Board >> squareAt: aSquare [ 
+	^ (squares at: aSquare).
 ]

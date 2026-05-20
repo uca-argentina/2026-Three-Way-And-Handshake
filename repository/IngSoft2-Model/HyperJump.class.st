@@ -10,20 +10,19 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-HyperJump class >> skipping: parsecsToSKip [ 
-
-^ self new initializeWithSkips: parsecsToSKip.
+HyperJump class >> skipping: parsecsToSkip [
+    ^ self new initializeWithSkips: parsecsToSkip.
 ]
 
 { #category : 'as yet unclassified' }
-HyperJump >> effect [
-	^ 'HyperJump'.
+HyperJump >> applyEffectOn: aGame for: aShip [
+    aGame moveShip: aShip toPosition: self land.
 ]
 
 { #category : 'initialization' }
-HyperJump >> initializeWithSkips: aParsecArray [ 
-	parsecs:= aParsecArray.
-	callIndex := 0.
+HyperJump >> initializeWithSkips: aParsecArray [
+    parsecs := aParsecArray.
+    callIndex := 0.
 ]
 
 { #category : 'as yet unclassified' }

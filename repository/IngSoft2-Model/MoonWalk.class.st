@@ -14,8 +14,9 @@ MoonWalk class >> lasts: anAmountToFallback [
 ]
 
 { #category : 'as yet unclassified' }
-MoonWalk >> effect [
-	^ 'MoonWalk'.
+MoonWalk >> applyEffectOn: aGame for: aShip [
+
+	aGame applyOnEveryone: fallback but: aShip 
 ]
 
 { #category : 'as yet unclassified' }

@@ -6,8 +6,9 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-SpeedUp >> effect [
-	^ 'SpeedUp'.
+SpeedUp >> applyEffectOn: aGame for: aShip [
+
+	aGame moveShip: aShip toPosition: 4
 ]
 
 { #category : 'as yet unclassified' }
