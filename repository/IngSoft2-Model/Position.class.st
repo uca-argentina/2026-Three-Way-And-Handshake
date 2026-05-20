@@ -17,11 +17,15 @@ Position class >> atLap: aLap square: aSquare [
 
 { #category : 'as yet unclassified' }
 Position >> advancedBy: aNumberOfSquares onBoardOfSize: aBoardSize [
-    | totalSquares newLap newSquare |
-    totalSquares := square + aNumberOfSquares - 1.
-    newLap := lap + (totalSquares // aBoardSize).
-    newSquare := totalSquares \\ aBoardSize + 1.
-    ^ self class atLap: newLap square: newSquare
+
+	| totalSquares newLap newSquare |
+	totalSquares := square + aNumberOfSquares - 1.
+	newLap := lap + (totalSquares // aBoardSize).
+	newSquare := totalSquares \\ aBoardSize + 1.
+
+	newLap < 0 ifTrue: [ ^ self class atLap: 0 square: 0 ].
+
+	^ self class atLap: newLap square: newSquare
 ]
 
 { #category : 'initialization' }

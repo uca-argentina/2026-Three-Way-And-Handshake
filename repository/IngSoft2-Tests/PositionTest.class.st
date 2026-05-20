@@ -38,3 +38,15 @@ PositionTest >> test003WhenAPositionAtSquare8AdvancesBy5OnABoardOfSize10ThenItCr
 	self assert: newPosition square equals: 3.
 	self assert: newPosition lap equals: 1.
 ]
+
+{ #category : 'tests' }
+PositionTest >> test004WhenAPositionGoesBackwardsBelowZeroThenItStaysAtLapZeroSquareZero [
+
+	| aPosition newPosition |
+	aPosition := Position atLap: 0 square: 2.
+
+	newPosition := aPosition advancedBy: -5 onBoardOfSize: 10.
+
+	self assert: newPosition lap equals: 0.
+	self assert: newPosition square equals: 0
+]
