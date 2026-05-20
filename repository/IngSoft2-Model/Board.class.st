@@ -25,10 +25,14 @@ Board class >> called: aBoardSize [
 { #category : 'instance creation' }
 Board class >> withSize: aBoardSize [
 
+	| aSquaresDictionary |
 	self called: aBoardSize.
 	self assertPositiveSize: aBoardSize.
+	
+	aSquaresDictionary := Dictionary new.
+	aSquaresDictionary at: 1 put: SimpleSquare new .
 
-	^ self withSize: aBoardSize and:  SimpleSquare new on: 1.
+	^ self withSize: aBoardSize and: aSquaresDictionary .
 ]
 
 { #category : 'as yet unclassified' }
@@ -37,9 +41,15 @@ Board class >> withSize: aBoardSize and: aSquaresDictionary [
 ]
 
 { #category : 'as yet unclassified' }
-Board class >> withSize: anInteger and: anAnomaly on: aPosition [
+Board class >> withSize: aBoardSize and: anAnomaly on: aPosition [
+	
+	
+	| aSquaresDictionary |
+	aSquaresDictionary := Dictionary new.
+	aSquaresDictionary at: aPosition put: anAnomaly .
 
-	^ (self new) initializeWithSize: anInteger and: anAnomaly on: aPosition
+	^ self withSize: aBoardSize and: aSquaresDictionary .
+
 ]
 
 { #category : 'as yet unclassified' }
@@ -51,19 +61,9 @@ Board >> everyoneSuffers: aSquarePosition [
 { #category : 'initialization' }
 Board >> initializeWithSize: aBoardSize and: aSquaresDictionary [
 
-	squares := OrderedCollection
-		           new: aBoardSize
-		           withAll: SimpleSquare new.
-	1 to: aBoardSize do: [ :i | squares add: SimpleSquare new ].
+	squares := OrderedCollection new: aBoardSize withAll: SimpleSquare new.
     aSquaresDictionary keysAndValuesDo: [ :position :square |
         squares at: position put: square ]
-]
-
-{ #category : 'initialization' }
-Board >> initializeWithSize: aBoardSize and: anAnomaly on: aPosition [
-
-	squares := OrderedCollection new: 10 withAll: SimpleSquare new.
-	squares at: aPosition put: anAnomaly.
 ]
 
 { #category : 'as yet unclassified' }
