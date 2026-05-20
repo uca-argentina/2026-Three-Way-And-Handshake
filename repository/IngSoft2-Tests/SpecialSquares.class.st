@@ -299,3 +299,27 @@ SpecialSquares >> test010WhenAShipLandsOnASpeedUpAndItLandsOnAMoonWalkThenTheSec
 	self assert: (aGame squareOf: aSecondShip) equals: 6.
 	self assert: (aGame squareOf: aFirstShip) equals: 1.
 ]
+
+{ #category : 'running' }
+SpecialSquares >> test011WhenABoardWith40SimpleSquaresIsCreatedThenItHas40 [
+
+	| aBoard |
+	
+	aBoard := BoardFactory createABoardOf: 100.
+	
+	self assert: (aBoard countSquaresOfType: SimpleSquare) equals: 40.
+]
+
+{ #category : 'running' }
+SpecialSquares >> test012WhenABoardWith100SquaresIsCreatedThenTheProportionsAreCorrect [
+
+	| aBoard |
+	aBoard := BoardFactory createABoardOf: 100.
+
+	self assert: (aBoard countSquaresOfType: SimpleSquare) equals: 40.
+	self assert: (aBoard countSquaresOfType: WormHole) equals: 20.
+	self assert: (aBoard countSquaresOfType: SpeedUp) equals: 20.
+	self assert: (aBoard countSquaresOfType: MoonWalk) equals: 10.
+	self assert: (aBoard countSquaresOfType: HyperJump) equals: 8.
+	self assert: (aBoard countSquaresOfType: AtomicBomb) equals: 2
+]

@@ -51,12 +51,34 @@ Board class >> withSize: aBoardSize and: anAnomaly on: aPosition [
 
 ]
 
+{ #category : 'as yet unclassified' }
+Board >> countSquaresOfType: aSquareType [ 
+	| count |
+    count := 0.
+    1 to: self size do: [ :i |
+        ((self squareAt: i) isKindOf: aSquareType) 
+            ifTrue: [ count := count + 1 ]
+    ].
+    ^ count
+]
+
 { #category : 'initialization' }
 Board >> initializeWithSize: aBoardSize and: aSquaresDictionary [
 
 	squares := OrderedCollection new: aBoardSize withAll: SimpleSquare new.
     aSquaresDictionary keysAndValuesDo: [ :position :square |
         squares at: position put: square ]
+]
+
+{ #category : 'as yet unclassified' }
+Board >> simpleSquareCount [
+
+	| count |
+	count := 0.
+	1 to: self size do: [ :i |
+			((self squareAt: i) isKindOf: SimpleSquare) ifTrue: [
+				count := count + 1 ] ].
+	^ count
 ]
 
 { #category : 'as yet unclassified' }
