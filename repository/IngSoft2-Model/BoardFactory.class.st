@@ -39,9 +39,11 @@ BoardFactory class >> createABoardOf: aBoardSize withMoonWalkValues: aMoonWalkVa
 	squares := OrderedCollection new.
 
 	aBoardSize * 20 // 100 timesRepeat: [ squares add: WormHole new ].
+	
 	aBoardSize * 20 // 100 timesRepeat: [ squares add: SpeedUp new ].
 
 	aMoonWalkValues do: [ :value | squares add: (MoonWalk lasts: value) ].
+	
 	aHyperJumpValues do: [ :valuesList |
 		squares add: (HyperJump skipping: valuesList) ].
 
@@ -53,6 +55,7 @@ BoardFactory class >> createABoardOf: aBoardSize withMoonWalkValues: aMoonWalkVa
 	squares := squares shuffled.
 
 	aSquaresDictionary := Dictionary new.
+	
 	squares doWithIndex: [ :square :index |
 			(square isKindOf: SimpleSquare) ifFalse: [
 				aSquaresDictionary at: index put: square ] ].
