@@ -70,6 +70,14 @@ Game >> advanceShip: aShip by: anAmount [
 ]
 
 { #category : 'as yet unclassified' }
+Game >> advanceShip: aShip byParsecs: amountOfParsecs [
+
+	| squaresToAdvance |
+	squaresToAdvance := board parsecsToSquares: amountOfParsecs.
+	self advanceShip: aShip by: squaresToAdvance
+]
+
+{ #category : 'as yet unclassified' }
 Game >> amountOfShips [
 
 	^ shipsDictionary size.

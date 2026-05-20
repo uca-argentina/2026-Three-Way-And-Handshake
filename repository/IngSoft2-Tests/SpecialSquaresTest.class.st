@@ -81,7 +81,7 @@ SpecialSquaresTest >> test004WhenEveryoneJumpsToSquare3ThenAPlayerLandsOnMoonWal
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet aSecondShip aThirdShip|
 	aFirstShip := Ship withName: 'Michael Jackson the MoonWalker'.
 	aSecondShip := Ship withName: 'Anakin'.
-	aThirdShip := Ship withName: 'George Buttcheeks'.
+	aThirdShip := Ship withName: 'Luke'.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 	aCollectionOfShips add: aSecondShip.
@@ -109,8 +109,6 @@ SpecialSquaresTest >> test004WhenEveryoneJumpsToSquare3ThenAPlayerLandsOnMoonWal
 { #category : 'running' }
 SpecialSquaresTest >> test005WhenAShipLandsOnAHyperJumpThenItLands3ParsecsForward [
 
-"parsecs != casilleros, cambiar implementacion"
-
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withName: 'Luke'.
 
@@ -137,7 +135,7 @@ SpecialSquaresTest >> test006WhenAShipLandsOnAHyperJumpForTheSecondTimeThenItLan
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet aSecondShip aThirdShip |
 	aFirstShip := Ship withName: 'Luke'.
 	aSecondShip := Ship withName: 'Anakin'.
-	aThirdShip := Ship withName: 'George Buttcheeks'.
+	aThirdShip := Ship withName: 'Obi-Wan'.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 	aCollectionOfShips add: aSecondShip.
@@ -166,11 +164,10 @@ SpecialSquaresTest >> test006WhenAShipLandsOnAHyperJumpForTheSecondTimeThenItLan
 { #category : 'running' }
 SpecialSquaresTest >> test007WhenAShipLandsOnAtomicThenEveryShipFallsBackToSquare1 [
 
-"Si quieren que las naves vuelvan al square 1 o 0 se cambia facil, la implementacion esta en el metodo de instancia everyoneBackToSquare1 dentro de game"
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet aSecondShip aThirdShip |
 	aFirstShip := Ship withName: 'Luke'.
 	aSecondShip := Ship withName: 'Anakin'.
-	aThirdShip := Ship withName: 'George Buttcheeks'.
+	aThirdShip := Ship withName: 'Obi-Wan'.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 	aCollectionOfShips add: aSecondShip.
@@ -202,7 +199,7 @@ SpecialSquaresTest >> test007WhenAShipLandsOnAtomicThenEveryShipFallsBackToSquar
 SpecialSquaresTest >> test008WhenAShipLandsOnAtomicThenEveryShipFallsBackToSquare1AndKeepsTheSameAmountOfLaps [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet aSecondShip |
-	aFirstShip := Ship withName: 'George Buttcheeks'.
+	aFirstShip := Ship withName: 'Luke'.
 	aSecondShip := Ship withName: 'Anakin'.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.

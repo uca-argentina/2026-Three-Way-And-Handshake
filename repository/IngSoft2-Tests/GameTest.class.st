@@ -521,3 +521,26 @@ GameTest >> test021WhenSecondShipHasMoreLapsThenItIsFirstInRanking [
 	self assert: aGame ranking first equals: aSecondShip.
 	self assert: aGame ranking second equals: aFirstShip
 ]
+
+{ #category : 'running' }
+GameTest >> test022WhenAShipAdvancesByParsecsItMovesTheCorrectAmountOfSquares [
+
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
+	aFirstShip := Ship withName: 'Luke'.
+	aCollectionOfShips := OrderedCollection with: aFirstShip.
+
+	aBoard := Board withSize: 10 lengthInParsecs: 100 and: Dictionary new.
+
+	aLoadedDie := LoadedDie mustRoll: #( 1 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+
+	aGame := Game
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aDiceSet.
+
+	aGame advanceShip: aFirstShip byParsecs: 20.
+
+	self assert: (aGame squareOf: aFirstShip) equals: 2.
+	self assert: (aGame lapOf: aFirstShip) equals: 0
+]

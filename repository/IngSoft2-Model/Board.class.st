@@ -2,7 +2,8 @@ Class {
 	#name : 'Board',
 	#superclass : 'Object',
 	#instVars : [
-		'squares'
+		'squares',
+		'lengthInParsecs'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -35,8 +36,12 @@ Board class >> withSize: aBoardSize [
 ]
 
 { #category : 'as yet unclassified' }
-Board class >> withSize: aBoardSize and: aSquaresDictionary [ 
-	^ self new initializeWithSize: aBoardSize and: aSquaresDictionary
+Board class >> withSize: aBoardSize and: aSquaresDictionary [
+
+	^ self
+		  withSize: aBoardSize
+		  lengthInParsecs: aBoardSize
+		  and: aSquaresDictionary
 ]
 
 { #category : 'as yet unclassified' }
@@ -49,6 +54,15 @@ Board class >> withSize: aBoardSize and: anAnomaly on: aPosition [
 
 	^ self withSize: aBoardSize and: aSquaresDictionary .
 
+]
+
+{ #category : 'as yet unclassified' }
+Board class >> withSize: aBoardSize lengthInParsecs: aLengthInParsecs and: aSquaresDictionary [
+
+	^ self new
+		  initializeWithSize: aBoardSize
+		  lengthInParsecs: aLengthInParsecs
+		  and: aSquaresDictionary
 ]
 
 { #category : 'as yet unclassified' }
@@ -68,6 +82,25 @@ Board >> initializeWithSize: aBoardSize and: aSquaresDictionary [
 	squares := OrderedCollection new: aBoardSize withAll: SimpleSquare new.
     aSquaresDictionary keysAndValuesDo: [ :position :square |
         squares at: position put: square ]
+]
+
+{ #category : 'initialization' }
+Board >> initializeWithSize: aBoardSize lengthInParsecs: aLengthInParsecs and: aSquaresDictionary [
+
+	
+		lengthInParsecs := aLengthInParsecs.
+		squares := OrderedCollection
+			           new: aBoardSize
+			           withAll: SimpleSquare new.
+		aSquaresDictionary keysAndValuesDo: [ :position :square |
+			squares at: position put: square ] 
+]
+
+{ #category : 'as yet unclassified' }
+Board >> parsecsToSquares: amountOfParsecs [
+	
+
+	^ amountOfParsecs * self size // lengthInParsecs
 ]
 
 { #category : 'as yet unclassified' }
