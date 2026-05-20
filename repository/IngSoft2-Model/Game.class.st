@@ -95,8 +95,8 @@ Game >> calculateNewPositionFor: aShip withARoll: aRollResult [
 	currentPosition := shipsDictionary at: aShip.
 	landingPosition := currentPosition advancedBy: aRollResult onBoardOfSize: board size.
 	
-	squareEffectOnThisShip := board landOn: landingPosition square.
-	squareEffectOnEveryone:= board everyoneSuffers: landingPosition square.
+	squareEffectOnThisShip := board landOn: landingPosition square. "cuanto avanza esta nave"
+	squareEffectOnEveryone:= board everyoneSuffers: landingPosition square. "cuanto avanzan el resto de naves"
 	
 	self applyOnEveryone: squareEffectOnEveryone but: aShip.
 	

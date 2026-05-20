@@ -83,7 +83,7 @@ GameTest >> test004WhenAShipReachTheEndOfTheBoardThenTheGameIsOver [
 
 	aBoard := Board withSize: 10.
 
-	aLoadedDie := LoadedDie mustRoll: #( 10 ).
+	aLoadedDie := LoadedDie mustRoll: #( 11 ).
 	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
 
 	aGame := Game
@@ -95,7 +95,7 @@ GameTest >> test004WhenAShipReachTheEndOfTheBoardThenTheGameIsOver [
 
 	self assert: aGame isOver.
 	self assert: (aGame lapOf: aFirstShip) equals: 1.
-	self assert: (aGame squareOf: aFirstShip) equals: 0
+	self assert: (aGame squareOf: aFirstShip) equals: 1.
 ]
 
 { #category : 'running' }
@@ -133,7 +133,7 @@ GameTest >> test006WhenAShipIsTheFirstToReachTheEndThenItIsTheWinner [
 
 	aBoard := Board withSize: 10.
 
-	aLoadedDie := LoadedDie mustRoll: #( 10 ).
+	aLoadedDie := LoadedDie mustRoll: #( 11 ).
 	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
 
 	aGame := Game
@@ -145,7 +145,7 @@ GameTest >> test006WhenAShipIsTheFirstToReachTheEndThenItIsTheWinner [
 
 	self assert: aGame isOver.
 	self assert: (aGame lapOf: aFirstShip) equals: 1.
-	self assert: (aGame squareOf: aFirstShip) equals: 0.
+	self assert: (aGame squareOf: aFirstShip) equals: 1.
 	self assert: aGame winner equals: aFirstShip
 ]
 
@@ -159,7 +159,7 @@ GameTest >> test007WhenAShipIsOnPosition0AndRolls5TwiceThenItMovesToPosition10 [
 
 	aBoard := Board withSize: 10.
 
-	aLoadedDie := LoadedDie mustRoll: #( 5 5 ).
+	aLoadedDie := LoadedDie mustRoll: #( 5 6 ).
 	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
 
 	aGame := Game
@@ -172,7 +172,7 @@ GameTest >> test007WhenAShipIsOnPosition0AndRolls5TwiceThenItMovesToPosition10 [
 
 	self assert: aGame isOver.
 	self assert: (aGame lapOf: aFirstShip) equals: 1.
-	self assert: (aGame squareOf: aFirstShip) equals: 0.
+	self assert: (aGame squareOf: aFirstShip) equals: 1.
 	
 	self assert: aGame winner equals: aFirstShip
 ]
@@ -250,7 +250,7 @@ GameTest >> test010WhenAShipsRollIsGreaterThanTheAmountOfSquaresToFinishThenFina
 
 	aBoard := Board withSize: 9.
 
-	aLoadedDie := LoadedDie mustRoll: #( 10 ).
+	aLoadedDie := LoadedDie mustRoll: #( 11 ).
 	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
 
 	aGame := Game
@@ -262,7 +262,7 @@ GameTest >> test010WhenAShipsRollIsGreaterThanTheAmountOfSquaresToFinishThenFina
 
 	self assert: aGame isOver.
 	self assert: (aGame lapOf: aFirstShip) equals: 1.
-	self assert: (aGame squareOf: aFirstShip) equals: 0. "este test fue cambiado de 1 a 0 para que pase no recuerdo porque"
+	self assert: (aGame squareOf: aFirstShip) equals: 9. "este test fue cambiado de 1 a 0 para que pase no recuerdo porque"
 	self assert: aGame winner equals: aFirstShip
 ]
 
@@ -276,7 +276,7 @@ GameTest >> test011WhenTheGameIsOverThenNoMoreTurnsCanBePlayed [
 
 	aBoard := Board withSize: 10.
 
-	aLoadedDie := LoadedDie mustRoll: #( 10 ).
+	aLoadedDie := LoadedDie mustRoll: #( 11 ).
 	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
 
 	aGame := Game

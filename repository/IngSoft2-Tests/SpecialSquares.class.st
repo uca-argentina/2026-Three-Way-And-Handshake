@@ -77,14 +77,16 @@ SpecialSquares >> test003WhenAShipLandsOnASpeedUpThenItLands4SquaresForwards [
 ]
 
 { #category : 'running' }
-SpecialSquares >> test004 [
+SpecialSquares >> test004WhenEveryoneJumpsToSquare3ThenAPlayerLandsOnMoonWalkThenEveryoneFallsbackANumberOfSquaresN [
 
-	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet aSecondShip |
-	aFirstShip := Ship withName: 'Luke'.
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet aSecondShip aThirdShip|
+	aFirstShip := Ship withName: 'Michael Jackson the MoonWalker'.
 	aSecondShip := Ship withName: 'Anakin'.
+	aThirdShip := Ship withName: 'George Buttcheeks'.
 
 	aCollectionOfShips := OrderedCollection with: aFirstShip.
 	aCollectionOfShips add: aSecondShip.
+	aCollectionOfShips add: aThirdShip.
 
 	aBoard := Board withSize: 10 and: (MoonWalk lasts: 1) on: 6.
 
@@ -99,6 +101,8 @@ SpecialSquares >> test004 [
 	aGame play.
 	aGame play.
 	aGame play.
+	aGame play.
 
 	self assert: (aGame squareOf: aSecondShip) equals: 2.
+	self assert: (aGame squareOf: aThirdShip) equals: 2.
 ]
