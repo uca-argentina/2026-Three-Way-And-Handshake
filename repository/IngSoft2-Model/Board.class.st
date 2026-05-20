@@ -30,7 +30,6 @@ Board class >> withSize: aBoardSize [
 	self assertPositiveSize: aBoardSize.
 	
 	aSquaresDictionary := Dictionary new.
-	aSquaresDictionary at: 1 put: SimpleSquare new .
 
 	^ self withSize: aBoardSize and: aSquaresDictionary .
 ]
@@ -52,24 +51,12 @@ Board class >> withSize: aBoardSize and: anAnomaly on: aPosition [
 
 ]
 
-{ #category : 'as yet unclassified' }
-Board >> everyoneSuffers: aSquarePosition [ 
-
-^ (squares at: aSquarePosition) everyoneSuffers.
-]
-
 { #category : 'initialization' }
 Board >> initializeWithSize: aBoardSize and: aSquaresDictionary [
 
 	squares := OrderedCollection new: aBoardSize withAll: SimpleSquare new.
     aSquaresDictionary keysAndValuesDo: [ :position :square |
         squares at: position put: square ]
-]
-
-{ #category : 'as yet unclassified' }
-Board >> landOn: aSquarePosition [
-
-^ (squares at: aSquarePosition) land.
 ]
 
 { #category : 'as yet unclassified' }
