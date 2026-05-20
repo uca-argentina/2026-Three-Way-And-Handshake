@@ -79,9 +79,14 @@ Game >> assertGameIsOver [
 { #category : 'as yet unclassified' }
 Game >> calculateNewPositionFor: aShip withARoll: aRollResult [
 
-	| currentPosition |
+	| currentPosition landingPosition squareEffect moveTo |
 	currentPosition := shipsDictionary at: aShip.
-	^ currentPosition advancedBy: aRollResult onBoardOfSize: board size
+	landingPosition := currentPosition advancedBy: aRollResult onBoardOfSize: board size.
+	
+	squareEffect := board landOn: landingPosition square.
+	
+	moveTo:= landingPosition advancedBy: squareEffect onBoardOfSize: board size. 
+	^ moveTo.
 ]
 
 { #category : 'as yet unclassified' }
@@ -119,7 +124,6 @@ Game >> moveShip: aShip toPosition: aRollResult [
 
 	|positionToMove|
 	positionToMove := self calculateNewPositionFor: aShip withARoll: aRollResult.
-	
 	
 	shipsDictionary at: aShip put: positionToMove.
 	self updateWinnerIfGameEndedFor: aShip

@@ -1,12 +1,12 @@
 Class {
-	#name : 'SimpleSquare',
+	#name : 'WormHole',
 	#superclass : 'Object',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'as yet unclassified' }
-SimpleSquare >> land [
-
-^ 0.
+WormHole >> land [
+"returns the amount of squares to move, in this case a negative amount"
+^ (-4)
 ]

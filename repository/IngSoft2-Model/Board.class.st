@@ -28,13 +28,26 @@ Board class >> withSize: aBoardSize [
 	self called: aBoardSize.
 	self assertPositiveSize: aBoardSize.
 
-	^ self new initializeWithSize: aBoardSize
+	^ self withSize: aBoardSize and:  SimpleSquare new on: 1.
+]
+
+{ #category : 'as yet unclassified' }
+Board class >> withSize: anInteger and: anAnomaly on: aPosition [
+
+	^ (self new) initializeWithSize: anInteger and: anAnomaly on: aPosition
 ]
 
 { #category : 'initialization' }
-Board >> initializeWithSize: aBoardSize [
+Board >> initializeWithSize: aBoardSize and: anAnomaly on: aPosition [
 
 	squares := OrderedCollection new: 10 withAll: SimpleSquare new.
+	squares at: aPosition put: anAnomaly.
+]
+
+{ #category : 'as yet unclassified' }
+Board >> landOn: aSquarePosition [
+
+^ (squares at: aSquarePosition) land.
 ]
 
 { #category : 'as yet unclassified' }
