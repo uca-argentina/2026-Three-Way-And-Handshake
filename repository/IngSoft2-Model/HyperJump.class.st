@@ -16,7 +16,7 @@ HyperJump class >> skipping: parsecsToSkip [
 
 { #category : 'as yet unclassified' }
 HyperJump >> applyEffectOn: aGame for: aShip [
-    aGame moveShip: aShip toPosition: self land.
+    aGame advanceShip: aShip by: self land.
 ]
 
 { #category : 'initialization' }

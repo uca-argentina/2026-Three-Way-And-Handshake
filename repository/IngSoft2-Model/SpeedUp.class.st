@@ -8,7 +8,7 @@ Class {
 { #category : 'as yet unclassified' }
 SpeedUp >> applyEffectOn: aGame for: aShip [
 
-	aGame moveShip: aShip toPosition: 4
+	aGame advanceShip: aShip by: 4
 ]
 
 { #category : 'as yet unclassified' }

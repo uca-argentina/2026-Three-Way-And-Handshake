@@ -59,6 +59,17 @@ Game class >> playedOn: aBoard by: someShips throwing: aDiceSet winningAt: aNumb
 ]
 
 { #category : 'as yet unclassified' }
+Game >> advanceShip: aShip by: anAmount [
+
+	| currentPosition landingPosition |
+	currentPosition := shipsDictionary at: aShip.
+	landingPosition := currentPosition
+		                   advancedBy: anAmount
+		                   onBoardOfSize: board size.
+	shipsDictionary at: aShip put: landingPosition 
+]
+
+{ #category : 'as yet unclassified' }
 Game >> amountOfShips [
 
 	^ shipsDictionary size.

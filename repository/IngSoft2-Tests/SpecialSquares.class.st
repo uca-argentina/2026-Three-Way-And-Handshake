@@ -248,3 +248,54 @@ SpecialSquares >> test008WhenAShipLandsOnAtomicEveryoOtherShipFallsBackToSquare1
 	self assert: (aGame squareOf: aFirstShip) equals: 1.
 	self assert: (aGame lapOf: aFirstShip) equals: 1
 ]
+
+{ #category : 'running' }
+SpecialSquares >> test009WhenAShipLandsOnASpeedUpAndItLandsOnAnotherSpecialSquareThenTheSecondEffectDoesNotApply [
+
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet aSquaresDictionary |
+	aFirstShip := Ship withName: 'Luke'.
+	
+	aCollectionOfShips := OrderedCollection with: aFirstShip.
+	aSquaresDictionary := Dictionary new.
+	aSquaresDictionary at: 5 put: SpeedUp new .
+	aSquaresDictionary at: 1 put: SpeedUp new.
+	aBoard := Board withSize: 10 and: aSquaresDictionary.
+	aLoadedDie := LoadedDie mustRoll: #( 1 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+	aGame := Game
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aDiceSet.
+	aGame play.
+	self assert: (aGame squareOf: aFirstShip) equals: 5
+]
+
+{ #category : 'running' }
+SpecialSquares >> test010WhenAShipLandsOnASpeedUpAndItLandsOnAMoonWalkThenTheSecondEffectDoesNotApply [
+
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet aSecondShip aSquaresDictionary |
+	aFirstShip := Ship withName: 'Michael Jackson the MoonWalker'.
+	aSecondShip := Ship withName: 'Anakin'.
+
+	aCollectionOfShips := OrderedCollection with: aFirstShip.
+	aCollectionOfShips add: aSecondShip.
+	
+	aSquaresDictionary := Dictionary new.
+	aSquaresDictionary at: 6 put: (MoonWalk lasts: 1).
+	aSquaresDictionary at: 2 put: SpeedUp new.
+	aBoard := Board withSize: 10 and: aSquaresDictionary.
+
+	aLoadedDie := LoadedDie mustRoll: #( 1 2 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+
+	aGame := Game
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aDiceSet.
+
+	aGame play.
+	aGame play.
+
+	self assert: (aGame squareOf: aSecondShip) equals: 6.
+	self assert: (aGame squareOf: aFirstShip) equals: 1.
+]
