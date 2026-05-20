@@ -11,7 +11,7 @@ BoardTest >> test001WhenABoardWithSize10IsCreatedThenTheSizeIs10 [
 	| aBoard |
 	aBoard := Board withSize: 10.
 
-	self assert: aBoard getSize equals: 10
+	self assert: aBoard size equals: 10
 ]
 
 { #category : 'tests' }
@@ -38,4 +38,16 @@ BoardTest >> test003WhenABoardIsSetWithSizeOtherThanIntegerThenItIsNotInstantiat
 				self
 					assert: error messageText
 					equals: 'Board size cannot be other than integer' ]
+]
+
+{ #category : 'tests' }
+BoardTest >> test004WhenABoardIsCreatedWithLengthInParsecsItCanConvertParsecsToSquares [
+
+	| aBoard |
+	aBoard := Board
+		          withSize: 100
+		          lengthInParsecs: 1000
+		          and: Dictionary new.
+
+	self assert: (aBoard parsecsToSquares: 100) equals: 10
 ]

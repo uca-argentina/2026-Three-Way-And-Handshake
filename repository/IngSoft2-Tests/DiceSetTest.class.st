@@ -14,7 +14,7 @@ aDie := Die withSides: 6.
 aDiceSet := DiceSet withDice: (OrderedCollection with: aDie). 
 
 
-self assert: aDiceSet getNumberOfDice equals: 1.
+self assert: aDiceSet numberOfDice equals: 1.
 ]
 
 { #category : 'tests' }
@@ -28,30 +28,32 @@ DiceSetTest >> test002WhenADiceSetIsCreatedWithMDiceThenItHasMDice [
 		            (OrderedCollection with: aDie with: aSecondDie).
 
 
-	self assert: aDiceSet getNumberOfDice equals: 2
+	self assert: aDiceSet numberOfDice equals: 2
 ]
 
 { #category : 'tests' }
-DiceSetTest >> test003WhenADiceSetWithBothDiceWith6SidesThenTheResultIsBetween2And12 [
+DiceSetTest >> test003WhenADiceSetIsRolledThenTheResultIsTheSumOfEachDieRoll [
 
-	| aDiceSet aDie aSecondDie |
-	aDie := Die withSides: 6.
-	aSecondDie := Die withSides: 6.
+	| aDiceSet aFirstLoadedDie aSecondLoadedDie |
+	aFirstLoadedDie := LoadedDie mustRoll: #( 3 ).
+	aSecondLoadedDie := LoadedDie mustRoll: #( 4 ).
 
 	aDiceSet := DiceSet withDice:
-		            (OrderedCollection with: aDie with: aSecondDie).
+		            (OrderedCollection
+			             with: aFirstLoadedDie
+			             with: aSecondLoadedDie).
 
 
-	self assert: (aDiceSet roll between: 2 and: 12)
+	self assert: aDiceSet roll equals: 7
 ]
 
 { #category : 'tests' }
 DiceSetTest >> test004WhenADiceSetIsEmptyThenItCannotBeTossed [
 
 	| aDiceSet |
-	aDiceSet := DiceSet withDice: OrderedCollection new.
+	
 	self
-		should: [ aDiceSet roll ]
+		should: [aDiceSet := DiceSet withDice: OrderedCollection new. ]
 		raise: Error
 		withExceptionDo: [ :error |
 				self

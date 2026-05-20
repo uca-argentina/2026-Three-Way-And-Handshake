@@ -7,53 +7,100 @@ Class {
 		'diceSet',
 		'shipsDictionary',
 		'ships',
-		'shipIndex'
+		'shipIndex',
+		'targetLaps'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'as yet unclassified' }
-Game class >> boardIsValidInstance: aBoard [ 
-	(aBoard isMemberOf: Board) ifFalse: [
+Game class >> assertIsValidBoard: aBoard [ 
+	(aBoard isKindOf: Board) ifFalse: [
 				Error signal: 'Game did not receive a valid instance of Board'].
 ]
 
+{ #category : 'as yet unclassified' }
+Game class >> assertIsValidDiceSet: aDiceSet [
+
+	(aDiceSet isKindOf: DiceSet )
+		ifFalse: [
+		Error signal: 'Game did not receive a valid instance of DiceSet' ]
+]
+
 { #category : 'initialization' }
-Game class >> cannotBeEmpty: aCollectionOfShips [
+Game class >> assertNotEmpty: aCollectionOfShips [
 
 	aCollectionOfShips isEmpty ifTrue: [
 		Error signal: 'A game must have at least one ship.' ]
 ]
 
 { #category : 'as yet unclassified' }
-Game class >> isValidDice: aDiceSet [
+Game class >> playedOn: aBoard by: someShips throwing: aDiceSet [
 
-	((aDiceSet isMemberOf: DiceSet) | (aDiceSet isMemberOf: LoadedDie) | (aDiceSet isMemberOf: Die))
-		ifFalse: [
-		Error signal: 'Game did not receive a valid instance of Dice' ]
+	^ self
+		  playedOn: aBoard
+		  by: someShips
+		  throwing: aDiceSet
+		  winningAt: 1
+]
+
+{ #category : 'accessing' }
+Game class >> playedOn: aBoard by: someShips throwing: aDiceSet winningAt: aNumberOfLaps [
+
+	self assertNotEmpty: someShips.
+	self assertIsValidBoard: aBoard.
+	self assertIsValidDiceSet: aDiceSet.
+	^ self new
+		  initializePlayedOn: aBoard
+		  by: someShips
+		  throwing: aDiceSet
+		  winningAt: aNumberOfLaps
 ]
 
 { #category : 'as yet unclassified' }
-Game class >> withABoard: aBoard andShips: aCollectionOfShips andDiceSet: aDiceSet [
+Game >> advanceShip: aShip by: anAmount [
 
-	self cannotBeEmpty: aCollectionOfShips.
-	self boardIsValidInstance: aBoard.
-	self isValidDice: aDiceSet.
-	^ (self new)
-		  initializeWithABoard: aBoard
-		  andShips: aCollectionOfShips
-		  andDiceSet: aDiceSet
+	| currentPosition landingPosition |
+	currentPosition := shipsDictionary at: aShip.
+	landingPosition := currentPosition
+		                   advancedBy: anAmount
+		                   onBoardOfSize: board size.
+	shipsDictionary at: aShip put: landingPosition 
 ]
 
 { #category : 'as yet unclassified' }
-Game >> aGameIsNotOverYet [
+Game >> advanceShip: aShip byParsecs: amountOfParsecs [
+
+	| squaresToAdvance |
+	squaresToAdvance := board parsecsToSquares: amountOfParsecs.
+	self advanceShip: aShip by: squaresToAdvance
+]
+
+{ #category : 'as yet unclassified' }
+Game >> amountOfShips [
+
+	^ shipsDictionary size.
+]
+
+{ #category : 'as yet unclassified' }
+Game >> applyOnEveryone: anEffect but: aShip [
+    (shipsDictionary keys reject: [ :ship | ship = aShip ])
+        do: [ :ship |
+            | newPosition |
+            newPosition := (shipsDictionary at: ship) advancedBy: anEffect onBoardOfSize: board size.
+            shipsDictionary at: ship put: newPosition
+        ].
+]
+
+{ #category : 'as yet unclassified' }
+Game >> assertGameIsNotOver [
 
 	self isOver ifFalse: [ Error signal: 'The game is not over yet.' ]
 ]
 
 { #category : 'as yet unclassified' }
-Game >> aGameIsOver [
+Game >> assertGameIsOver [
 
 	self isOver ifTrue: [ Error signal: 'The game is already over.' ]
 ]
@@ -61,65 +108,59 @@ Game >> aGameIsOver [
 { #category : 'as yet unclassified' }
 Game >> calculateNewPositionFor: aShip withARoll: aRollResult [
 
-	| currentPositionOfShip positionToMove |
-	currentPositionOfShip := self getPositionOfSpaceShip: aShip.
-	positionToMove := currentPositionOfShip + aRollResult min:
-		                    board getSize.
-		
-	^positionToMove.
+	| currentPosition landingPosition  |
+	currentPosition := shipsDictionary at: aShip.
+	landingPosition := currentPosition
+		                   advancedBy: aRollResult
+		                   onBoardOfSize: board size.
+
+	shipsDictionary at: aShip put: landingPosition.
+   (board squareAt: landingPosition square) applyEffectOn: self for: aShip.
+	^ shipsDictionary at: aShip
 ]
 
 { #category : 'as yet unclassified' }
-Game >> checkGameOverFor: aShip [
-
-	| currentPositionOfShip |
-	currentPositionOfShip := self getPositionOfSpaceShip: aShip.
-
-	^ currentPositionOfShip = board getSize ifTrue: [ winner := aShip ]
-]
-
-{ #category : 'as yet unclassified' }
-Game >> getAmountOfShips [
-
-	^ shipsDictionary size.
-]
-
-{ #category : 'as yet unclassified' }
-Game >> getCurrentShip [
+Game >> currentShip [
 
 	^ ships at: shipIndex \\ ships size + 1
 ]
 
 { #category : 'as yet unclassified' }
-Game >> getPositionOfSpaceShip: aShip [
+Game >> everyoneBackToSquareOne: aShip [
 
-	^ shipsDictionary at: aShip
+	| positionOfPlayerThatLandedOnAtomic |
+	shipsDictionary keysDo: [ :ship |
+			| currentPosition newPosition |
+			currentPosition := shipsDictionary at: ship.
+			newPosition := Position atLap: currentPosition lap square: 1.
+			shipsDictionary at: ship put: newPosition ].
+
+	positionOfPlayerThatLandedOnAtomic := shipsDictionary at: aShip.
+	^ positionOfPlayerThatLandedOnAtomic
 ]
 
-{ #category : 'as yet unclassified' }
-Game >> getWinner [
-
-	self aGameIsNotOverYet.
-	^ winner
-]
-
-{ #category : 'initialization' }
-Game >> initializeWithABoard: aBoard andShips: aCollectionOfShips andDiceSet: aDiceSet [
+{ #category : 'accessing' }
+Game >> initializePlayedOn: aBoard by: someShips throwing: aDiceSet winningAt: aNumberOfLaps [
 
 	board := aBoard.
-	ships := aCollectionOfShips.
+	ships := someShips.
 	diceSet := aDiceSet.
-
+	targetLaps := aNumberOfLaps.
 	shipIndex := 0.
 	winner := nil.
-
 	shipsDictionary := Dictionary new.
-	aCollectionOfShips do: [ :ship | shipsDictionary at: ship put: 0 ]
+	someShips do: [ :ship | shipsDictionary at: ship put: (Position atLap: 0 square: 0) ]
 ]
 
 { #category : 'modes' }
 Game >> isOver [
-	^ (winner isMemberOf: Ship).
+
+	^ winner isNotNil
+]
+
+{ #category : 'as yet unclassified' }
+Game >> lapOf: aShip [
+    ^ (shipsDictionary at: aShip) lap
 ]
 
 { #category : 'as yet unclassified' }
@@ -128,9 +169,8 @@ Game >> moveShip: aShip toPosition: aRollResult [
 	|positionToMove|
 	positionToMove := self calculateNewPositionFor: aShip withARoll: aRollResult.
 	
-	
 	shipsDictionary at: aShip put: positionToMove.
-	self checkGameOverFor: aShip
+	self updateWinnerIfGameEndedFor: aShip.
 
 ]
 
@@ -138,10 +178,40 @@ Game >> moveShip: aShip toPosition: aRollResult [
 Game >> play [
 
 	| aDiceRoll currentShip |
-	self aGameIsOver.
+	self assertGameIsOver.
 	aDiceRoll := diceSet roll.
 	shipIndex := shipIndex \\ shipsDictionary keys size + 1.
 
 	currentShip := ships at: shipIndex.
 	self moveShip: currentShip toPosition: aDiceRoll
+]
+
+{ #category : 'as yet unclassified' }
+Game >> ranking [
+	| madeRanking  |
+	
+	
+	madeRanking := ships sort: [ :a :b | 
+		 (shipsDictionary at: a) isAheadOf: (shipsDictionary at: b)]	.
+
+    ^ madeRanking 
+
+]
+
+{ #category : 'as yet unclassified' }
+Game >> squareOf: aShip [
+    ^ (shipsDictionary at: aShip) square
+]
+
+{ #category : 'as yet unclassified' }
+Game >> updateWinnerIfGameEndedFor: aShip [
+
+	(self lapOf: aShip) >= targetLaps ifTrue: [ winner := aShip ]
+]
+
+{ #category : 'as yet unclassified' }
+Game >> winner [
+
+	self assertGameIsNotOver.
+	^ winner
 ]

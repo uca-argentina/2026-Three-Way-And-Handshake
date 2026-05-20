@@ -2,36 +2,36 @@ Class {
 	#name : 'Ship',
 	#superclass : 'Object',
 	#instVars : [
-		'shipId'
-	],
-	#classInstVars : [
-		'shipId'
+		'name'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
-Ship class >> cannotBeOtherThanInteger: anId [
+{ #category : 'asserting' }
+Ship class >> assertIsString: aName [
 
-	anId isInteger ifFalse: [
-		Error signal: 'Ship ID cannot be other than integer type' ]
+
+	aName isString ifFalse: [
+		Error signal: 'Ship Name cannot be other than string type' ]
 ]
 
 { #category : 'as yet unclassified' }
-Ship class >> withId: anId [
+Ship class >> called: aName [
 
-	self cannotBeOtherThanInteger: anId.
-	^ (self new) initializeWithId: anId
+	^ (self new) initializeWithName: aName
 ]
 
 { #category : 'as yet unclassified' }
-Ship >> getId [
-	^ shipId.
+Ship class >> withName: aName [
+	
+	self assertIsString: aName.
+
+	^ (self new) initializeWithName: aName
 ]
 
 { #category : 'initialization' }
-Ship >> initializeWithId: anId [
+Ship >> initializeWithName: aName [
 
-	shipId := anId
+	name := aName
 ]

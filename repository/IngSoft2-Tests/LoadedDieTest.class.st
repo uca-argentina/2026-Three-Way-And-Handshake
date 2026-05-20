@@ -6,18 +6,7 @@ Class {
 }
 
 { #category : 'tests' }
-LoadedDieTest >> test001WhenALoadedDieIsSetToRoll5TheValueIsSet [
-
-| aLoadedDie |
-aLoadedDie:= LoadedDie mustRoll: #(5).
-
-self assert: aLoadedDie rollsToBeRolled equals: #(5).
-
-
-]
-
-{ #category : 'tests' }
-LoadedDieTest >> test002WhenALoadedDieIsSetToRoll5ItRolls5 [
+LoadedDieTest >> test001WhenALoadedDieIsSetToRoll5ItRolls5 [
 
 | aLoadedDie |
 aLoadedDie:= LoadedDie mustRoll: #(5).
@@ -28,7 +17,7 @@ self assert: aLoadedDie roll equals: 5.
 ]
 
 { #category : 'tests' }
-LoadedDieTest >> test003WhenTheLoadedDieIsSetToRollNegativeNumberThenClassCannotBeInstantiated [
+LoadedDieTest >> test002WhenTheLoadedDieIsSetToRollNegativeNumberThenClassCannotBeInstantiated [
 
 self
 		should: [ LoadedDie mustRoll: #(-1) ]
@@ -40,7 +29,7 @@ self
 ]
 
 { #category : 'tests' }
-LoadedDieTest >> test004WhenTheLoadedDieIsSetToRollOtherThanIntegerThenClassCannotBeInstantiated [
+LoadedDieTest >> test003WhenTheLoadedDieIsSetToRollOtherThanIntegerThenClassCannotBeInstantiated [
 
 self
 		should: [ LoadedDie mustRoll: #('b') ]

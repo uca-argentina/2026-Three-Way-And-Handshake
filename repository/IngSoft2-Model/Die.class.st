@@ -9,14 +9,14 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-Die class >> cannotBeNegativeOrZero: aNumberOfSides [
+Die class >> assertPositiveSize: aNumberOfSides [
 
 	aNumberOfSides < 1 ifTrue: [
 		Error signal: 'Die sides cannot be negative or zero' ]
 ]
 
 { #category : 'as yet unclassified' }
-Die class >> cannotBeOtherThanInteger: aNumberOfSides [
+Die class >> called: aNumberOfSides [
 
 	aNumberOfSides isInteger ifFalse: [
 		Error signal: 'Die sides cannot be other than integer type' ]
@@ -25,21 +25,21 @@ Die class >> cannotBeOtherThanInteger: aNumberOfSides [
 { #category : 'as yet unclassified' }
 Die class >> withSides: aNumberOfSides [
 
-	self cannotBeOtherThanInteger: aNumberOfSides.
-	self cannotBeNegativeOrZero: aNumberOfSides.
+	self called: aNumberOfSides.
+	self assertPositiveSize: aNumberOfSides.
 
 
 	^ self new initializeWithSides: aNumberOfSides
 ]
 
-{ #category : 'as yet unclassified' }
-Die >> getNumberOfSides [ 
-	^numberOfSides .
-]
-
 { #category : 'initialization' }
 Die >> initializeWithSides: aNumberOfSides [ 
 	numberOfSides:= aNumberOfSides .
+]
+
+{ #category : 'as yet unclassified' }
+Die >> numberOfSides [ 
+	^numberOfSides .
 ]
 
 { #category : 'as yet unclassified' }

@@ -2,28 +2,24 @@ Class {
 	#name : 'LoadedDie',
 	#superclass : 'Object',
 	#instVars : [
-		'numberToRoll',
 		'setOfRolls',
 		'index'
 	],
-	#classInstVars : [
-		'numberToRoll'
-	],
-	#category : 'IngSoft2-Model',
-	#package : 'IngSoft2-Model'
+	#category : 'IngSoft2-Tests',
+	#package : 'IngSoft2-Tests'
 }
 
 { #category : 'as yet unclassified' }
-LoadedDie class >> cannotBeNegativeOrZero: aSetOfRolls [
-
+LoadedDie class >> assertPositiveSize: aSetOfRolls [
+"Comentario de prueba"
 	aSetOfRolls do: [ :aNumberToBeRolled |
 			aNumberToBeRolled < 1 ifTrue: [
 				Error signal: 'LoadedDie sides cannot be negative or zero' ] ]
 ]
 
 { #category : 'as yet unclassified' }
-LoadedDie class >> cannotBeOtherThanInteger: aSetOfRolls [
-
+LoadedDie class >> called: aSetOfRolls [
+"Comentario de prueba"
 	aSetOfRolls do: [ :aNumberToBeRolled |
 			aNumberToBeRolled isInteger ifFalse: [
 				Error signal: 'LoadedDie sides cannot be other than integer type' ] ]
@@ -31,9 +27,10 @@ LoadedDie class >> cannotBeOtherThanInteger: aSetOfRolls [
 
 { #category : 'as yet unclassified' }
 LoadedDie class >> mustRoll: aSetOfRolls [
+"Comentario de prueba"
 
-	self cannotBeOtherThanInteger: aSetOfRolls.
-	self cannotBeNegativeOrZero: aSetOfRolls.
+	self called: aSetOfRolls.
+	self assertPositiveSize: aSetOfRolls.
 
 	^ self new initializeWithMustRoll: aSetOfRolls
 ]
@@ -50,9 +47,4 @@ LoadedDie >> roll [
 
 	index := index \\ setOfRolls size + 1.
 	^ setOfRolls at: index
-]
-
-{ #category : 'as yet unclassified' }
-LoadedDie >> rollsToBeRolled [
-	^ setOfRolls .
 ]

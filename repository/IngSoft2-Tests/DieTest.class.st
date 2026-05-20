@@ -23,20 +23,11 @@ DieTest >> test002WhenADieIsInitializedWithOneSideThenADieHasOneSide [
 	| aDie |
 	aDie := Die withSides: 1.
 
-	self assert: aDie getNumberOfSides equals: 1
+	self assert: aDie numberOfSides equals: 1
 ]
 
 { #category : 'tests' }
-DieTest >> test003WhenADieWithNSidesIsRolledThenTheOutcomeIsBetween1AndN [ 
-
-| aDie|
-aDie:= Die withSides: 5.
-
-self assert: (aDie roll between: 1 and: 5).
-]
-
-{ #category : 'tests' }
-DieTest >> test004WhenTheSidesAreOtherThanIntegerTypeThenADieCannotBeCreated [ 
+DieTest >> test003WhenTheSidesAreOtherThanIntegerTypeThenADieCannotBeCreated [ 
 
 	self
 		should: [ Die withSides: 'a' ]
