@@ -323,3 +323,14 @@ SpecialSquares >> test012WhenABoardWith100SquaresIsCreatedThenTheProportionsAreC
 	self assert: (aBoard countSquaresOfType: HyperJump) equals: 8.
 	self assert: (aBoard countSquaresOfType: AtomicBomb) equals: 2
 ]
+
+{ #category : 'running' }
+SpecialSquares >> test013WhenABoardIsCreatedWithFactoryWithMoonWalkAndHyperJumpValuesThenItHasTheCorrectDistribution [
+    | aBoard |
+    aBoard := BoardFactory 
+        createABoardOf: 100 
+        withMoonWalkValues: #(1 2 3 1 2 1 3 2 1 2)
+        withHyperJumpValues: #(#(3 2 1) #(5 4) #(2 1) #(4 3 2) #(1) #(3 2) #(5 4 3) #(2 1)).
+    self assert: (aBoard countSquaresOfType: MoonWalk) equals: 10.
+    self assert: (aBoard countSquaresOfType: HyperJump) equals: 8.
+]
