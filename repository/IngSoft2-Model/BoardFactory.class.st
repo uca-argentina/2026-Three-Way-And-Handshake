@@ -5,70 +5,57 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'adding' }
-BoardFactory class >> addAtomicBombsTo: aSquaresDictionary of: aBoardSize [
-	
-	aBoardSize * 58 // 100 + 1 to: aBoardSize * 60 // 100 do: [ :i |
-	aSquaresDictionary at: i put: AtomicBomb new ].
-]
-
-{ #category : 'adding' }
-BoardFactory class >> addHyperJumpsTo: aSquaresDictionary of: aBoardSize with: aHyperJumpValues [
-	aHyperJumpValues doWithIndex: [ :value :index |
-    aSquaresDictionary at: (aBoardSize * 50 // 100 + index) put: (HyperJump skipping: value) ].
-]
-
-{ #category : 'adding' }
-BoardFactory class >> addMoonWalksTo: aSquaresDictionary of: aBoardSize with: aMoonWalkValues [
-
-	aMoonWalkValues doWithIndex: [ :value :index |
-    aSquaresDictionary at: (aBoardSize * 40 // 100 + index) put: (MoonWalk lasts: value) ].
-]
-
-{ #category : 'adding' }
-BoardFactory class >> addSpeedUpsTo: aSquaresDictionary of: aBoardSize [
-
-	aBoardSize * 20 // 100 + 1 to: aBoardSize * 40 // 100 do: [ :i |
-	aSquaresDictionary at: i put: SpeedUp new ]
-]
-
-{ #category : 'adding' }
-BoardFactory class >> addWormHolesTo: aSquaresDictionary of: aBoardSize [
-
-	1 to: aBoardSize * 20 // 100 do: [ :i |
-	aSquaresDictionary at: i put: WormHole new ].
-]
-
 { #category : 'as yet unclassified' }
-BoardFactory class >> createABoardOf: aBoardSize [ 
-    | aSquaresDictionary |
-    aSquaresDictionary := Dictionary new.
-    1 to: aBoardSize * 20 // 100 do: [ :i | aSquaresDictionary at: i put: WormHole new ].
-    (aBoardSize * 20 // 100 + 1) to: aBoardSize * 40 // 100 do: [ :i | aSquaresDictionary at: i put: SpeedUp new ].
-    (aBoardSize * 40 // 100 + 1) to: aBoardSize * 50 // 100 do: [ :i | aSquaresDictionary at: i put: (MoonWalk lasts: 1) ].
-    (aBoardSize * 50 // 100 + 1) to: aBoardSize * 58 // 100 do: [ :i | aSquaresDictionary at: i put: (HyperJump skipping: #(3 2 1)) ].
-    (aBoardSize * 58 // 100 + 1) to: aBoardSize * 60 // 100 do: [ :i | aSquaresDictionary at: i put: AtomicBomb new ].
-    ^ Board withSize: aBoardSize and: aSquaresDictionary
+BoardFactory class >> createABoardOf: aBoardSize [
+
+	| squares aSquaresDictionary |
+	squares := OrderedCollection new.
+
+	aBoardSize * 20 // 100 timesRepeat: [ squares add: WormHole new ].
+	aBoardSize * 20 // 100 timesRepeat: [ squares add: SpeedUp new ].
+	aBoardSize * 10 // 100 timesRepeat: [
+		squares add: (MoonWalk lasts: 1) ].
+	aBoardSize * 8 // 100 timesRepeat: [
+		squares add: (HyperJump skipping: #( 3 2 1 )) ].
+	aBoardSize * 2 // 100 timesRepeat: [ squares add: AtomicBomb new ].
+
+	aBoardSize - squares size timesRepeat: [
+		squares add: SimpleSquare new ].
+
+	squares := squares shuffled.
+
+	aSquaresDictionary := Dictionary new.
+	squares doWithIndex: [ :square :index |
+			(square isKindOf: SimpleSquare) ifFalse: [
+				aSquaresDictionary at: index put: square ] ].
+
+	^ Board withSize: aBoardSize and: aSquaresDictionary
 ]
 
 { #category : 'as yet unclassified' }
 BoardFactory class >> createABoardOf: aBoardSize withMoonWalkValues: aMoonWalkValues withHyperJumpValues: aHyperJumpValues [
 
-	| aSquaresDictionary |
+	| squares aSquaresDictionary |
+	squares := OrderedCollection new.
+
+	aBoardSize * 20 // 100 timesRepeat: [ squares add: WormHole new ].
+	aBoardSize * 20 // 100 timesRepeat: [ squares add: SpeedUp new ].
+
+	aMoonWalkValues do: [ :value | squares add: (MoonWalk lasts: value) ].
+	aHyperJumpValues do: [ :valuesList |
+		squares add: (HyperJump skipping: valuesList) ].
+
+	aBoardSize * 2 // 100 timesRepeat: [ squares add: AtomicBomb new ].
+
+	aBoardSize - squares size timesRepeat: [
+		squares add: SimpleSquare new ].
+
+	squares := squares shuffled.
+
 	aSquaresDictionary := Dictionary new.
-	
-	
-	self addWormHolesTo: aSquaresDictionary of: aBoardSize.
-
-	self addSpeedUpsTo: aSquaresDictionary of: aBoardSize.
-
-	self addMoonWalksTo: aSquaresDictionary of: aBoardSize with: aMoonWalkValues.
-	
-	self addHyperJumpsTo: aSquaresDictionary of: aBoardSize with: aHyperJumpValues.
-
-	self addAtomicBombsTo: aSquaresDictionary of: aBoardSize.
-
-	
+	squares doWithIndex: [ :square :index |
+			(square isKindOf: SimpleSquare) ifFalse: [
+				aSquaresDictionary at: index put: square ] ].
 
 	^ Board withSize: aBoardSize and: aSquaresDictionary
 ]
