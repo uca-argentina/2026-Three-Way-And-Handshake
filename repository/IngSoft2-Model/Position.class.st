@@ -19,9 +19,12 @@ Position class >> atLap: aLap square: aSquare [
 Position >> advancedBy: aNumberOfSquares onBoardOfSize: aBoardSize [
 
 	| totalSquares newLap newSquare |
-	totalSquares := square + aNumberOfSquares.
+	totalSquares := square + aNumberOfSquares - 1.
 	newLap := lap + (totalSquares // aBoardSize).
-	newSquare := totalSquares \\ aBoardSize.
+	newSquare := totalSquares \\ aBoardSize + 1.
+
+	newLap < 0 ifTrue: [ ^ self class atLap: 0 square: 0 ].
+
 	^ self class atLap: newLap square: newSquare
 ]
 
@@ -30,6 +33,18 @@ Position >> initializeAtLap: aLap square: aSquare [
 
 	lap := aLap.
 	square := aSquare
+]
+
+{ #category : 'testing' }
+Position >> isAheadOf: anotherPosition [ 
+
+	| sameLap |
+	
+    sameLap := (self lap = anotherPosition lap).
+
+    sameLap ifTrue: [ ^ self square > anotherPosition square ].
+
+    ^ self lap > anotherPosition lap
 ]
 
 { #category : 'accessing' }

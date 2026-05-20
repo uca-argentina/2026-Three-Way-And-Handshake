@@ -83,7 +83,7 @@ GameTest >> test004WhenAShipReachTheEndOfTheBoardThenTheGameIsOver [
 
 	aBoard := Board withSize: 10.
 
-	aLoadedDie := LoadedDie mustRoll: #( 10 ).
+	aLoadedDie := LoadedDie mustRoll: #( 11 ).
 	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
 
 	aGame := Game
@@ -95,7 +95,7 @@ GameTest >> test004WhenAShipReachTheEndOfTheBoardThenTheGameIsOver [
 
 	self assert: aGame isOver.
 	self assert: (aGame lapOf: aFirstShip) equals: 1.
-	self assert: (aGame squareOf: aFirstShip) equals: 0
+	self assert: (aGame squareOf: aFirstShip) equals: 1.
 ]
 
 { #category : 'running' }
@@ -133,7 +133,7 @@ GameTest >> test006WhenAShipIsTheFirstToReachTheEndThenItIsTheWinner [
 
 	aBoard := Board withSize: 10.
 
-	aLoadedDie := LoadedDie mustRoll: #( 10 ).
+	aLoadedDie := LoadedDie mustRoll: #( 11 ).
 	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
 
 	aGame := Game
@@ -145,7 +145,7 @@ GameTest >> test006WhenAShipIsTheFirstToReachTheEndThenItIsTheWinner [
 
 	self assert: aGame isOver.
 	self assert: (aGame lapOf: aFirstShip) equals: 1.
-	self assert: (aGame squareOf: aFirstShip) equals: 0.
+	self assert: (aGame squareOf: aFirstShip) equals: 1.
 	self assert: aGame winner equals: aFirstShip
 ]
 
@@ -159,7 +159,7 @@ GameTest >> test007WhenAShipIsOnPosition0AndRolls5TwiceThenItMovesToPosition10 [
 
 	aBoard := Board withSize: 10.
 
-	aLoadedDie := LoadedDie mustRoll: #( 5 5 ).
+	aLoadedDie := LoadedDie mustRoll: #( 5 6 ).
 	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
 
 	aGame := Game
@@ -172,7 +172,8 @@ GameTest >> test007WhenAShipIsOnPosition0AndRolls5TwiceThenItMovesToPosition10 [
 
 	self assert: aGame isOver.
 	self assert: (aGame lapOf: aFirstShip) equals: 1.
-	self assert: (aGame squareOf: aFirstShip) equals: 0.
+	self assert: (aGame squareOf: aFirstShip) equals: 1.
+	
 	self assert: aGame winner equals: aFirstShip
 ]
 
@@ -240,33 +241,7 @@ GameTest >> test009WhenASetOfLoadedDiceIsRolledThenTheSumOfDiceComesInOrder [
 ]
 
 { #category : 'running' }
-GameTest >> test010WhenAShipsRollIsGreaterThanTheAmountOfSquaresToFinishThenFinalPositionIsAtFinish [
-
-	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
-	aFirstShip := Ship withName: 'Luke'.
-
-	aCollectionOfShips := OrderedCollection with: aFirstShip.
-
-	aBoard := Board withSize: 9.
-
-	aLoadedDie := LoadedDie mustRoll: #( 10 ).
-	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
-
-	aGame := Game
-		         playedOn: aBoard
-		         by: aCollectionOfShips
-		         throwing: aDiceSet.
-
-	aGame play.
-
-	self assert: aGame isOver.
-	self assert: (aGame lapOf: aFirstShip) equals: 1.
-	self assert: (aGame squareOf: aFirstShip) equals: 1.
-	self assert: aGame winner equals: aFirstShip
-]
-
-{ #category : 'running' }
-GameTest >> test011WhenTheGameIsOverThenNoMoreTurnsCanBePlayed [
+GameTest >> test010WhenTheGameIsOverThenNoMoreTurnsCanBePlayed [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withName: 'Luke'.
@@ -275,7 +250,7 @@ GameTest >> test011WhenTheGameIsOverThenNoMoreTurnsCanBePlayed [
 
 	aBoard := Board withSize: 10.
 
-	aLoadedDie := LoadedDie mustRoll: #( 10 ).
+	aLoadedDie := LoadedDie mustRoll: #( 11 ).
 	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
 
 	aGame := Game
@@ -291,7 +266,7 @@ GameTest >> test011WhenTheGameIsOverThenNoMoreTurnsCanBePlayed [
 ]
 
 { #category : 'running' }
-GameTest >> test012WhenTheGameIsNotOverThenAskingForWinnerRaisesError [
+GameTest >> test011WhenTheGameIsNotOverThenAskingForWinnerRaisesError [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withName: 'Luke'.
@@ -319,7 +294,7 @@ GameTest >> test012WhenTheGameIsNotOverThenAskingForWinnerRaisesError [
 ]
 
 { #category : 'running' }
-GameTest >> test013WhenTheLastShipPlaysThenItIsFirstShipTurnAgain [
+GameTest >> test012WhenTheLastShipPlaysThenItIsFirstShipTurnAgain [
 
 	| aGame aFirstShip aSecondShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withName: 'Luke'.
@@ -340,7 +315,7 @@ GameTest >> test013WhenTheLastShipPlaysThenItIsFirstShipTurnAgain [
 ]
 
 { #category : 'running' }
-GameTest >> test014WhenAGameIsCreatedWithNoShipsThenItCannotBeInstantiated [
+GameTest >> test013WhenAGameIsCreatedWithNoShipsThenItCannotBeInstantiated [
 
 	| aBoard aLoadedDie aCollectionOfShips |
 	aBoard := Board withSize: 10.
@@ -360,7 +335,7 @@ GameTest >> test014WhenAGameIsCreatedWithNoShipsThenItCannotBeInstantiated [
 ]
 
 { #category : 'running' }
-GameTest >> test015WhenAGameReceivesAnInvalidBoardThenGameCannotBeInstantiated [
+GameTest >> test014WhenAGameReceivesAnInvalidBoardThenGameCannotBeInstantiated [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie |
 	aFirstShip := Ship withName: 'Luke'.
@@ -379,7 +354,7 @@ GameTest >> test015WhenAGameReceivesAnInvalidBoardThenGameCannotBeInstantiated [
 ]
 
 { #category : 'running' }
-GameTest >> test016WhenAGameReceivesAnInvalidInstanceOfDiceThenGameCannotBeInitialized [
+GameTest >> test015WhenAGameReceivesAnInvalidInstanceOfDiceThenGameCannotBeInitialized [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie |
 	aFirstShip := Ship withName: 'Luke'.
@@ -398,7 +373,7 @@ GameTest >> test016WhenAGameReceivesAnInvalidInstanceOfDiceThenGameCannotBeIniti
 ]
 
 { #category : 'running' }
-GameTest >> test017WhenFirstShipPlaysThenSecondShipPlaysNext [
+GameTest >> test016WhenFirstShipPlaysThenSecondShipPlaysNext [
 
 	| aGame aFirstShip aSecondShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withName: 'Luke'.
@@ -424,7 +399,7 @@ GameTest >> test017WhenFirstShipPlaysThenSecondShipPlaysNext [
 ]
 
 { #category : 'running' }
-GameTest >> test018WhenAShipAdvancesPastTheEndOfTheBoardThenItIsOnTheNextLap [
+GameTest >> test017WhenAShipAdvancesPastTheEndOfTheBoardThenItIsOnTheNextLap [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withName: 'Luke'.
@@ -435,7 +410,8 @@ GameTest >> test018WhenAShipAdvancesPastTheEndOfTheBoardThenItIsOnTheNextLap [
 	aGame := Game
 		         playedOn: aBoard
 		         by: aCollectionOfShips
-		         throwing: aDiceSet.
+		         throwing: aDiceSet
+		         winningAt: 3.
 
 	aGame play.
 
@@ -444,7 +420,7 @@ GameTest >> test018WhenAShipAdvancesPastTheEndOfTheBoardThenItIsOnTheNextLap [
 ]
 
 { #category : 'running' }
-GameTest >> test019WhenAGameIsCreatedWithATargetOf3LapsThenItIsNotOver [
+GameTest >> test018WhenAGameIsCreatedWithATargetOf3LapsThenItIsNotOver [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withName: 'Luke'.
@@ -463,4 +439,108 @@ GameTest >> test019WhenAGameIsCreatedWithATargetOf3LapsThenItIsNotOver [
 		         winningAt: 3.
 
 	self deny: aGame isOver
+]
+
+{ #category : 'running' }
+GameTest >> test019WhenAGameHasOneShipThenItIsTheOnlyOneInTheRanking [
+
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
+	aFirstShip := Ship withName: 'Luke'.
+
+	aCollectionOfShips := OrderedCollection with: aFirstShip.
+
+	aBoard := Board withSize: 10.
+
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+
+	aGame := Game
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aDiceSet
+		         winningAt: 1.
+
+	self assert: aGame ranking size equals: 1.
+	self assert: aGame ranking first equals: aFirstShip
+]
+
+{ #category : 'running' }
+GameTest >> test020WhenTheSecondShipIsAheadThenItIsFirstInTheRanking [
+
+	| aGame aFirstShip aSecondShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
+	aFirstShip := Ship withName: 'Luke'.
+	aSecondShip := Ship withName: 'Anakin'.
+
+	aCollectionOfShips := OrderedCollection
+		                      with: aFirstShip
+		                      with: aSecondShip.
+
+	aBoard := Board withSize: 10.
+
+	aLoadedDie := LoadedDie mustRoll: #( 3 7 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+
+	aGame := Game
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aDiceSet
+		         winningAt: 2.
+
+	aGame play.
+	aGame play.
+
+	self assert: aGame ranking first equals: aSecondShip.
+	self assert: aGame ranking second equals: aFirstShip
+]
+
+{ #category : 'running' }
+GameTest >> test021WhenSecondShipHasMoreLapsThenItIsFirstInRanking [
+
+	| aGame aFirstShip aSecondShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
+	aFirstShip := Ship withName: 'Luke'.
+	aSecondShip := Ship withName: 'Anakin'.
+
+	aCollectionOfShips := OrderedCollection
+		                      with: aFirstShip
+		                      with: aSecondShip.
+
+	aBoard := Board withSize: 10.
+
+	aLoadedDie := LoadedDie mustRoll: #( 7 10 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+
+	aGame := Game
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aDiceSet
+		         winningAt: 2.
+
+	aGame play.
+	aGame play.
+
+	self assert: aGame ranking first equals: aSecondShip.
+	self assert: aGame ranking second equals: aFirstShip
+]
+
+{ #category : 'running' }
+GameTest >> test022WhenAShipAdvancesByParsecsItMovesTheCorrectAmountOfSquares [
+
+	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
+	aFirstShip := Ship withName: 'Luke'.
+	aCollectionOfShips := OrderedCollection with: aFirstShip.
+
+	aBoard := Board withSize: 10 lengthInParsecs: 100 and: Dictionary new.
+
+	aLoadedDie := LoadedDie mustRoll: #( 1 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+
+	aGame := Game
+		         playedOn: aBoard
+		         by: aCollectionOfShips
+		         throwing: aDiceSet.
+
+	aGame advanceShip: aFirstShip byParsecs: 20.
+
+	self assert: (aGame squareOf: aFirstShip) equals: 2.
+	self assert: (aGame lapOf: aFirstShip) equals: 0
 ]

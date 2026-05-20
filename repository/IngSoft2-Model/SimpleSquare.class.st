@@ -1,6 +1,6 @@
 Class {
 	#name : 'SimpleSquare',
-	#superclass : 'Object',
+	#superclass : 'Square',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }

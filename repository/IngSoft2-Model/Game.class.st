@@ -59,9 +59,38 @@ Game class >> playedOn: aBoard by: someShips throwing: aDiceSet winningAt: aNumb
 ]
 
 { #category : 'as yet unclassified' }
+Game >> advanceShip: aShip by: anAmount [
+
+	| currentPosition landingPosition |
+	currentPosition := shipsDictionary at: aShip.
+	landingPosition := currentPosition
+		                   advancedBy: anAmount
+		                   onBoardOfSize: board size.
+	shipsDictionary at: aShip put: landingPosition 
+]
+
+{ #category : 'as yet unclassified' }
+Game >> advanceShip: aShip byParsecs: amountOfParsecs [
+
+	| squaresToAdvance |
+	squaresToAdvance := board parsecsToSquares: amountOfParsecs.
+	self advanceShip: aShip by: squaresToAdvance
+]
+
+{ #category : 'as yet unclassified' }
 Game >> amountOfShips [
 
 	^ shipsDictionary size.
+]
+
+{ #category : 'as yet unclassified' }
+Game >> applyOnEveryone: anEffect but: aShip [
+    (shipsDictionary keys reject: [ :ship | ship = aShip ])
+        do: [ :ship |
+            | newPosition |
+            newPosition := (shipsDictionary at: ship) advancedBy: anEffect onBoardOfSize: board size.
+            shipsDictionary at: ship put: newPosition
+        ].
 ]
 
 { #category : 'as yet unclassified' }
@@ -79,15 +108,35 @@ Game >> assertGameIsOver [
 { #category : 'as yet unclassified' }
 Game >> calculateNewPositionFor: aShip withARoll: aRollResult [
 
-	| currentPosition |
+	| currentPosition landingPosition  |
 	currentPosition := shipsDictionary at: aShip.
-	^ currentPosition advancedBy: aRollResult onBoardOfSize: board size
+	landingPosition := currentPosition
+		                   advancedBy: aRollResult
+		                   onBoardOfSize: board size.
+
+	shipsDictionary at: aShip put: landingPosition.
+   (board squareAt: landingPosition square) applyEffectOn: self for: aShip.
+	^ shipsDictionary at: aShip
 ]
 
 { #category : 'as yet unclassified' }
 Game >> currentShip [
 
 	^ ships at: shipIndex \\ ships size + 1
+]
+
+{ #category : 'as yet unclassified' }
+Game >> everyoneBackToSquareOne: aShip [
+
+	| positionOfPlayerThatLandedOnAtomic |
+	shipsDictionary keysDo: [ :ship |
+			| currentPosition newPosition |
+			currentPosition := shipsDictionary at: ship.
+			newPosition := Position atLap: currentPosition lap square: 1.
+			shipsDictionary at: ship put: newPosition ].
+
+	positionOfPlayerThatLandedOnAtomic := shipsDictionary at: aShip.
+	^ positionOfPlayerThatLandedOnAtomic
 ]
 
 { #category : 'accessing' }
@@ -120,9 +169,8 @@ Game >> moveShip: aShip toPosition: aRollResult [
 	|positionToMove|
 	positionToMove := self calculateNewPositionFor: aShip withARoll: aRollResult.
 	
-	
 	shipsDictionary at: aShip put: positionToMove.
-	self updateWinnerIfGameEndedFor: aShip
+	self updateWinnerIfGameEndedFor: aShip.
 
 ]
 
@@ -136,6 +184,18 @@ Game >> play [
 
 	currentShip := ships at: shipIndex.
 	self moveShip: currentShip toPosition: aDiceRoll
+]
+
+{ #category : 'as yet unclassified' }
+Game >> ranking [
+	| madeRanking  |
+	
+	
+	madeRanking := ships sort: [ :a :b | 
+		 (shipsDictionary at: a) isAheadOf: (shipsDictionary at: b)]	.
+
+    ^ madeRanking 
+
 ]
 
 { #category : 'as yet unclassified' }
