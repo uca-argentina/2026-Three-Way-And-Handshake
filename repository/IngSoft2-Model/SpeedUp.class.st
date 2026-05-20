@@ -10,9 +10,3 @@ SpeedUp >> applyEffectOn: aGame for: aShip [
 
 	aGame advanceShip: aShip by: 4
 ]
-
-{ #category : 'as yet unclassified' }
-SpeedUp >> land [
-
-^4.
-]

@@ -1,14 +1,13 @@
 Class {
-	#name : 'SpecialSquares',
+	#name : 'SpecialSquaresTest',
 	#superclass : 'TestCase',
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
 
 { #category : 'running' }
-SpecialSquares >> test001WhenAShipRollsADieAndTheOutcomeIs5ThenItMoves5Positions [
+SpecialSquaresTest >> test001WhenAShipRollsADieAndTheOutcomeIs5ThenItMoves5Positions [
 
-"Este test esta copiado exactamente de game pero nos va a ayudar a testear la funcionalidad de cada uno de los distintos cuadrados disponibles"
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withName: 'Luke'.
 
@@ -31,7 +30,7 @@ SpecialSquares >> test001WhenAShipRollsADieAndTheOutcomeIs5ThenItMoves5Positions
 ]
 
 { #category : 'running' }
-SpecialSquares >> test002WhenAShipLandsOnAWormholeThenItFallsBackwards4Squares [
+SpecialSquaresTest >> test002WhenAShipLandsOnAWormholeThenItFallsBackwards4Squares [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withName: 'Luke'.
@@ -54,7 +53,7 @@ SpecialSquares >> test002WhenAShipLandsOnAWormholeThenItFallsBackwards4Squares [
 ]
 
 { #category : 'running' }
-SpecialSquares >> test003WhenAShipLandsOnASpeedUpThenItLands4SquaresForward [
+SpecialSquaresTest >> test003WhenAShipLandsOnASpeedUpThenItLands4SquaresForward [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withName: 'Luke'.
@@ -77,7 +76,7 @@ SpecialSquares >> test003WhenAShipLandsOnASpeedUpThenItLands4SquaresForward [
 ]
 
 { #category : 'running' }
-SpecialSquares >> test004WhenEveryoneJumpsToSquare3ThenAPlayerLandsOnMoonWalkThenEveryoneFallsbackANumberOfSquaresN [
+SpecialSquaresTest >> test004WhenEveryoneJumpsToSquare3ThenAPlayerLandsOnMoonWalkThenEveryoneFallsbackANumberOfSquaresN [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet aSecondShip aThirdShip|
 	aFirstShip := Ship withName: 'Michael Jackson the MoonWalker'.
@@ -108,7 +107,7 @@ SpecialSquares >> test004WhenEveryoneJumpsToSquare3ThenAPlayerLandsOnMoonWalkThe
 ]
 
 { #category : 'running' }
-SpecialSquares >> test005WhenAShipLandsOnAHyperJumpThenItLands3ParsecsForward [
+SpecialSquaresTest >> test005WhenAShipLandsOnAHyperJumpThenItLands3ParsecsForward [
 
 "parsecs != casilleros, cambiar implementacion"
 
@@ -133,7 +132,7 @@ SpecialSquares >> test005WhenAShipLandsOnAHyperJumpThenItLands3ParsecsForward [
 ]
 
 { #category : 'running' }
-SpecialSquares >> test006WhenAShipLandsOnAHyperJumpForTheSecondTimeThenItLands2ParsecsForward [
+SpecialSquaresTest >> test006WhenAShipLandsOnAHyperJumpForTheSecondTimeThenItLands2ParsecsForward [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet aSecondShip aThirdShip |
 	aFirstShip := Ship withName: 'Luke'.
@@ -165,7 +164,7 @@ SpecialSquares >> test006WhenAShipLandsOnAHyperJumpForTheSecondTimeThenItLands2P
 ]
 
 { #category : 'running' }
-SpecialSquares >> test007WhenAShipLandsOnAtomicEveryoOtherShipFallsBackToSquare1 [
+SpecialSquaresTest >> test007WhenAShipLandsOnAtomicThenEveryShipFallsBackToSquare1 [
 
 "Si quieren que las naves vuelvan al square 1 o 0 se cambia facil, la implementacion esta en el metodo de instancia everyoneBackToSquare1 dentro de game"
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet aSecondShip aThirdShip |
@@ -200,9 +199,7 @@ SpecialSquares >> test007WhenAShipLandsOnAtomicEveryoOtherShipFallsBackToSquare1
 ]
 
 { #category : 'running' }
-SpecialSquares >> test008WhenAShipLandsOnAtomicEveryoOtherShipFallsBackToSquare1AndKeepsTheSameAmountOfLaps [
-	"Si quieren que las naves vuelvan al square 1 o 0 se cambia facil, la implementacion esta en el metodo de instancia everyoneBackToSquare1 dentro de game"
-	"refactorizar este test porfa, me quedo medio largo pero me quiero ir a dormir jefe"
+SpecialSquaresTest >> test008WhenAShipLandsOnAtomicThenEveryShipFallsBackToSquare1AndKeepsTheSameAmountOfLaps [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet aSecondShip |
 	aFirstShip := Ship withName: 'George Buttcheeks'.
@@ -228,29 +225,20 @@ SpecialSquares >> test008WhenAShipLandsOnAtomicEveryoOtherShipFallsBackToSquare1
 	self assert: (aGame squareOf: aFirstShip) equals: 6.
 	self assert: (aGame lapOf: aFirstShip) equals: 0.
 
-	self assert: (aGame squareOf: aFirstShip) equals: 6.
-	self assert: (aGame lapOf: aFirstShip) equals: 0.
-
 	aGame play.
 	aGame play.
 
 	self assert: (aGame squareOf: aFirstShip) equals: 2.
 	self assert: (aGame lapOf: aFirstShip) equals: 1.
 
-	self assert: (aGame squareOf: aFirstShip) equals: 2.
-	self assert: (aGame lapOf: aFirstShip) equals: 1.
-
 	aGame play.
-
-	self assert: (aGame squareOf: aFirstShip) equals: 1.
-	self assert: (aGame lapOf: aFirstShip) equals: 1.
 
 	self assert: (aGame squareOf: aFirstShip) equals: 1.
 	self assert: (aGame lapOf: aFirstShip) equals: 1
 ]
 
 { #category : 'running' }
-SpecialSquares >> test009WhenAShipLandsOnASpeedUpAndItLandsOnAnotherSpecialSquareThenTheSecondEffectDoesNotApply [
+SpecialSquaresTest >> test009WhenASpeedUpSendsAShipToAnotherSpecialSquareThenItDoesNotTriggerASecondEffect [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet aSquaresDictionary |
 	aFirstShip := Ship withName: 'Luke'.
@@ -271,7 +259,7 @@ SpecialSquares >> test009WhenAShipLandsOnASpeedUpAndItLandsOnAnotherSpecialSquar
 ]
 
 { #category : 'running' }
-SpecialSquares >> test010WhenAShipLandsOnASpeedUpAndItLandsOnAMoonWalkThenTheSecondEffectDoesNotApply [
+SpecialSquaresTest >> test010WhenAShipLandsOnASpeedUpAndItLandsOnAMoonWalkThenTheSecondEffectDoesNotApply [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet aSecondShip aSquaresDictionary |
 	aFirstShip := Ship withName: 'Michael Jackson the MoonWalker'.
@@ -301,7 +289,7 @@ SpecialSquares >> test010WhenAShipLandsOnASpeedUpAndItLandsOnAMoonWalkThenTheSec
 ]
 
 { #category : 'running' }
-SpecialSquares >> test011WhenABoardWith40SimpleSquaresIsCreatedThenItHas40 [
+SpecialSquaresTest >> test011WhenABoardWith40SimpleSquaresIsCreatedThenItHas40 [
 
 	| aBoard |
 	
@@ -311,7 +299,7 @@ SpecialSquares >> test011WhenABoardWith40SimpleSquaresIsCreatedThenItHas40 [
 ]
 
 { #category : 'running' }
-SpecialSquares >> test012WhenABoardWith100SquaresIsCreatedThenTheProportionsAreCorrect [
+SpecialSquaresTest >> test012WhenABoardWith100SquaresIsCreatedThenTheProportionsAreCorrect [
 
 	| aBoard |
 	aBoard := BoardFactory createABoardOf: 100.
@@ -325,7 +313,7 @@ SpecialSquares >> test012WhenABoardWith100SquaresIsCreatedThenTheProportionsAreC
 ]
 
 { #category : 'running' }
-SpecialSquares >> test013WhenABoardIsCreatedWithFactoryWithMoonWalkAndHyperJumpValuesThenItHasTheCorrectDistribution [
+SpecialSquaresTest >> test013WhenABoardIsCreatedWithFactoryWithMoonWalkAndHyperJumpValuesThenItHasTheCorrectDistribution [
     | aBoard |
     aBoard := BoardFactory 
         createABoardOf: 100 

@@ -10,9 +10,3 @@ WormHole >> applyEffectOn: aGame for: aShip [
 
 	aGame advanceShip: aShip by: -4
 ]
-
-{ #category : 'as yet unclassified' }
-WormHole >> land [
-"returns the amount of squares to move, in this case a negative amount"
-^ (-4)
-]

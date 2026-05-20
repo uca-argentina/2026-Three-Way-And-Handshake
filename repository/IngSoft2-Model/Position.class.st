@@ -24,12 +24,6 @@ Position >> advancedBy: aNumberOfSquares onBoardOfSize: aBoardSize [
     ^ self class atLap: newLap square: newSquare
 ]
 
-{ #category : 'typing support' }
-Position >> backTo: aSquareToGoBackTo [
-
-square:= aSquareToGoBackTo.
-]
-
 { #category : 'initialization' }
 Position >> initializeAtLap: aLap square: aSquare [
 
