@@ -6,6 +6,11 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
+SimpleSquare >> effect [
+	^ 'Simple'.
+]
+
+{ #category : 'as yet unclassified' }
 SimpleSquare >> everyoneSuffers [
 
 ^ 0.

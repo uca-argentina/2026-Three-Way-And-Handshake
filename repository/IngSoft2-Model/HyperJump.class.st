@@ -17,6 +17,11 @@ HyperJump class >> skipping: parsecsToSKip [
 ]
 
 { #category : 'as yet unclassified' }
+HyperJump >> effect [
+	^ 'HyperJump'.
+]
+
+{ #category : 'as yet unclassified' }
 HyperJump >> everyoneSuffers [
 	^ 0.
 ]
@@ -24,11 +29,11 @@ HyperJump >> everyoneSuffers [
 { #category : 'initialization' }
 HyperJump >> initializeWithSkips: aParsecArray [ 
 	parsecs:= aParsecArray.
-	callIndex:= 0.
+	callIndex := 0.
 ]
 
 { #category : 'as yet unclassified' }
 HyperJump >> land [
     callIndex := callIndex + 1.
-    ^ parsecs at: (callIndex - 1) \\ parsecs size + 1.
+    ^ parsecs at: ((callIndex - 1) \\ parsecs size + 1).
 ]

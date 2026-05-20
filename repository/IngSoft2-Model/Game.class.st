@@ -66,15 +66,11 @@ Game >> amountOfShips [
 
 { #category : 'as yet unclassified' }
 Game >> applyOnEveryone: anEffect but: aShip [
-
-"podriamos refactorizarlo, lei en algun lado que se podia usar reject para salir del if pero bueno. -G"
-    shipsDictionary
-        keysAndValuesDo: [ :ship :position |
-            ship = aShip ifFalse: [
-                | newPosition |
-                newPosition := position advancedBy: anEffect onBoardOfSize: board size.
-                shipsDictionary at: ship put: newPosition
-            ]
+    (shipsDictionary keys reject: [ :ship | ship = aShip ])
+        do: [ :ship |
+            | newPosition |
+            newPosition := (shipsDictionary at: ship) advancedBy: anEffect onBoardOfSize: board size.
+            shipsDictionary at: ship put: newPosition
         ].
 ]
 
@@ -93,24 +89,45 @@ Game >> assertGameIsOver [
 { #category : 'as yet unclassified' }
 Game >> calculateNewPositionFor: aShip withARoll: aRollResult [
 
-	| currentPosition landingPosition squareEffectOnThisShip aResultAfterEffect squareEffectOnEveryone|
+	| currentPosition landingPosition squareEffectOnThisShip aResultAfterEffect squareEffectOnEveryone |
 	currentPosition := shipsDictionary at: aShip.
-	landingPosition := currentPosition advancedBy: aRollResult onBoardOfSize: board size.
-	
-	squareEffectOnThisShip := board landOn: landingPosition square. "cuanto avanza esta nave"
-	squareEffectOnEveryone:= board everyoneSuffers: landingPosition square. "cuanto avanzan el resto de naves"
-	
-	self applyOnEveryone: squareEffectOnEveryone but: aShip.
-	
-	aResultAfterEffect := landingPosition advancedBy: squareEffectOnThisShip onBoardOfSize: board size.
-	
-	^ aResultAfterEffect.
+	landingPosition := currentPosition
+		                   advancedBy: aRollResult
+		                   onBoardOfSize: board size.
+
+	(board effectOn: landingPosition square) = 'AtomicBomb'
+		ifTrue: [aResultAfterEffect:= self everyoneBackToSquareOne: aShip ]
+		ifFalse: [
+				squareEffectOnThisShip := board landOn: landingPosition square. "cuanto avanza esta nave"
+				squareEffectOnEveryone := board everyoneSuffers:
+					                          landingPosition square. "cuanto avanzan el resto de naves"
+				self applyOnEveryone: squareEffectOnEveryone but: aShip.
+
+				aResultAfterEffect := landingPosition
+					                      advancedBy: squareEffectOnThisShip
+					                      onBoardOfSize: board size ].
+
+	^ aResultAfterEffect
 ]
 
 { #category : 'as yet unclassified' }
 Game >> currentShip [
 
 	^ ships at: shipIndex \\ ships size + 1
+]
+
+{ #category : 'as yet unclassified' }
+Game >> everyoneBackToSquareOne: aShip [
+
+	| positionOfPlayerThatLandedOnAtomic |
+	shipsDictionary keysDo: [ :ship |
+			| currentPosition newPosition |
+			currentPosition := shipsDictionary at: ship.
+			newPosition := Position atLap: currentPosition lap square: 1.
+			shipsDictionary at: ship put: newPosition ].
+
+	positionOfPlayerThatLandedOnAtomic := shipsDictionary at: aShip.
+	^ positionOfPlayerThatLandedOnAtomic
 ]
 
 { #category : 'accessing' }

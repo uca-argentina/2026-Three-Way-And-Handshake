@@ -14,6 +14,11 @@ MoonWalk class >> lasts: anAmountToFallback [
 ]
 
 { #category : 'as yet unclassified' }
+MoonWalk >> effect [
+	^ 'MoonWalk'.
+]
+
+{ #category : 'as yet unclassified' }
 MoonWalk >> everyoneSuffers [
 	^ fallback.
 ]

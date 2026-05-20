@@ -6,6 +6,11 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
+SpeedUp >> effect [
+	^ 'SpeedUp'.
+]
+
+{ #category : 'as yet unclassified' }
 SpeedUp >> everyoneSuffers [
 
 ^ 0.
