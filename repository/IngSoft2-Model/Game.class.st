@@ -194,6 +194,14 @@ Game >> playCard: aCard [
 ]
 
 { #category : 'as yet unclassified' }
+Game >> playCard: aCancellation removing: aCard [
+
+	activeCards isEmpty ifTrue: [
+		Error signal: 'There are no active permanent cards.' ].
+	activeCards removeKey: aCard
+]
+
+{ #category : 'as yet unclassified' }
 Game >> playCard: aCard targeting: aShip [ 
 	
 	activeCards at: aCard put: (OrderedCollection with: aShip)

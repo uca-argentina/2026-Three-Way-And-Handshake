@@ -103,3 +103,51 @@ CardTest >> test004WhenTwoOverloadsArePlayedOnDifferentShipsBothAreAffected [
     self assert: (aGame squareOf: luke) equals: 3.
     self assert: (aGame squareOf: anakin) equals: 3.
 ]
+
+{ #category : 'tests' }
+CardTest >> test005WhenCancellationIsPlayedOnAnActivePermanentCardThenItIsRemoved [
+    | aGame luke anakin aBoard aLoadedDie aDiceSet anOverloadCard aCancellationCard |
+    luke := Ship withName: 'Luke'.
+    anakin := Ship withName: 'Anakin'.
+    aBoard := Board withSize: 20.
+    aLoadedDie := LoadedDie mustRoll: #( 5 ).
+    aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+    aGame := Game
+        playedOn: aBoard
+        by: (OrderedCollection with: luke with: anakin)
+        throwing: aDiceSet.
+
+    anOverloadCard := Overload new.
+    aCancellationCard := Cancellation new.
+    luke addCard: anOverloadCard.
+    anakin addCard: aCancellationCard.
+
+    aGame playCard: anOverloadCard targeting: anakin.   "Overload activo sobre Anakin"
+    aGame play.                                     "Luke mueve 5"
+    aGame playCard: aCancellationCard removing: anOverloadCard. "Anakin cancela el Overload"
+    aGame play.                                     "Anakin mueve 5 (sin penalidad)"
+
+    self assert: (aGame squareOf: anakin) equals: 5.
+]
+
+{ #category : 'tests' }
+CardTest >> test006WhenCancellationIsPlayedWithNoActivePermanentCardsThenItRaisesError [
+    | aGame luke aBoard aLoadedDie aDiceSet aCancellationCard|
+    luke := Ship withName: 'Luke'.
+    aBoard := Board withSize: 20.
+    aLoadedDie := LoadedDie mustRoll: #( 5 ).
+    aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+    aGame := Game
+        playedOn: aBoard
+        by: (OrderedCollection with: luke)
+        throwing: aDiceSet.
+
+    aCancellationCard := Cancellation new.
+    luke addCard: aCancellationCard.
+
+    self
+        should: [ aGame playCard: aCancellationCard removing: Overload new ]
+        raise: Error
+        withExceptionDo: [ :error |
+            self assert: error messageText equals: 'There are no active permanent cards.' ].
+]
