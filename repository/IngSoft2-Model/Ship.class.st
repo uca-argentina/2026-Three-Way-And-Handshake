@@ -2,7 +2,8 @@ Class {
 	#name : 'Ship',
 	#superclass : 'Object',
 	#instVars : [
-		'name'
+		'name',
+		'cards'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -30,8 +31,14 @@ Ship class >> withName: aName [
 	^ (self new) initializeWithName: aName
 ]
 
+{ #category : 'adding' }
+Ship >> addCard: aCard [
+	cards add: aCard.
+]
+
 { #category : 'initialization' }
 Ship >> initializeWithName: aName [
 
-	name := aName
+	name := aName.
+	cards := OrderedCollection new.
 ]

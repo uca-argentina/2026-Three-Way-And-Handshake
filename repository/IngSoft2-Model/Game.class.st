@@ -8,7 +8,8 @@ Class {
 		'shipsDictionary',
 		'ships',
 		'shipIndex',
-		'targetLaps'
+		'targetLaps',
+		'activeCards'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -149,6 +150,7 @@ Game >> initializePlayedOn: aBoard by: someShips throwing: aDiceSet winningAt: a
 	shipIndex := 0.
 	winner := nil.
 	shipsDictionary := Dictionary new.
+	activeCards := Dictionary new.
 	someShips do: [ :ship | shipsDictionary at: ship put: (Position atLap: 0 square: 0) ]
 ]
 
@@ -177,13 +179,24 @@ Game >> moveShip: aShip toPosition: aRollResult [
 { #category : 'as yet unclassified' }
 Game >> play [
 
-	| aDiceRoll currentShip |
+	| aDiceRoll currentShip modifier |
 	self assertGameIsOver.
 	aDiceRoll := diceSet roll.
 	shipIndex := shipIndex \\ shipsDictionary keys size + 1.
-
 	currentShip := ships at: shipIndex.
-	self moveShip: currentShip toPosition: aDiceRoll
+	modifier := self rollModifierFor: currentShip.
+	self moveShip: currentShip toPosition: aDiceRoll + modifier
+]
+
+{ #category : 'as yet unclassified' }
+Game >> playCard: aCard [
+	activeCards at: aCard put: ships
+]
+
+{ #category : 'as yet unclassified' }
+Game >> playCard: aCard targeting: aShip [ 
+	
+	activeCards at: aCard put: (OrderedCollection with: aShip)
 ]
 
 { #category : 'as yet unclassified' }
@@ -196,6 +209,17 @@ Game >> ranking [
 
     ^ madeRanking 
 
+]
+
+{ #category : 'as yet unclassified' }
+Game >> rollModifierFor: aShip [
+
+	| modifier |
+	modifier := 0.
+	activeCards keysAndValuesDo: [ :card :targets |
+			(targets includes: aShip) ifTrue: [
+				modifier := modifier + card effect ] ].
+	^ modifier
 ]
 
 { #category : 'as yet unclassified' }
