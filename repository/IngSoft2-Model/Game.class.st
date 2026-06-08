@@ -190,6 +190,13 @@ Game >> play [
 
 { #category : 'as yet unclassified' }
 Game >> playCard: aCard by: aShip [
+
+	(aShip hasCard: aCard) ifFalse: [
+		Error signal: 'The card is not in the ship''s hand.' ].
+	self currentShip = aShip ifFalse: [
+			Error signal:
+				'Permanent cards can only be played during the ship''s turn.' ].
+	aShip removeCard: aCard.
 	activeCards at: aCard put: ships
 ]
 
@@ -209,8 +216,10 @@ Game >> playCard: aCard by: aShip targeting: aTargetShip [
 
 	(aShip hasCard: aCard) ifFalse: [
 		Error signal: 'The card is not in the ship''s hand.' ].
+	self currentShip = aShip ifFalse: [
+			Error signal:
+				'Permanent cards can only be played during the ship''s turn.' ].
 	aShip removeCard: aCard.
-
 	activeCards at: aCard put: (OrderedCollection with: aTargetShip)
 ]
 

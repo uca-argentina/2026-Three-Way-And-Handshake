@@ -7,49 +7,52 @@ Class {
 
 { #category : 'tests' }
 CardTest >> test001WhenOverloadIsPlayedOnAShipThenItsRollIsReducedBy2 [
-    | aGame aShip aTargetShip aBoard aLoadedDie aDiceSet anOverloadCard |
-    aShip := Ship withName: 'Luke'.
-    aTargetShip := Ship withName: 'Anakin'.
-    aBoard := Board withSize: 20.
-    aLoadedDie := LoadedDie mustRoll: #( 5 ).
-    aDiceSet := DiceSet withDice: (OrderedCollection with: aShip with: aTargetShip).
-    aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
-    aGame := Game
-        playedOn: aBoard
-        by: (OrderedCollection with: aShip with: aTargetShip)
-        throwing: aDiceSet.
 
-    anOverloadCard := Overload new.
-    aShip addCard: anOverloadCard .
-    aGame play.                                       
-    aGame playCard: anOverloadCard by: aShip targeting: aTargetShip. 
-    aGame play.                                       
+	| aGame aShip aTargetShip aBoard aLoadedDie aDiceSet anOverloadCard |
+	aShip := Ship withName: 'Luke'.
+	aTargetShip := Ship withName: 'Anakin'.
+	aBoard := Board withSize: 20.
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aDiceSet := DiceSet withDice:
+		            (OrderedCollection with: aShip with: aTargetShip).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+	aGame := Game
+		         playedOn: aBoard
+		         by: (OrderedCollection with: aShip with: aTargetShip)
+		         throwing: aDiceSet.
 
-    self assert: (aGame squareOf: aTargetShip) equals: 3.
-    self assert: (aGame squareOf: aShip) equals: 5.
+	anOverloadCard := Overload new.
+	aShip addCard: anOverloadCard.
+	aGame playCard: anOverloadCard by: aShip targeting: aTargetShip.
+	aGame play.
+	aGame play.
+
+	self assert: (aGame squareOf: aTargetShip) equals: 3.
+	self assert: (aGame squareOf: aShip) equals: 5
 ]
 
 { #category : 'tests' }
 CardTest >> test002WhenSpeedIsPlayedOnAShipThenItsRollIsIncreasedBy1 [
-    | aGame aShip aTargetShip aBoard aLoadedDie aDiceSet aSpeedCard |
-    aShip := Ship withName: 'Luke'.
-    aTargetShip := Ship withName: 'Anakin'.
-    aBoard := Board withSize: 20.
-    aLoadedDie := LoadedDie mustRoll: #( 5 ).
-    aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
-    aGame := Game
-        playedOn: aBoard
-        by: (OrderedCollection with: aShip with: aTargetShip)
-        throwing: aDiceSet.
 
-    aSpeedCard := Speed new.
-    aShip addCard: aSpeedCard.
-    aGame play.                                     
-    aGame playCard: aSpeedCard by: aShip targeting: aTargetShip. 
-    aGame play.                                     
+	| aGame aShip aTargetShip aBoard aLoadedDie aDiceSet aSpeedCard |
+	aShip := Ship withName: 'Luke'.
+	aTargetShip := Ship withName: 'Anakin'.
+	aBoard := Board withSize: 20.
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+	aGame := Game
+		         playedOn: aBoard
+		         by: (OrderedCollection with: aShip with: aTargetShip)
+		         throwing: aDiceSet.
 
-    self assert: (aGame squareOf: aTargetShip) equals: 6.
-    self assert: (aGame squareOf: aShip) equals: 5.
+	aSpeedCard := Speed new.
+	aShip addCard: aSpeedCard.
+	aGame playCard: aSpeedCard by: aShip targeting: aTargetShip.
+	aGame play.
+	aGame play.
+
+	self assert: (aGame squareOf: aTargetShip) equals: 6.
+	self assert: (aGame squareOf: aShip) equals: 5
 ]
 
 { #category : 'tests' }
@@ -68,13 +71,13 @@ CardTest >> test003WhenAccelerationIsPlayedThenAllShipsRollsAreIncreasedBy1 [
 
 	anAccelerationCard := Acceleration new.
 	aShip addCard: anAccelerationCard.
-	aGame play.
 	aGame playCard: anAccelerationCard by: aShip.
+	aGame play.
 	aGame play.
 	aGame play.
 
 	self assert: (aGame squareOf: aTargetShip) equals: 6.
-	self assert: (aGame squareOf: aShip) equals: 11
+	self assert: (aGame squareOf: aShip) equals: 12
 ]
 
 { #category : 'tests' }
@@ -100,16 +103,16 @@ CardTest >> test004WhenTwoOverloadsArePlayedOnDifferentShipsBothAreAffected [
 		playCard: aFirstOverloadCard
 		by: aFirstShip
 		targeting: aSecondShip.
+	aGame play.
 	aGame
 		playCard: aSecondOverloadCard
 		by: aSecondShip
 		targeting: aFirstShip.
-
 	aGame play.
 	aGame play.
 
-	self assert: (aGame squareOf: aFirstShip) equals: 3.
-	self assert: (aGame squareOf: aSecondShip) equals: 3
+	self assert: (aGame squareOf: aSecondShip) equals: 3.
+	self assert: (aGame squareOf: aFirstShip) equals: 8
 ]
 
 { #category : 'tests' }
@@ -218,4 +221,34 @@ CardTest >> test008WhenACardIsPlayedThenItCannotBePlayedAgain [
 				self
 					assert: error messageText
 					equals: 'The card is not in the ship''s hand.' ]
+]
+
+{ #category : 'tests' }
+CardTest >> test009WhenAPermanentCardIsPlayedOutsideTheShipsTurnThenItRaisesError [
+
+	| aGame aShip aTargetShip aBoard aDiceSet aLoadedDie anOverloadCard |
+	aShip := Ship withName: 'Luke'.
+	aTargetShip := Ship withName: 'Anakin'.
+	aBoard := Board withSize: 20.
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+	aGame := Game
+		         playedOn: aBoard
+		         by: (OrderedCollection with: aShip with: aTargetShip)
+		         throwing: aDiceSet.
+
+	anOverloadCard := Overload new.
+	aShip addCard: anOverloadCard.
+
+	aGame play. "Turno de Luke consumido - ahora es turno de Anakin"
+
+	self
+		should: [
+		aGame playCard: anOverloadCard by: aShip targeting: aTargetShip ]
+		raise: Error
+		withExceptionDo: [ :error |
+				self
+					assert: error messageText
+					equals:
+					'Permanent cards can only be played during the ship''s turn.' ]
 ]
