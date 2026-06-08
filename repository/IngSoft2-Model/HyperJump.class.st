@@ -15,6 +15,13 @@ HyperJump class >> skipping: parsecsToSkip [
 ]
 
 { #category : 'as yet unclassified' }
+HyperJump class >> skippingLightYears: aLightYearsArray [
+
+	^ self skipping:
+		  (aLightYearsArray collect: [ :aLightYear | aLightYear / 3 ])
+]
+
+{ #category : 'as yet unclassified' }
 HyperJump >> applyEffectOn: aGame for: aShip [
 
 	aGame advanceShip: aShip byParsecs: self land

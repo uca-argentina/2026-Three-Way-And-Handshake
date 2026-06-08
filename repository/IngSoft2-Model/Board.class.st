@@ -57,6 +57,15 @@ Board class >> withSize: aBoardSize and: anAnomaly on: aPosition [
 ]
 
 { #category : 'as yet unclassified' }
+Board class >> withSize: aBoardSize lengthInLightYears: aLengthInLightYears and: aSquaresDictionary [
+
+	^ self
+		  withSize: aBoardSize
+		  lengthInParsecs: aLengthInLightYears / 3
+		  and: aSquaresDictionary
+]
+
+{ #category : 'as yet unclassified' }
 Board class >> withSize: aBoardSize lengthInParsecs: aLengthInParsecs and: aSquaresDictionary [
 
 	^ self new
@@ -94,6 +103,12 @@ Board >> initializeWithSize: aBoardSize lengthInParsecs: aLengthInParsecs and: a
 			           withAll: SimpleSquare new.
 		aSquaresDictionary keysAndValuesDo: [ :position :square |
 			squares at: position put: square ] 
+]
+
+{ #category : 'as yet unclassified' }
+Board >> lightYearsToSquares: amountOfLightYears [
+
+	^ self parsecsToSquares: amountOfLightYears / 3
 ]
 
 { #category : 'as yet unclassified' }

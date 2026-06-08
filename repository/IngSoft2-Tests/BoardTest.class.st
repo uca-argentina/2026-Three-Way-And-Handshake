@@ -51,3 +51,14 @@ BoardTest >> test004WhenABoardIsCreatedWithLengthInParsecsItCanConvertParsecsToS
 
 	self assert: (aBoard parsecsToSquares: 100) equals: 10
 ]
+
+{ #category : 'tests' }
+BoardTest >> test005WhenABoardIsCreatedWithLengthInLightYearsItCanConvertLightYearsToSquares [
+
+	| aBoard |
+	aBoard := Board
+		          withSize: 100
+		          lengthInLightYears: 300
+		          and: Dictionary new.
+	self assert: (aBoard lightYearsToSquares: 30) equals: 10
+]

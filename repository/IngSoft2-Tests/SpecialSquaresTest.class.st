@@ -349,3 +349,26 @@ SpecialSquaresTest >> test014WhenAShipLandsOnHyperJumpThenItMovesAnMAmountParsec
 	self assert: (aGame squareOf: aFirstShip ) equals: 9.
 	self assert: (aGame squareOf: aSecondShip ) equals: 8.
 ]
+
+{ #category : 'running' }
+SpecialSquaresTest >> test015WhenAShipLandsOnAHyperJumpWithLightYearsThenItMovesCorrectly [
+
+	| aGame aFirstShip aBoard aLoadedDie aDiceSet aSquaresDictionary |
+	aFirstShip := Ship withName: 'Luke'.
+	aSquaresDictionary := Dictionary new.
+	aSquaresDictionary
+		at: 5
+		put: (HyperJump skippingLightYears: #( 9 6 3 )).
+	aBoard := Board
+		          withSize: 10
+		          lengthInLightYears: 30
+		          and: aSquaresDictionary.
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+	aGame := Game
+		         playedOn: aBoard
+		         by: (OrderedCollection with: aFirstShip)
+		         throwing: aDiceSet.
+	aGame play.
+	self assert: (aGame squareOf: aFirstShip) equals: 8
+]
