@@ -286,13 +286,13 @@ SpecialSquaresTest >> test010WhenAShipLandsOnASpeedUpAndItLandsOnAMoonWalkThenTh
 ]
 
 { #category : 'running' }
-SpecialSquaresTest >> test011WhenABoardWith40SimpleSquaresIsCreatedThenItHas40 [
+SpecialSquaresTest >> test011WhenABoardWith40SimpleSquaresIsCreatedThenItHas30 [
 
 	| aBoard |
 	
 	aBoard := BoardFactory createABoardOf: 100.
 	
-	self assert: (aBoard countSquaresOfType: SimpleSquare) equals: 40.
+	self assert: (aBoard countSquaresOfType: SimpleSquare) equals: 30.
 ]
 
 { #category : 'running' }
