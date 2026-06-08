@@ -286,7 +286,7 @@ SpecialSquaresTest >> test010WhenAShipLandsOnASpeedUpAndItLandsOnAMoonWalkThenTh
 ]
 
 { #category : 'running' }
-SpecialSquaresTest >> test011WhenABoardWith40SimpleSquaresIsCreatedThenItHas30 [
+SpecialSquaresTest >> test011WhenABoardWith100SquaresIsCreatedThenItHas30SimpleSquares [
 
 	| aBoard |
 	
