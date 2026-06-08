@@ -12,6 +12,7 @@ BoardFactory class >> createABoardOf: aBoardSize [
 	squares := OrderedCollection new.
 
 	aBoardSize * 20 // 100 timesRepeat: [ squares add: WormHole new ].
+	aBoardSize * 10 // 100 timesRepeat: [ squares add: CardSquare new ].
 	aBoardSize * 20 // 100 timesRepeat: [ squares add: SpeedUp new ].
 	aBoardSize * 10 // 100 timesRepeat: [
 		squares add: (MoonWalk lasts: 1) ].

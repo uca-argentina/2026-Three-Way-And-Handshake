@@ -36,6 +36,12 @@ Ship >> addCard: aCard [
 	cards add: aCard.
 ]
 
+{ #category : 'accessing' }
+Ship >> cards [
+
+	^ cards
+]
+
 { #category : 'testing' }
 Ship >> hasCard: aCard [
 

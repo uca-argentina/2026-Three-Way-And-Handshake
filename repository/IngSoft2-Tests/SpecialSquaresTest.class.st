@@ -301,7 +301,8 @@ SpecialSquaresTest >> test012WhenABoardWith100SquaresIsCreatedThenTheProportions
 	| aBoard |
 	aBoard := BoardFactory createABoardOf: 100.
 
-	self assert: (aBoard countSquaresOfType: SimpleSquare) equals: 40.
+	self assert: (aBoard countSquaresOfType: SimpleSquare) equals: 30.
+	self assert: (aBoard countSquaresOfType: CardSquare) equals: 10.
 	self assert: (aBoard countSquaresOfType: WormHole) equals: 20.
 	self assert: (aBoard countSquaresOfType: SpeedUp) equals: 20.
 	self assert: (aBoard countSquaresOfType: MoonWalk) equals: 10.
@@ -371,4 +372,22 @@ SpecialSquaresTest >> test015WhenAShipLandsOnAHyperJumpWithLightYearsThenItMoves
 		         throwing: aDiceSet.
 	aGame play.
 	self assert: (aGame squareOf: aFirstShip) equals: 8
+]
+
+{ #category : 'running' }
+SpecialSquaresTest >> test016WhenAShipLandsOnACardSquareThenItReceivesACard [
+
+	| aGame aFirstShip aBoard aDiceSet aLoadedDie |
+	aFirstShip := Ship withName: 'Luke'.
+	aBoard := Board withSize: 10 and: CardSquare new on: 5.
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+	aGame := Game
+		         playedOn: aBoard
+		         by: (OrderedCollection with: aFirstShip)
+		         throwing: aDiceSet.
+
+	aGame play.
+
+	self assert: aFirstShip cards size equals: 1
 ]
