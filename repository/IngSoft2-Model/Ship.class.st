@@ -36,9 +36,21 @@ Ship >> addCard: aCard [
 	cards add: aCard.
 ]
 
+{ #category : 'testing' }
+Ship >> hasCard: aCard [
+
+	^ cards includes: aCard
+]
+
 { #category : 'initialization' }
 Ship >> initializeWithName: aName [
 
 	name := aName.
 	cards := OrderedCollection new.
+]
+
+{ #category : 'removing' }
+Ship >> removeCard: aCard [
+
+	cards remove: aCard
 ]

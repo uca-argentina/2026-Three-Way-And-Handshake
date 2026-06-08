@@ -189,22 +189,29 @@ Game >> play [
 ]
 
 { #category : 'as yet unclassified' }
-Game >> playCard: aCard [
+Game >> playCard: aCard by: aShip [
 	activeCards at: aCard put: ships
 ]
 
 { #category : 'as yet unclassified' }
-Game >> playCard: aCancellation removing: aCard [
+Game >> playCard: aCard by: aShip removing: aCardToRemove [
 
+	(aShip hasCard: aCard) ifFalse: [
+		Error signal: 'The card is not in the ship''s hand.' ].
 	activeCards isEmpty ifTrue: [
 		Error signal: 'There are no active permanent cards.' ].
-	activeCards removeKey: aCard
+	aShip removeCard: aCard.
+	activeCards removeKey: aCardToRemove
 ]
 
 { #category : 'as yet unclassified' }
-Game >> playCard: aCard targeting: aShip [ 
-	
-	activeCards at: aCard put: (OrderedCollection with: aShip)
+Game >> playCard: aCard by: aShip targeting: aTargetShip [
+
+	(aShip hasCard: aCard) ifFalse: [
+		Error signal: 'The card is not in the ship''s hand.' ].
+	aShip removeCard: aCard.
+
+	activeCards at: aCard put: (OrderedCollection with: aTargetShip)
 ]
 
 { #category : 'as yet unclassified' }
