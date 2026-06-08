@@ -205,7 +205,7 @@ Game >> playCard: aCard by: aShip removing: aCardToRemove [
 
 	(aShip hasCard: aCard) ifFalse: [
 		Error signal: 'The card is not in the ship''s hand.' ].
-	activeCards isEmpty ifTrue: [
+	(activeCards includesKey: aCardToRemove) ifFalse: [
 		Error signal: 'There are no active permanent cards.' ].
 	aShip removeCard: aCard.
 	activeCards removeKey: aCardToRemove

@@ -252,3 +252,38 @@ CardTest >> test009WhenAPermanentCardIsPlayedOutsideTheShipsTurnThenItRaisesErro
 					equals:
 					'Permanent cards can only be played during the ship''s turn.' ]
 ]
+
+{ #category : 'tests' }
+CardTest >> test010WhenCancellationTargetsACardThatIsNotActiveThenItRaisesError [
+
+	| aGame aLuke anAnakin aBoard aDiceSet aLoadedDie anOverloadCard aCancellationCard |
+	aLuke := Ship withName: 'Luke'.
+	anAnakin := Ship withName: 'Anakin'.
+	aBoard := Board withSize: 20.
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+	aGame := Game
+		         playedOn: aBoard
+		         by: (OrderedCollection with: aLuke with: anAnakin)
+		         throwing: aDiceSet.
+
+	anOverloadCard := Overload new.
+	aCancellationCard := Cancellation new.
+	aLuke addCard: anOverloadCard.
+	anAnakin addCard: aCancellationCard.
+
+	aGame playCard: anOverloadCard by: aLuke targeting: anAnakin.
+	aGame play.
+
+	self
+		should: [
+			aGame
+				playCard: aCancellationCard
+				by: anAnakin
+				removing: Overload new ]
+		raise: Error
+		withExceptionDo: [ :error |
+				self
+					assert: error messageText
+					equals: 'There are no active permanent cards.' ]
+]
