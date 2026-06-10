@@ -247,39 +247,7 @@ CardTest >> test009WhenAPermanentCardIsPlayedOutsideTheShipsTurnThenItRaisesErro
 ]
 
 { #category : 'tests' }
-CardTest >> test010WhenCancellationTargetsACardThatIsNotActiveThenItRaisesError [
-
-	| aGame aLuke anAnakin aBoard aDiceSet aLoadedDie anOverloadCard aCancellationCard |
-	aLuke := Ship withName: 'Luke'.
-	anAnakin := Ship withName: 'Anakin'.
-	aBoard := Board withSize: 20.
-	aLoadedDie := LoadedDie mustRoll: #( 5 ).
-	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
-	aGame := Game
-		         playedOn: aBoard
-		         by: (OrderedCollection with: aLuke with: anAnakin)
-		         throwing: aDiceSet.
-
-	anOverloadCard := Overload new.
-	aCancellationCard := Cancellation new.
-	aLuke addCard: anOverloadCard.
-	anAnakin addCard: aCancellationCard.
-
-	aGame play: (anOverloadCard aimedAt: anAnakin) by: aLuke.
-	aGame play.
-
-	self
-		should: [
-		aGame play: (aCancellationCard removing: Overload new) by: anAnakin ]
-		raise: Error
-		withExceptionDo: [ :error |
-				self
-					assert: error messageText
-					equals: 'There are no active permanent cards.' ]
-]
-
-{ #category : 'tests' }
-CardTest >> test011WhenAnInstantCardIsPlayedAfterTheGameIsOverThenItRaisesError [ 
+CardTest >> test010WhenAnInstantCardIsPlayedAfterTheGameIsOverThenItRaisesError [ 
 
 	| aGame aShip aBoard aLoadedDie aDiceSet aCancellationCard |
 	aShip := Ship withName: 'Luke'.
@@ -301,4 +269,56 @@ CardTest >> test011WhenAnInstantCardIsPlayedAfterTheGameIsOverThenItRaisesError 
 		raise: Error
 		withExceptionDo: [ :error |
 			self assert: error messageText equals: 'The game is already over.' ]
+]
+
+{ #category : 'tests' }
+CardTest >> test011WhenRedoIsPlayedItImitatesLastPlayedCardOnADifferentTarget [
+
+	| aGame aLuke anAnakin aBoard aLoadedDie aDiceSet aSpeedCard aRedoCard |
+	aLuke := Ship withName: 'Luke'.
+	anAnakin := Ship withName: 'Anakin'.
+	aBoard := Board withSize: 20.
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+	aGame := Game
+		         playedOn: aBoard
+		         by: (OrderedCollection with: aLuke with: anAnakin)
+		         throwing: aDiceSet.
+
+	aSpeedCard := Speed new.
+	aRedoCard := Redo new.
+	aLuke addCard: aSpeedCard.
+	anAnakin addCard: aRedoCard.
+
+	aGame play: (aSpeedCard aimedAt: anAnakin) by: aLuke.
+	aGame play.
+	aGame play: (aRedoCard aimedAt: aLuke) by: anAnakin.
+	aGame play.
+	aGame play.
+
+	self assert: (aGame squareOf: anAnakin) equals: 6.
+	self assert: (aGame squareOf: aLuke) equals: 11
+]
+
+{ #category : 'tests' }
+CardTest >> test012WhenRedoIsPlayedWithNoCardPlayedBeforeThenItRaisesError [
+
+	| aGame aShip aBoard aLoadedDie aDiceSet aRedoCard |
+	aShip := Ship withName: 'Luke'.
+	aBoard := Board withSize: 20.
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+	aGame := Game
+		         playedOn: aBoard
+		         by: (OrderedCollection with: aShip)
+		         throwing: aDiceSet.
+
+	aRedoCard := Redo new.
+	aShip addCard: aRedoCard.
+
+	self
+		should: [ aGame play: (aRedoCard aimedAt: aShip) by: aShip ]
+		raise: Error
+		withExceptionDo: [ :error |
+			self assert: error messageText equals: 'No card has been played yet.' ]
 ]

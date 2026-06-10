@@ -10,7 +10,8 @@ Class {
 		'shipIndex',
 		'targetLaps',
 		'activeCards',
-		'cards'
+		'cards',
+		'lastPlayedCard'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -198,6 +199,7 @@ Game >> initializePlayedOn: aBoard by: someShips throwing: aDiceSet winningAt: a
 	targetLaps := aNumberOfLaps.
 	shipIndex := 0.
 	winner := nil.
+	lastPlayedCard := NullCard new.
 	shipsDictionary := Dictionary new.
 
 	activeCards := OrderedCollection new.
@@ -218,6 +220,12 @@ Game >> isOver [
 { #category : 'as yet unclassified' }
 Game >> lapOf: aShip [
     ^ (shipsDictionary at: aShip) lap
+]
+
+{ #category : 'accessing' }
+Game >> lastPlayedCard [
+    ^ lastPlayedCard
+
 ]
 
 { #category : 'as yet unclassified' }
@@ -259,6 +267,12 @@ Game >> ranking [
 		 (shipsDictionary at: a) isAheadOf: (shipsDictionary at: b)]	.
 
     ^ madeRanking 
+
+]
+
+{ #category : 'as yet unclassified' }
+Game >> registerLastPlayed: aCard [
+    lastPlayedCard := aCard
 
 ]
 

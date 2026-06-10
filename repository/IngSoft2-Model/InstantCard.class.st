@@ -14,5 +14,6 @@ InstantCard >> applyIn: aGame [
 InstantCard >> playedIn: aGame by: aShip [
 
 	aGame assertGameIsOver.
-	self applyIn: aGame
+	self applyIn: aGame.
+	aGame registerLastPlayed: self
 ]

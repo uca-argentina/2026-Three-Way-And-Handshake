@@ -11,7 +11,9 @@ PermanentCard >> effect [
 ]
 
 { #category : 'as yet unclassified' }
-PermanentCard >> playedIn: aGame by: aShip [ 
-    aGame assertIsCurrentShip: aShip.
-    aGame activate: self
+PermanentCard >> playedIn: aGame by: aShip [
+
+	aGame assertIsCurrentShip: aShip.
+	aGame activate: self.
+	aGame registerLastPlayed: self
 ]
