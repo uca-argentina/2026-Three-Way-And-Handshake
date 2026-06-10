@@ -322,3 +322,53 @@ CardTest >> test012WhenRedoIsPlayedWithNoCardPlayedBeforeThenItRaisesError [
 		withExceptionDo: [ :error |
 			self assert: error messageText equals: 'No card has been played yet.' ]
 ]
+
+{ #category : 'tests' }
+CardTest >> test013WhenRepeatIsPlayedItReappliesLastSquareEffectOnChosenShip [ 
+
+	| aGame aLuke anAnakin aBoard aLoadedDie aDiceSet aRepeatCard aSquaresDictionary |
+	aLuke := Ship withName: 'Luke'.
+	anAnakin := Ship withName: 'Anakin'.
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+	aSquaresDictionary := Dictionary new.
+	aSquaresDictionary at: 5 put: SpeedUp new.
+	aBoard := Board withSize: 20 and: aSquaresDictionary.
+	aGame := Game
+		         playedOn: aBoard
+		         by: (OrderedCollection with: aLuke with: anAnakin)
+		         throwing: aDiceSet.
+
+	aRepeatCard := Repeat new.
+	anAnakin addCard: aRepeatCard.
+
+	aGame play.
+	aGame play: (aRepeatCard aimedAt: anAnakin) by: anAnakin.
+	aGame play.
+
+	self assert: (aGame squareOf: aLuke) equals: 9.
+	self assert: (aGame squareOf: anAnakin) equals: 9
+
+]
+
+{ #category : 'tests' }
+CardTest >> test014WhenRepeatIsPlayedWithNoPreviousSquareEffectThenNothingHappens [ 
+
+	| aGame aShip aBoard aLoadedDie aDiceSet aRepeatCard |
+	aShip := Ship withName: 'Luke'.
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+	aBoard := Board withSize: 20.
+	aGame := Game
+		         playedOn: aBoard
+		         by: (OrderedCollection with: aShip)
+		         throwing: aDiceSet.
+
+	aRepeatCard := Repeat new.
+	aShip addCard: aRepeatCard.
+
+	aGame play: (aRepeatCard aimedAt: aShip) by: aShip.
+
+	self assert: (aGame squareOf: aShip) equals: 0
+
+]

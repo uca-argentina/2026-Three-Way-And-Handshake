@@ -11,7 +11,8 @@ Class {
 		'targetLaps',
 		'activeCards',
 		'cards',
-		'lastPlayedCard'
+		'lastPlayedCard',
+		'lastAppliedEffect'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -145,14 +146,15 @@ Game >> assertIsCurrentShip: aShip [
 { #category : 'as yet unclassified' }
 Game >> calculateNewPositionFor: aShip withARoll: aRollResult [
 
-	| currentPosition landingPosition  |
+	| currentPosition landingPosition |
 	currentPosition := shipsDictionary at: aShip.
 	landingPosition := currentPosition
 		                   advancedBy: aRollResult
 		                   onBoardOfSize: board size.
 
 	shipsDictionary at: aShip put: landingPosition.
-   (board squareAt: landingPosition square) applyEffectOn: self for: aShip.
+	lastAppliedEffect := board squareAt: landingPosition square.
+	lastAppliedEffect applyEffectOn: self for: aShip.
 	^ shipsDictionary at: aShip
 ]
 
@@ -201,6 +203,7 @@ Game >> initializePlayedOn: aBoard by: someShips throwing: aDiceSet winningAt: a
 	winner := nil.
 	lastPlayedCard := NullCard new.
 	shipsDictionary := Dictionary new.
+	lastAppliedEffect := SimpleSquare new.
 
 	activeCards := OrderedCollection new.
 	
@@ -273,6 +276,12 @@ Game >> ranking [
 { #category : 'as yet unclassified' }
 Game >> registerLastPlayed: aCard [
     lastPlayedCard := aCard
+
+]
+
+{ #category : 'as yet unclassified' }
+Game >> repeatLastEffectOn: aShip [ 
+    lastAppliedEffect applyEffectOn: self for: aShip
 
 ]
 
