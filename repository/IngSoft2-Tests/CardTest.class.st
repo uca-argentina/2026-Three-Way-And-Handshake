@@ -277,3 +277,28 @@ CardTest >> test010WhenCancellationTargetsACardThatIsNotActiveThenItRaisesError 
 					assert: error messageText
 					equals: 'There are no active permanent cards.' ]
 ]
+
+{ #category : 'tests' }
+CardTest >> test011WhenAnInstantCardIsPlayedAfterTheGameIsOverThenItRaisesError [ 
+
+	| aGame aShip aBoard aLoadedDie aDiceSet aCancellationCard |
+	aShip := Ship withName: 'Luke'.
+	aBoard := Board withSize: 5.
+	aLoadedDie := LoadedDie mustRoll: #( 6 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+	aGame := Game
+		         playedOn: aBoard
+		         by: (OrderedCollection with: aShip)
+		         throwing: aDiceSet.
+
+	aGame play.
+
+	aCancellationCard := Cancellation new.
+	aShip addCard: aCancellationCard.
+
+	self
+		should: [ aGame play: (aCancellationCard removing: Overload new) by: aShip ]
+		raise: Error
+		withExceptionDo: [ :error |
+			self assert: error messageText equals: 'The game is already over.' ]
+]
