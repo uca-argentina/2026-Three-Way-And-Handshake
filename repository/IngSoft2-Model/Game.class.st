@@ -9,7 +9,8 @@ Class {
 		'ships',
 		'shipIndex',
 		'targetLaps',
-		'activeCards'
+		'activeCards',
+		'cards'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -44,10 +45,25 @@ Game class >> playedOn: aBoard by: someShips throwing: aDiceSet [
 		  by: someShips
 		  throwing: aDiceSet
 		  winningAt: 1
+		  having: {Acceleration new . Overload new . Speed new . Cancellation new}
 ]
 
 { #category : 'accessing' }
 Game class >> playedOn: aBoard by: someShips throwing: aDiceSet winningAt: aNumberOfLaps [
+
+	self assertNotEmpty: someShips.
+	self assertIsValidBoard: aBoard.
+	self assertIsValidDiceSet: aDiceSet.
+	^ self
+		  playedOn: aBoard
+		  by: someShips
+		  throwing: aDiceSet
+		  winningAt: aNumberOfLaps
+		  having: {Acceleration new . Overload new . Speed new . Cancellation new}
+]
+
+{ #category : 'accessing' }
+Game class >> playedOn: aBoard by: someShips throwing: aDiceSet winningAt: aNumberOfLaps having: aDeckOfCards [
 
 	self assertNotEmpty: someShips.
 	self assertIsValidBoard: aBoard.
@@ -57,6 +73,7 @@ Game class >> playedOn: aBoard by: someShips throwing: aDiceSet winningAt: aNumb
 		  by: someShips
 		  throwing: aDiceSet
 		  winningAt: aNumberOfLaps
+		  having: aDeckOfCards
 ]
 
 { #category : 'as yet unclassified' }
@@ -140,6 +157,13 @@ Game >> everyoneBackToSquareOne: aShip [
 	^ positionOfPlayerThatLandedOnAtomic
 ]
 
+{ #category : 'as yet unclassified' }
+Game >> giveCards: aShip [
+
+	aShip addCard: cards atRandom.
+	aShip addCard: cards atRandom
+]
+
 { #category : 'accessing' }
 Game >> initializePlayedOn: aBoard by: someShips throwing: aDiceSet winningAt: aNumberOfLaps [
 
@@ -150,8 +174,32 @@ Game >> initializePlayedOn: aBoard by: someShips throwing: aDiceSet winningAt: a
 	shipIndex := 0.
 	winner := nil.
 	shipsDictionary := Dictionary new.
+
 	activeCards := Dictionary new.
-	someShips do: [ :ship | shipsDictionary at: ship put: (Position atLap: 0 square: 0) ]
+
+	someShips do: [ :ship |
+			shipsDictionary at: ship put: (Position atLap: 0 square: 0).
+			self giveCards: ship ]
+]
+
+{ #category : 'accessing' }
+Game >> initializePlayedOn: aBoard by: someShips throwing: aDiceSet winningAt: aNumberOfLaps having: aDeckOfCards [
+
+	board := aBoard.
+	ships := someShips.
+	diceSet := aDiceSet.
+	targetLaps := aNumberOfLaps.
+	shipIndex := 0.
+	winner := nil.
+	shipsDictionary := Dictionary new.
+
+	activeCards := Dictionary new.
+	
+	cards:= aDeckOfCards.
+
+	someShips do: [ :ship |
+			shipsDictionary at: ship put: (Position atLap: 0 square: 0).
+			self giveCards: ship ]
 ]
 
 { #category : 'modes' }

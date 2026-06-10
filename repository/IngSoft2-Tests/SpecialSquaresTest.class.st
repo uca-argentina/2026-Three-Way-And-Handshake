@@ -389,5 +389,5 @@ SpecialSquaresTest >> test016WhenAShipLandsOnACardSquareThenItReceivesACard [
 
 	aGame play.
 
-	self assert: aFirstShip cards size equals: 1
+	self assert: aFirstShip cards size equals: 3. "ESTO FUE MODIFICADO, EL RESULTADO PASO DE SER 1 EN EL TEST VIEJO A SER 3 YA QUE AHORA LAS NAVES ARRANCAN CON 2 CARTAS RANDOM NI BIEN ARRANCAN"
 ]
