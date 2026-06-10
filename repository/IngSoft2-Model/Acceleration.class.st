@@ -6,6 +6,11 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
+Acceleration >> affects: aShip [ 
+    ^ true
+]
+
+{ #category : 'as yet unclassified' }
 Acceleration >> effect [
 
 	^ 1

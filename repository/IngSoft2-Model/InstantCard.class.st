@@ -1,6 +1,16 @@
 Class {
 	#name : 'InstantCard',
-	#superclass : 'Object',
+	#superclass : 'Card',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
+
+{ #category : 'as yet unclassified' }
+InstantCard >> applyIn: aGame [
+    self subclassResponsibility
+]
+
+{ #category : 'as yet unclassified' }
+InstantCard >> playedIn: aGame by: aShip [
+    self applyIn: aGame
+]

@@ -6,6 +6,11 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
+Overload >> affects: aShip [ 
+    ^ target = aShip
+]
+
+{ #category : 'as yet unclassified' }
 Overload >> effect [
 
 	^ -2

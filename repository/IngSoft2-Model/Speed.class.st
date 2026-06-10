@@ -6,6 +6,11 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
+Speed >> affects: aShip [ 
+    ^ target = aShip
+]
+
+{ #category : 'as yet unclassified' }
 Speed >> effect [
 
 	^ 1

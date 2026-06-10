@@ -23,7 +23,7 @@ CardTest >> test001WhenOverloadIsPlayedOnAShipThenItsRollIsReducedBy2 [
 
 	anOverloadCard := Overload new.
 	aShip addCard: anOverloadCard.
-	aGame playCard: anOverloadCard by: aShip targeting: aTargetShip.
+	aGame play: (anOverloadCard aimedAt: aTargetShip) by: aShip.
 	aGame play.
 	aGame play.
 
@@ -47,7 +47,7 @@ CardTest >> test002WhenSpeedIsPlayedOnAShipThenItsRollIsIncreasedBy1 [
 
 	aSpeedCard := Speed new.
 	aShip addCard: aSpeedCard.
-	aGame playCard: aSpeedCard by: aShip targeting: aTargetShip.
+	aGame play: (aSpeedCard aimedAt: aTargetShip) by: aShip.
 	aGame play.
 	aGame play.
 
@@ -71,7 +71,7 @@ CardTest >> test003WhenAccelerationIsPlayedThenAllShipsRollsAreIncreasedBy1 [
 
 	anAccelerationCard := Acceleration new.
 	aShip addCard: anAccelerationCard.
-	aGame playCard: anAccelerationCard by: aShip.
+	aGame play: anAccelerationCard by: aShip.
 	aGame play.
 	aGame play.
 	aGame play.
@@ -99,15 +99,9 @@ CardTest >> test004WhenTwoOverloadsArePlayedOnDifferentShipsBothAreAffected [
 	aFirstShip addCard: aFirstOverloadCard.
 	aSecondShip addCard: aSecondOverloadCard.
 
-	aGame
-		playCard: aFirstOverloadCard
-		by: aFirstShip
-		targeting: aSecondShip.
+	aGame play: (aFirstOverloadCard aimedAt: aSecondShip) by: aFirstShip.
 	aGame play.
-	aGame
-		playCard: aSecondOverloadCard
-		by: aSecondShip
-		targeting: aFirstShip.
+	aGame play: (aSecondOverloadCard aimedAt: aFirstShip) by: aSecondShip.
 	aGame play.
 	aGame play.
 
@@ -134,12 +128,11 @@ CardTest >> test005WhenCancellationIsPlayedOnAnActivePermanentCardThenItIsRemove
 	aFirstShip addCard: anOverloadCard.
 	aSecondShip addCard: aCancellationCard.
 
-	aGame playCard: anOverloadCard by: aFirstShip targeting: aSecondShip. "Overload activo sobre Anakin"
-	aGame play. "Luke mueve 5"
+	aGame play: (anOverloadCard aimedAt: aSecondShip) by: aFirstShip.
+	aGame play.
 	aGame
-		playCard: aCancellationCard
-		by: aSecondShip
-		removing: anOverloadCard. "Anakin cancela el Overload"
+		play: (aCancellationCard removing: anOverloadCard)
+		by: aSecondShip.
 	aGame play. "Anakin mueve 5 (sin penalidad)"
 
 	self assert: (aGame squareOf: aSecondShip) equals: 5
@@ -163,7 +156,7 @@ CardTest >> test006WhenCancellationIsPlayedWithNoActivePermanentCardsThenItRaise
 
 	self
 		should: [
-		aGame playCard: aCancellationCard by: aShip removing: Overload new ]
+		aGame play: (aCancellationCard removing: Overload new) by: aShip ]
 		raise: Error
 		withExceptionDo: [ :error |
 				self
@@ -187,7 +180,7 @@ CardTest >> test007WhenACardThatIsNotInTheShipsHandIsPlayedThenItRaisesError [
 	anOverloadCard := Overload new.
 	self
 		should: [
-		aGame playCard: anOverloadCard by: aShip targeting: aTargetShip ]
+		aGame play: (anOverloadCard aimedAt: aTargetShip) by: aShip ]
 		raise: Error
 		withExceptionDo: [ :error |
 				self
@@ -211,11 +204,11 @@ CardTest >> test008WhenACardIsPlayedThenItCannotBePlayedAgain [
 
 	anOverloadCard := Overload new.
 	aShip addCard: anOverloadCard.
-	aGame playCard: anOverloadCard by: aShip targeting: aTargetShip.
+	aGame play: (anOverloadCard aimedAt: aTargetShip) by: aShip.
 
 	self
 		should: [
-		aGame playCard: anOverloadCard by: aShip targeting: aTargetShip ]
+		aGame play: (anOverloadCard aimedAt: aTargetShip) by: aShip ]
 		raise: Error
 		withExceptionDo: [ :error |
 				self
@@ -244,7 +237,7 @@ CardTest >> test009WhenAPermanentCardIsPlayedOutsideTheShipsTurnThenItRaisesErro
 
 	self
 		should: [
-		aGame playCard: anOverloadCard by: aShip targeting: aTargetShip ]
+		aGame play: (anOverloadCard aimedAt: aTargetShip) by: aShip ]
 		raise: Error
 		withExceptionDo: [ :error |
 				self
@@ -272,15 +265,12 @@ CardTest >> test010WhenCancellationTargetsACardThatIsNotActiveThenItRaisesError 
 	aLuke addCard: anOverloadCard.
 	anAnakin addCard: aCancellationCard.
 
-	aGame playCard: anOverloadCard by: aLuke targeting: anAnakin.
+	aGame play: (anOverloadCard aimedAt: anAnakin) by: aLuke.
 	aGame play.
 
 	self
 		should: [
-			aGame
-				playCard: aCancellationCard
-				by: anAnakin
-				removing: Overload new ]
+		aGame play: (aCancellationCard removing: Overload new) by: anAnakin ]
 		raise: Error
 		withExceptionDo: [ :error |
 				self

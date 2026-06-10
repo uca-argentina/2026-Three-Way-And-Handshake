@@ -76,6 +76,12 @@ Game class >> playedOn: aBoard by: someShips throwing: aDiceSet winningAt: aNumb
 		  having: aDeckOfCards
 ]
 
+{ #category : 'event handling' }
+Game >> activate: aCard [
+
+	activeCards add: aCard
+]
+
 { #category : 'as yet unclassified' }
 Game >> advanceShip: aShip by: anAmount [
 
@@ -111,6 +117,12 @@ Game >> applyOnEveryone: anEffect but: aShip [
         ].
 ]
 
+{ #category : 'asserting' }
+Game >> assertCardIsInHandOf: aShip card: aCard [ 
+    (aShip hasCard: aCard) ifFalse: [
+        Error signal: 'The card is not in the ship''s hand.' ]
+]
+
 { #category : 'as yet unclassified' }
 Game >> assertGameIsNotOver [
 
@@ -121,6 +133,12 @@ Game >> assertGameIsNotOver [
 Game >> assertGameIsOver [
 
 	self isOver ifTrue: [ Error signal: 'The game is already over.' ]
+]
+
+{ #category : 'asserting' }
+Game >> assertIsCurrentShip: aShip [ 
+    self currentShip = aShip ifFalse: [
+        Error signal: 'Permanent cards can only be played during the ship''s turn.' ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -141,6 +159,13 @@ Game >> calculateNewPositionFor: aShip withARoll: aRollResult [
 Game >> currentShip [
 
 	^ ships at: shipIndex \\ ships size + 1
+]
+
+{ #category : 'as yet unclassified' }
+Game >> deactivate: aCard [
+    (activeCards includes: aCard) ifFalse: [
+        Error signal: 'There are no active permanent cards.' ].
+    activeCards remove: aCard
 ]
 
 { #category : 'as yet unclassified' }
@@ -165,24 +190,6 @@ Game >> giveCards: aShip [
 ]
 
 { #category : 'accessing' }
-Game >> initializePlayedOn: aBoard by: someShips throwing: aDiceSet winningAt: aNumberOfLaps [
-
-	board := aBoard.
-	ships := someShips.
-	diceSet := aDiceSet.
-	targetLaps := aNumberOfLaps.
-	shipIndex := 0.
-	winner := nil.
-	shipsDictionary := Dictionary new.
-
-	activeCards := Dictionary new.
-
-	someShips do: [ :ship |
-			shipsDictionary at: ship put: (Position atLap: 0 square: 0).
-			self giveCards: ship ]
-]
-
-{ #category : 'accessing' }
 Game >> initializePlayedOn: aBoard by: someShips throwing: aDiceSet winningAt: aNumberOfLaps having: aDeckOfCards [
 
 	board := aBoard.
@@ -193,7 +200,7 @@ Game >> initializePlayedOn: aBoard by: someShips throwing: aDiceSet winningAt: a
 	winner := nil.
 	shipsDictionary := Dictionary new.
 
-	activeCards := Dictionary new.
+	activeCards := OrderedCollection new.
 	
 	cards:= aDeckOfCards.
 
@@ -237,38 +244,10 @@ Game >> play [
 ]
 
 { #category : 'as yet unclassified' }
-Game >> playCard: aCard by: aShip [
-
-	(aShip hasCard: aCard) ifFalse: [
-		Error signal: 'The card is not in the ship''s hand.' ].
-	self currentShip = aShip ifFalse: [
-			Error signal:
-				'Permanent cards can only be played during the ship''s turn.' ].
-	aShip removeCard: aCard.
-	activeCards at: aCard put: ships
-]
-
-{ #category : 'as yet unclassified' }
-Game >> playCard: aCard by: aShip removing: aCardToRemove [
-
-	(aShip hasCard: aCard) ifFalse: [
-		Error signal: 'The card is not in the ship''s hand.' ].
-	(activeCards includesKey: aCardToRemove) ifFalse: [
-		Error signal: 'There are no active permanent cards.' ].
-	aShip removeCard: aCard.
-	activeCards removeKey: aCardToRemove
-]
-
-{ #category : 'as yet unclassified' }
-Game >> playCard: aCard by: aShip targeting: aTargetShip [
-
-	(aShip hasCard: aCard) ifFalse: [
-		Error signal: 'The card is not in the ship''s hand.' ].
-	self currentShip = aShip ifFalse: [
-			Error signal:
-				'Permanent cards can only be played during the ship''s turn.' ].
-	aShip removeCard: aCard.
-	activeCards at: aCard put: (OrderedCollection with: aTargetShip)
+Game >> play: aCard by: aShip [ 
+    self assertCardIsInHandOf: aShip card: aCard.
+    aShip removeCard: aCard.
+    aCard playedIn: self by: aShip
 ]
 
 { #category : 'as yet unclassified' }
@@ -286,12 +265,12 @@ Game >> ranking [
 { #category : 'as yet unclassified' }
 Game >> rollModifierFor: aShip [
 
-	| modifier |
-	modifier := 0.
-	activeCards keysAndValuesDo: [ :card :targets |
-			(targets includes: aShip) ifTrue: [
-				modifier := modifier + card effect ] ].
-	^ modifier
+	^ activeCards
+          inject: 0
+          into: [ :sum :card |
+              sum + ((card affects: aShip)
+                         ifTrue: [ card effect ]
+                         ifFalse: [ 0 ]) ]
 ]
 
 { #category : 'as yet unclassified' }
