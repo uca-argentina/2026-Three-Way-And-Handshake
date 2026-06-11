@@ -47,7 +47,13 @@ Game class >> playedOn: aBoard by: someShips throwing: aDiceSet [
 		  by: someShips
 		  throwing: aDiceSet
 		  winningAt: 1
-		  having: {Acceleration new . Overload new . Speed new . Cancellation new}
+		  having: {
+				  Acceleration.
+				  Overload.
+				  Speed.
+				  Cancellation.
+				  Redo.
+				  Repeat }
 ]
 
 { #category : 'accessing' }
@@ -61,7 +67,13 @@ Game class >> playedOn: aBoard by: someShips throwing: aDiceSet winningAt: aNumb
 		  by: someShips
 		  throwing: aDiceSet
 		  winningAt: aNumberOfLaps
-		  having: {Acceleration new . Overload new . Speed new . Cancellation new}
+		  having: {
+				  Acceleration.
+				  Overload.
+				  Speed.
+				  Cancellation.
+				  Redo.
+				  Repeat }
 ]
 
 { #category : 'accessing' }
