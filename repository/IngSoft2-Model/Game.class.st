@@ -206,8 +206,7 @@ Game >> giveCardTo: aShip [
 { #category : 'as yet unclassified' }
 Game >> giveCards: aShip [
 
-	self giveCardTo: aShip.
-	self giveCardTo: aShip
+	2 timesRepeat: [ self giveCardTo: aShip ]
 ]
 
 { #category : 'accessing' }
