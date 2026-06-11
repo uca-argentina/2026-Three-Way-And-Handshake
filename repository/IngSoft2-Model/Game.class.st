@@ -186,10 +186,16 @@ Game >> everyoneBackToSquareOne: aShip [
 ]
 
 { #category : 'as yet unclassified' }
+Game >> giveCardTo: aShip [
+
+	aShip addCard: cards shuffled first new
+]
+
+{ #category : 'as yet unclassified' }
 Game >> giveCards: aShip [
 
-	aShip addCard: cards atRandom.
-	aShip addCard: cards atRandom
+	self giveCardTo: aShip.
+	self giveCardTo: aShip
 ]
 
 { #category : 'accessing' }

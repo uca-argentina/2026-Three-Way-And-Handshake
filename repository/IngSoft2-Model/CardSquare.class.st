@@ -8,11 +8,5 @@ Class {
 { #category : 'as yet unclassified' }
 CardSquare >> applyEffectOn: aGame for: aShip [
 
-	| cardTypes |
-	cardTypes := {
-		             Overload.
-		             Speed.
-		             Acceleration.
-		             Cancellation }.
-	aShip addCard: cardTypes atRandom new
+	aGame giveCardTo: aShip
 ]

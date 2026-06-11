@@ -391,3 +391,21 @@ SpecialSquaresTest >> test016WhenAShipLandsOnACardSquareThenItReceivesACard [
 
 	self assert: aFirstShip cards size equals: 3. "ESTO FUE MODIFICADO, EL RESULTADO PASO DE SER 1 EN EL TEST VIEJO A SER 3 YA QUE AHORA LAS NAVES ARRANCAN CON 2 CARTAS RANDOM NI BIEN ARRANCAN"
 ]
+
+{ #category : 'running' }
+SpecialSquaresTest >> test017WhenAShipLandsOnACardSquareThenItReceivesACardFromTheGameDeck [
+
+	| aGame aFirstShip aBoard aDiceSet aLoadedDie |
+	aFirstShip := Ship withName: 'Luke'.
+	aBoard := Board withSize: 10 and: CardSquare new on: 5.
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+	aGame := Game
+		         playedOn: aBoard
+		         by: (OrderedCollection with: aFirstShip)
+		         throwing: aDiceSet
+		         winningAt: 1
+		         having: { Overload }.
+	aGame play.
+	self assert: (aFirstShip cards last isKindOf: Overload)
+]
