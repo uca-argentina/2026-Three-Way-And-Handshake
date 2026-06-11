@@ -86,14 +86,6 @@ Board >> countSquaresOfType: aSquareType [
 ]
 
 { #category : 'initialization' }
-Board >> initializeWithSize: aBoardSize and: aSquaresDictionary [
-
-	squares := OrderedCollection new: aBoardSize withAll: SimpleSquare new.
-    aSquaresDictionary keysAndValuesDo: [ :position :square |
-        squares at: position put: square ]
-]
-
-{ #category : 'initialization' }
 Board >> initializeWithSize: aBoardSize lengthInParsecs: aLengthInParsecs and: aSquaresDictionary [
 
 	

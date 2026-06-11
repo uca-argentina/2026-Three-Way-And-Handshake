@@ -140,13 +140,13 @@ Game >> assertCardIsInHandOf: aShip card: aCard [
 { #category : 'as yet unclassified' }
 Game >> assertGameIsNotOver [
 
-	self isOver ifFalse: [ Error signal: 'The game is not over yet.' ]
+	self isOver ifTrue: [ Error signal: 'The game is already over.' ]
 ]
 
 { #category : 'as yet unclassified' }
 Game >> assertGameIsOver [
 
-	self isOver ifTrue: [ Error signal: 'The game is already over.' ]
+	self isOver ifFalse: [ Error signal: 'The game is not over yet.' ]
 ]
 
 { #category : 'asserting' }
@@ -263,7 +263,7 @@ Game >> moveShip: aShip toPosition: aRollResult [
 Game >> play [
 
 	| aDiceRoll currentShip modifier |
-	self assertGameIsOver.
+	self assertGameIsNotOver.
 	aDiceRoll := diceSet roll.
 	shipIndex := shipIndex \\ shipsDictionary keys size + 1.
 	currentShip := ships at: shipIndex.
@@ -327,6 +327,6 @@ Game >> updateWinnerIfGameEndedFor: aShip [
 { #category : 'as yet unclassified' }
 Game >> winner [
 
-	self assertGameIsNotOver.
+	self assertGameIsOver.
 	^ winner
 ]

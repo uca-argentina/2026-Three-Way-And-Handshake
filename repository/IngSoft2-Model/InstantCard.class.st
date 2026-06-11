@@ -13,7 +13,7 @@ InstantCard >> applyIn: aGame [
 { #category : 'as yet unclassified' }
 InstantCard >> playedIn: aGame by: aShip [
 
-	aGame assertGameIsOver.
+	aGame assertGameIsNotOver.
 	self applyIn: aGame.
 	aGame registerLastPlayed: self
 ]
