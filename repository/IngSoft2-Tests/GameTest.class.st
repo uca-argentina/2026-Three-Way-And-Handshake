@@ -521,3 +521,50 @@ GameTest >> test021WhenSecondShipHasMoreLapsThenItIsFirstInRanking [
 	self assert: aGame ranking first equals: aSecondShip.
 	self assert: aGame ranking second equals: aFirstShip
 ]
+
+{ #category : 'running' }
+GameTest >> test022WhenAGameIsCreatedWithATargetOf0LapsThenItCannotBeInstantiated [
+
+	| aBoard aLoadedDie aDiceSet aShip |
+	aShip := Ship withName: 'Luke'.
+	aBoard := Board withSize: 10.
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+
+	self
+		should: [
+				Game
+					playedOn: aBoard
+					by: (OrderedCollection with: aShip)
+					throwing: aDiceSet
+					winningAt: 0 ]
+		raise: Error
+		withExceptionDo: [ :error |
+				self
+					assert: error messageText
+					equals: 'The number of laps to win must be positive.' ]
+]
+
+{ #category : 'running' }
+GameTest >> test023WhenAGameIsCreatedWithAnEmptyDeckThenItCannotBeInstantiated [
+
+	| aBoard aLoadedDie aDiceSet aShip |
+	aShip := Ship withName: 'Luke'.
+	aBoard := Board withSize: 10.
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+
+	self
+		should: [
+				Game
+					playedOn: aBoard
+					by: (OrderedCollection with: aShip)
+					throwing: aDiceSet
+					winningAt: 1
+					having: {  } ]
+		raise: Error
+		withExceptionDo: [ :error |
+				self
+					assert: error messageText
+					equals: 'A game must have at least one card type in the deck.' ]
+]

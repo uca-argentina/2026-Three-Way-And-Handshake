@@ -32,11 +32,25 @@ Game class >> assertIsValidDiceSet: aDiceSet [
 		Error signal: 'Game did not receive a valid instance of DiceSet' ]
 ]
 
+{ #category : 'asserting' }
+Game class >> assertIsValidNumberOfLaps: aNumberOfLaps [
+
+	(aNumberOfLaps isInteger and: [ aNumberOfLaps > 0 ]) ifFalse: [
+		Error signal: 'The number of laps to win must be positive.' ]
+]
+
 { #category : 'initialization' }
 Game class >> assertNotEmpty: aCollectionOfShips [
 
 	aCollectionOfShips isEmpty ifTrue: [
 		Error signal: 'A game must have at least one ship.' ]
+]
+
+{ #category : 'asserting' }
+Game class >> assertNotEmptyDeck: aDeckOfCards [
+
+	aDeckOfCards isEmpty ifTrue: [
+		Error signal: 'A game must have at least one card type in the deck.' ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -62,6 +76,7 @@ Game class >> playedOn: aBoard by: someShips throwing: aDiceSet winningAt: aNumb
 	self assertNotEmpty: someShips.
 	self assertIsValidBoard: aBoard.
 	self assertIsValidDiceSet: aDiceSet.
+	self assertIsValidNumberOfLaps: aNumberOfLaps.
 	^ self
 		  playedOn: aBoard
 		  by: someShips
@@ -82,6 +97,8 @@ Game class >> playedOn: aBoard by: someShips throwing: aDiceSet winningAt: aNumb
 	self assertNotEmpty: someShips.
 	self assertIsValidBoard: aBoard.
 	self assertIsValidDiceSet: aDiceSet.
+	self assertIsValidNumberOfLaps: aNumberOfLaps.
+	self assertNotEmptyDeck: aDeckOfCards.
 	^ self new
 		  initializePlayedOn: aBoard
 		  by: someShips
