@@ -76,17 +76,6 @@ Board class >> withSize: aBoardSize lengthInParsecs: aLengthInParsecs and: aSqua
 		  and: aSquaresDictionary
 ]
 
-{ #category : 'as yet unclassified' }
-Board >> countSquaresOfType: aSquareType [ 
-	| count |
-    count := 0.
-    1 to: self size do: [ :i |
-        ((self squareAt: i) isKindOf: aSquareType) 
-            ifTrue: [ count := count + 1 ]
-    ].
-    ^ count
-]
-
 { #category : 'initialization' }
 Board >> initializeWithSize: aBoardSize lengthInParsecs: aLengthInParsecs and: aSquaresDictionary [
 

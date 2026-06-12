@@ -289,10 +289,12 @@ SpecialSquaresTest >> test010WhenAShipLandsOnASpeedUpAndItLandsOnAMoonWalkThenTh
 SpecialSquaresTest >> test011WhenABoardWith100SquaresIsCreatedThenItHas30SimpleSquares [
 
 	| aBoard |
-	
 	aBoard := BoardFactory createABoardOf: 100.
-	
-	self assert: (aBoard countSquaresOfType: SimpleSquare) equals: 30.
+
+	self
+		assert: ((1 to: aBoard size) count: [ :i |
+				 (aBoard squareAt: i) class = SimpleSquare ])
+		equals: 30
 ]
 
 { #category : 'running' }
@@ -301,24 +303,54 @@ SpecialSquaresTest >> test012WhenABoardWith100SquaresIsCreatedThenTheProportions
 	| aBoard |
 	aBoard := BoardFactory createABoardOf: 100.
 
-	self assert: (aBoard countSquaresOfType: SimpleSquare) equals: 30.
-	self assert: (aBoard countSquaresOfType: CardSquare) equals: 10.
-	self assert: (aBoard countSquaresOfType: WormHole) equals: 20.
-	self assert: (aBoard countSquaresOfType: SpeedUp) equals: 20.
-	self assert: (aBoard countSquaresOfType: MoonWalk) equals: 10.
-	self assert: (aBoard countSquaresOfType: HyperJump) equals: 8.
-	self assert: (aBoard countSquaresOfType: AtomicBomb) equals: 2
+	self
+		assert: ((1 to: aBoard size) count: [ :i |
+				 (aBoard squareAt: i) class = SimpleSquare ])
+		equals: 30.
+	self
+		assert: ((1 to: aBoard size) count: [ :i |
+				 (aBoard squareAt: i) class = CardSquare ])
+		equals: 10.
+	self
+		assert: ((1 to: aBoard size) count: [ :i |
+				 (aBoard squareAt: i) class = WormHole ])
+		equals: 20.
+	self
+		assert: ((1 to: aBoard size) count: [ :i |
+				 (aBoard squareAt: i) class = SpeedUp ])
+		equals: 20.
+	self
+		assert: ((1 to: aBoard size) count: [ :i |
+				 (aBoard squareAt: i) class = MoonWalk ])
+		equals: 10.
+	self
+		assert: ((1 to: aBoard size) count: [ :i |
+				 (aBoard squareAt: i) class = HyperJump ])
+		equals: 8.
+	self
+		assert: ((1 to: aBoard size) count: [ :i |
+				 (aBoard squareAt: i) class = AtomicBomb ])
+		equals: 2
 ]
 
 { #category : 'running' }
 SpecialSquaresTest >> test013WhenABoardIsCreatedWithFactoryWithMoonWalkAndHyperJumpValuesThenItHasTheCorrectDistribution [
-    | aBoard |
-    aBoard := BoardFactory 
-        createABoardOf: 100 
-        withMoonWalkValues: #(1 2 3 1 2 1 3 2 1 2)
-        withHyperJumpValues: #(#(3 2 1) #(5 4) #(2 1) #(4 3 2) #(1) #(3 2) #(5 4 3) #(2 1)).
-    self assert: (aBoard countSquaresOfType: MoonWalk) equals: 10.
-    self assert: (aBoard countSquaresOfType: HyperJump) equals: 8.
+
+	| aBoard |
+	aBoard := BoardFactory
+		          createABoardOf: 100
+		          withMoonWalkValues: #( 1 2 3 1 2 1 3 2 1 2 )
+		          withHyperJumpValues:
+			          #( #( 3 2 1 ) #( 5 4 ) #( 2 1 ) #( 4 3 2 ) #( 1 ) #( 3 2 )
+			             #( 5 4 3 ) #( 2 1 ) ).
+	self
+		assert: ((1 to: aBoard size) count: [ :i |
+				 (aBoard squareAt: i) class = MoonWalk ])
+		equals: 10.
+	self
+		assert: ((1 to: aBoard size) count: [ :i |
+				 (aBoard squareAt: i) class = HyperJump ])
+		equals: 8
 ]
 
 { #category : 'running' }
