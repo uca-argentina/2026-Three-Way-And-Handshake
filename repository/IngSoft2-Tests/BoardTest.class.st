@@ -62,3 +62,27 @@ BoardTest >> test005WhenABoardIsCreatedWithLengthInLightYearsItCanConvertLightYe
 		          and: Dictionary new.
 	self assert: (aBoard lightYearsToSquares: 30) equals: 10
 ]
+
+{ #category : 'tests' }
+BoardTest >> test006WhenBoardSizeIsInvalidWithASquaresDictionaryThenItCannotBeInstantiated [
+
+	self
+		should: [ Board withSize: 0 and: Dictionary new ]
+		raise: Error
+		withExceptionDo: [ :error |
+				self
+					assert: error messageText
+					equals: 'Board size cannot be negative or zero' ]
+]
+
+{ #category : 'tests' }
+BoardTest >> test007WhenBoardSizeIsInvalidWithAnAnomalyThenItCannotBeInstantiated [
+
+	self
+		should: [ Board withSize: 0 and: WormHole new on: 1 ]
+		raise: Error
+		withExceptionDo: [ :error |
+				self
+					assert: error messageText
+					equals: 'Board size cannot be negative or zero' ]
+]
