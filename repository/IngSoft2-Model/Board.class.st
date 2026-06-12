@@ -38,6 +38,8 @@ Board class >> withSize: aBoardSize [
 { #category : 'as yet unclassified' }
 Board class >> withSize: aBoardSize and: aSquaresDictionary [
 
+	self called: aBoardSize.
+	self assertPositiveSize: aBoardSize.
 	^ self
 		  withSize: aBoardSize
 		  lengthInParsecs: aBoardSize
