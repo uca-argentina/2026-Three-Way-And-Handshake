@@ -10,6 +10,13 @@ Class {
 }
 
 { #category : 'instance creation' }
+Board class >> assertIsInteger: aBoardSize [
+
+	aBoardSize isInteger ifFalse: [
+		Error signal: 'Board size cannot be other than integer' ]
+]
+
+{ #category : 'instance creation' }
 Board class >> assertPositiveSize: aBoardSize [
 
 	aBoardSize < 1 ifTrue: [
@@ -17,17 +24,10 @@ Board class >> assertPositiveSize: aBoardSize [
 ]
 
 { #category : 'instance creation' }
-Board class >> called: aBoardSize [
-
-	aBoardSize isInteger ifFalse: [
-		Error signal: 'Board size cannot be other than integer' ]
-]
-
-{ #category : 'instance creation' }
 Board class >> withSize: aBoardSize [
 
 	| aSquaresDictionary |
-	self called: aBoardSize.
+	self assertIsInteger: aBoardSize.
 	self assertPositiveSize: aBoardSize.
 	
 	aSquaresDictionary := Dictionary new.
@@ -38,7 +38,7 @@ Board class >> withSize: aBoardSize [
 { #category : 'as yet unclassified' }
 Board class >> withSize: aBoardSize and: aSquaresDictionary [
 
-	self called: aBoardSize.
+	self assertIsInteger: aBoardSize.
 	self assertPositiveSize: aBoardSize.
 	^ self
 		  withSize: aBoardSize

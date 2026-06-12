@@ -18,12 +18,6 @@ Ship class >> assertIsString: aName [
 ]
 
 { #category : 'as yet unclassified' }
-Ship class >> called: aName [
-
-	^ (self new) initializeWithName: aName
-]
-
-{ #category : 'as yet unclassified' }
 Ship class >> withName: aName [
 	
 	self assertIsString: aName.
