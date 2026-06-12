@@ -56,6 +56,15 @@ BoardFactory class >> addWormholesTo: squares for: aBoardSize [
 	aBoardSize * 20 // 100 timesRepeat: [ squares add: WormHole new ]
 ]
 
+{ #category : 'asserting' }
+BoardFactory class >> assertValidSize: aBoardSize [
+
+	aBoardSize isInteger ifFalse: [
+		Error signal: 'Board size cannot be other than integer' ].
+	aBoardSize < 1 ifTrue: [
+		Error signal: 'Board size cannot be negative or zero' ]
+]
+
 { #category : 'as yet unclassified' }
 BoardFactory class >> buildBoardOf: aBoardSize from: squares [
 
@@ -72,6 +81,7 @@ BoardFactory class >> buildBoardOf: aBoardSize from: squares [
 BoardFactory class >> createABoardOf: aBoardSize [
 
 	| squares |
+	self assertValidSize: aBoardSize.
 	squares := OrderedCollection new.
 	self addWormholesTo: squares for: aBoardSize.
 	self addCardSquaresTo: squares for: aBoardSize.
@@ -90,6 +100,7 @@ BoardFactory class >> createABoardOf: aBoardSize [
 BoardFactory class >> createABoardOf: aBoardSize withMoonWalkValues: aMoonWalkValues withHyperJumpValues: aHyperJumpValues [
 
 	| squares |
+	self assertValidSize: aBoardSize.
 	squares := OrderedCollection new.
 	self addWormholesTo: squares for: aBoardSize.
 	self addSpeedUpsTo: squares for: aBoardSize.

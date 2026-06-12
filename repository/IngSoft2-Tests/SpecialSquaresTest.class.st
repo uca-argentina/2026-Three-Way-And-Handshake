@@ -421,3 +421,15 @@ SpecialSquaresTest >> test018WhenAHyperJumpIsCreatedWithAnEmptyArrayThenItCannot
 					assert: error messageText
 					equals: 'A HyperJump must have at least one distance.' ]
 ]
+
+{ #category : 'running' }
+SpecialSquaresTest >> test019WhenABoardFactoryIsCreatedWithSize0ThenItCannotBeInstantiated [
+
+	self
+		should: [ BoardFactory createABoardOf: 0 ]
+		raise: Error
+		withExceptionDo: [ :error |
+				self
+					assert: error messageText
+					equals: 'Board size cannot be negative or zero' ]
+]
