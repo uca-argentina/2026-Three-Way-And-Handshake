@@ -71,7 +71,7 @@ BoardFactory class >> buildBoardOf: aBoardSize from: squares [
 	| aSquaresDictionary |
 	aSquaresDictionary := Dictionary new.
 	squares doWithIndex: [ :square :index |
-			(square isKindOf: SimpleSquare) ifFalse: [
+			square isDefaultSquare ifFalse: [
 				aSquaresDictionary at: index put: square ] ].
 
 	^ Board withSize: aBoardSize and: aSquaresDictionary

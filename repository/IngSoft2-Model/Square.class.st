@@ -8,3 +8,9 @@ Class {
 { #category : 'as yet unclassified' }
 Square >> applyEffectOn: aGame for: aShip [
 ]
+
+{ #category : 'testing' }
+Square >> isDefaultSquare [
+
+	^ false
+]
