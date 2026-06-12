@@ -18,20 +18,6 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
-Game class >> assertIsValidBoard: aBoard [ 
-	(aBoard isKindOf: Board) ifFalse: [
-				Error signal: 'Game did not receive a valid instance of Board'].
-]
-
-{ #category : 'as yet unclassified' }
-Game class >> assertIsValidDiceSet: aDiceSet [
-
-	(aDiceSet isKindOf: DiceSet )
-		ifFalse: [
-		Error signal: 'Game did not receive a valid instance of DiceSet' ]
-]
-
 { #category : 'asserting' }
 Game class >> assertIsValidNumberOfLaps: aNumberOfLaps [
 
@@ -74,8 +60,6 @@ Game class >> playedOn: aBoard by: someShips throwing: aDiceSet [
 Game class >> playedOn: aBoard by: someShips throwing: aDiceSet winningAt: aNumberOfLaps [
 
 	self assertNotEmpty: someShips.
-	self assertIsValidBoard: aBoard.
-	self assertIsValidDiceSet: aDiceSet.
 	self assertIsValidNumberOfLaps: aNumberOfLaps.
 	^ self
 		  playedOn: aBoard
@@ -95,8 +79,6 @@ Game class >> playedOn: aBoard by: someShips throwing: aDiceSet winningAt: aNumb
 Game class >> playedOn: aBoard by: someShips throwing: aDiceSet winningAt: aNumberOfLaps having: aDeckOfCards [
 
 	self assertNotEmpty: someShips.
-	self assertIsValidBoard: aBoard.
-	self assertIsValidDiceSet: aDiceSet.
 	self assertIsValidNumberOfLaps: aNumberOfLaps.
 	self assertNotEmptyDeck: aDeckOfCards.
 	^ self new

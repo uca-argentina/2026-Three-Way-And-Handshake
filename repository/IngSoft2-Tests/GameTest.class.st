@@ -335,45 +335,7 @@ GameTest >> test013WhenAGameIsCreatedWithNoShipsThenItCannotBeInstantiated [
 ]
 
 { #category : 'running' }
-GameTest >> test014WhenAGameReceivesAnInvalidBoardThenGameCannotBeInstantiated [
-
-	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie |
-	aFirstShip := Ship withName: 'Luke'.
-
-	aCollectionOfShips := OrderedCollection with: aFirstShip.
-
-	aBoard := 'hello'.
-
-	aLoadedDie := LoadedDie mustRoll: #( 10 ).
-
-	self should: [ aGame := Game
-		         playedOn: aBoard
-		         by: aCollectionOfShips
-		         throwing: aLoadedDie. ] raise: Error withExceptionDo: [ :error |
-		self assert: error messageText equals: 'Game did not receive a valid instance of Board' ]
-]
-
-{ #category : 'running' }
-GameTest >> test015WhenAGameReceivesAnInvalidInstanceOfDiceThenGameCannotBeInitialized [
-
-	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie |
-	aFirstShip := Ship withName: 'Luke'.
-
-	aCollectionOfShips := OrderedCollection with: aFirstShip.
-
-	aBoard := Board withSize: 10.
-
-	aLoadedDie := 5.
-
-	self should: [ aGame := Game
-		         playedOn: aBoard
-		         by: aCollectionOfShips
-		         throwing: aLoadedDie. ] raise: Error withExceptionDo: [ :error |
-		self assert: error messageText equals: 'Game did not receive a valid instance of DiceSet' ]
-]
-
-{ #category : 'running' }
-GameTest >> test016WhenFirstShipPlaysThenSecondShipPlaysNext [
+GameTest >> test014WhenFirstShipPlaysThenSecondShipPlaysNext [
 
 	| aGame aFirstShip aSecondShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withName: 'Luke'.
@@ -399,7 +361,7 @@ GameTest >> test016WhenFirstShipPlaysThenSecondShipPlaysNext [
 ]
 
 { #category : 'running' }
-GameTest >> test017WhenAShipAdvancesPastTheEndOfTheBoardThenItIsOnTheNextLap [
+GameTest >> test015WhenAShipAdvancesPastTheEndOfTheBoardThenItIsOnTheNextLap [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withName: 'Luke'.
@@ -420,7 +382,7 @@ GameTest >> test017WhenAShipAdvancesPastTheEndOfTheBoardThenItIsOnTheNextLap [
 ]
 
 { #category : 'running' }
-GameTest >> test018WhenAGameIsCreatedWithATargetOf3LapsThenItIsNotOver [
+GameTest >> test016WhenAGameIsCreatedWithATargetOf3LapsThenItIsNotOver [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withName: 'Luke'.
@@ -442,7 +404,7 @@ GameTest >> test018WhenAGameIsCreatedWithATargetOf3LapsThenItIsNotOver [
 ]
 
 { #category : 'running' }
-GameTest >> test019WhenAGameHasOneShipThenItIsTheOnlyOneInTheRanking [
+GameTest >> test017WhenAGameHasOneShipThenItIsTheOnlyOneInTheRanking [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withName: 'Luke'.
@@ -465,7 +427,7 @@ GameTest >> test019WhenAGameHasOneShipThenItIsTheOnlyOneInTheRanking [
 ]
 
 { #category : 'running' }
-GameTest >> test020WhenTheSecondShipIsAheadThenItIsFirstInTheRanking [
+GameTest >> test018WhenTheSecondShipIsAheadThenItIsFirstInTheRanking [
 
 	| aGame aFirstShip aSecondShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withName: 'Luke'.
@@ -494,7 +456,7 @@ GameTest >> test020WhenTheSecondShipIsAheadThenItIsFirstInTheRanking [
 ]
 
 { #category : 'running' }
-GameTest >> test021WhenSecondShipHasMoreLapsThenItIsFirstInRanking [
+GameTest >> test019WhenSecondShipHasMoreLapsThenItIsFirstInRanking [
 
 	| aGame aFirstShip aSecondShip aCollectionOfShips aBoard aLoadedDie aDiceSet |
 	aFirstShip := Ship withName: 'Luke'.
@@ -523,7 +485,7 @@ GameTest >> test021WhenSecondShipHasMoreLapsThenItIsFirstInRanking [
 ]
 
 { #category : 'running' }
-GameTest >> test022WhenAGameIsCreatedWithATargetOf0LapsThenItCannotBeInstantiated [
+GameTest >> test020WhenAGameIsCreatedWithATargetOf0LapsThenItCannotBeInstantiated [
 
 	| aBoard aLoadedDie aDiceSet aShip |
 	aShip := Ship withName: 'Luke'.
@@ -546,7 +508,7 @@ GameTest >> test022WhenAGameIsCreatedWithATargetOf0LapsThenItCannotBeInstantiate
 ]
 
 { #category : 'running' }
-GameTest >> test023WhenAGameIsCreatedWithAnEmptyDeckThenItCannotBeInstantiated [
+GameTest >> test021WhenAGameIsCreatedWithAnEmptyDeckThenItCannotBeInstantiated [
 
 	| aBoard aLoadedDie aDiceSet aShip |
 	aShip := Ship withName: 'Luke'.
