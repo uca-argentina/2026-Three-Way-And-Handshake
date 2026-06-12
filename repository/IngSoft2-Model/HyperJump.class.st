@@ -9,9 +9,18 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'asserting' }
+HyperJump class >> assertNotEmpty: aParsecArray [
+
+	aParsecArray isEmpty ifTrue: [
+		Error signal: 'A HyperJump must have at least one distance.' ]
+]
+
 { #category : 'as yet unclassified' }
 HyperJump class >> skipping: parsecsToSkip [
-    ^ self new initializeWithSkips: parsecsToSkip.
+
+	self assertNotEmpty: parsecsToSkip.
+	^ self new initializeWithSkips: parsecsToSkip
 ]
 
 { #category : 'as yet unclassified' }

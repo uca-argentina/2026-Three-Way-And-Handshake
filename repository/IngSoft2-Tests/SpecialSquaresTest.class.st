@@ -409,3 +409,15 @@ SpecialSquaresTest >> test017WhenAShipLandsOnACardSquareThenItReceivesACardFromT
 	aGame play.
 	self assert: (aFirstShip cards last isKindOf: Overload)
 ]
+
+{ #category : 'running' }
+SpecialSquaresTest >> test018WhenAHyperJumpIsCreatedWithAnEmptyArrayThenItCannotBeInstantiated [
+
+	self
+		should: [ HyperJump skipping: #(  ) ]
+		raise: Error
+		withExceptionDo: [ :error |
+				self
+					assert: error messageText
+					equals: 'A HyperJump must have at least one distance.' ]
+]
