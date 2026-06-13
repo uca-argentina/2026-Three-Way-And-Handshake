@@ -465,3 +465,75 @@ SpecialSquaresTest >> test019WhenABoardFactoryIsCreatedWithSize0ThenItCannotBeIn
 					assert: error messageText
 					equals: 'Board size cannot be negative or zero' ]
 ]
+
+{ #category : 'running' }
+SpecialSquaresTest >> test020WhenABoardFactoryIsCreatedWIthProbabilitiesDifferentFrom100ThenItCannotBeInstantiated [
+
+	| squaresAndProbabilities |
+
+	squaresAndProbabilities := {
+		                           (SimpleSquare -> 30).
+		                           (WormHole -> 20).
+		                           (SpeedUp -> 20).
+		                           (MoonWalk -> 10).
+		                           (HyperJump -> 8).
+		                           (AtomicBomb -> 2).
+		                           (CardSquare -> 0) } asDictionary.
+	self
+		should: [
+				BoardFactory
+					createABoardOf: 100
+					shapingTheFabricWith: squaresAndProbabilities ]
+		raise: Error
+		withExceptionDo: [ :error |
+				self
+					assert: error messageText
+					equals:
+					'The sum of all probabilities must be 100%, but it was 90%' ]
+]
+
+{ #category : 'running' }
+SpecialSquaresTest >> test021WhenABoardIsCreatedWithPercentagesThenTheDistributionFollowsAlong [
+
+	| squaresAndProbabilities aBoard |
+	squaresAndProbabilities := {
+		                           (SimpleSquare -> 30).
+		                           (WormHole -> 20).
+		                           (SpeedUp -> 20).
+		                           (MoonWalk -> 10).
+		                           (HyperJump -> 8).
+		                           (AtomicBomb -> 2).
+		                           (CardSquare -> 10) } asDictionary.
+
+	aBoard := BoardFactory
+		          createABoardOf: 100000
+		          shapingTheFabricWith: squaresAndProbabilities.
+
+	self assert: ((BoardFactory howMuchOf: SimpleSquare appearsIn: aBoard)
+			 closeTo: 30
+			 precision: 1.5).
+
+	self assert: ((BoardFactory howMuchOf: WormHole appearsIn: aBoard)
+			 closeTo: 20
+			 precision: 1).
+
+	self assert: ((BoardFactory howMuchOf: SpeedUp appearsIn: aBoard)
+			 closeTo: 20
+			 precision: 1).
+
+	self assert: ((BoardFactory howMuchOf: MoonWalk appearsIn: aBoard)
+			 closeTo: 10
+			 precision: 0.5).
+
+	self assert: ((BoardFactory howMuchOf: HyperJump appearsIn: aBoard)
+			 closeTo: 8
+			 precision: 0.4).
+
+	self assert: ((BoardFactory howMuchOf: AtomicBomb appearsIn: aBoard)
+			 closeTo: 2
+			 precision: 0.1).
+
+	self assert: ((BoardFactory howMuchOf: CardSquare appearsIn: aBoard)
+			 closeTo: 10
+			 precision: 0.5)
+]

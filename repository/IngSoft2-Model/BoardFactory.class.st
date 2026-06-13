@@ -56,6 +56,17 @@ BoardFactory class >> addWormholesTo: squares for: aBoardSize [
 	aBoardSize * 20 // 100 timesRepeat: [ squares add: WormHole new ]
 ]
 
+{ #category : 'as yet unclassified' }
+BoardFactory class >> assertValidProbabilities: aDictionaryOfSquaresAndProbabilities [
+
+	| totalSum |
+	totalSum := aDictionaryOfSquaresAndProbabilities values sum.
+	
+	totalSum = 100 ifFalse: [ 
+		Error signal: ('The sum of all probabilities must be 100%, but it was {1}%' format: { totalSum }) 
+	]
+]
+
 { #category : 'asserting' }
 BoardFactory class >> assertValidSize: aBoardSize [
 
@@ -97,6 +108,23 @@ BoardFactory class >> createABoardOf: aBoardSize [
 ]
 
 { #category : 'as yet unclassified' }
+BoardFactory class >> createABoardOf: aBoardSize shapingTheFabricWith: aDictionaryOfSquaresAndProbabilities [
+	"NOTA: No estamso agregando al board instancias configuradas. Si podemos agregar objetos new pero que no usan nuestros initialize, es decir, instancias basiconas. Es relevante para el nivel de profundidad de este tp ? tiene un arreglo facil pero deberia asumir como son las instancias, caso contrario hacer otro metodo el cual reciba instancias configuradas, la diferencia con este seria minima. Simplemente habria que sacar el new dentro del ciclo pero bueno. No parece tan necesario ya que el testeo dentro de este game va a ser poco. -G"
+
+	| arrayOfProbability squares |
+	self assertValidSize: aBoardSize.
+	self assertValidProbabilities: aDictionaryOfSquaresAndProbabilities.
+	
+	arrayOfProbability := self shapeArrayOfProbability: aDictionaryOfSquaresAndProbabilities.
+	squares := OrderedCollection new.
+
+	aBoardSize timesRepeat: [
+		squares add: (arrayOfProbability at: ((1 to: 100) atRandom)) ].
+	
+	^ self buildBoardOf: aBoardSize from: squares
+]
+
+{ #category : 'as yet unclassified' }
 BoardFactory class >> createABoardOf: aBoardSize withMoonWalkValues: aMoonWalkValues withHyperJumpValues: aHyperJumpValues [
 
 	| squares |
@@ -117,4 +145,34 @@ BoardFactory class >> fillWithSimpleSquares: squares upTo: aBoardSize [
 
 	aBoardSize - squares size timesRepeat: [
 		squares add: SimpleSquare new ]
+]
+
+{ #category : 'as yet unclassified' }
+BoardFactory class >> howMuchOf: aSquareType appearsIn: aBoard [
+
+	| occurrences |
+	occurrences := 0.
+
+	1 to: aBoard size do: [ :index |
+			| currentSquare |
+			currentSquare := aBoard squareAt: index.
+
+			"Quitamos el .class a aSquareType porque ya es una clase"
+			currentSquare class = aSquareType ifTrue: [
+				occurrences := occurrences + 1 ] ].
+
+	^ occurrences asFloat / aBoard size * 100
+]
+
+{ #category : 'as yet unclassified' }
+BoardFactory class >> shapeArrayOfProbability: aDictionaryOfSquaresAndProbabilities [
+
+	| arrayOfProbability |
+	arrayOfProbability := OrderedCollection new.
+	aDictionaryOfSquaresAndProbabilities keysAndValuesDo: [
+		:squareType
+		:amount |
+		amount timesRepeat: [ arrayOfProbability add: squareType new ] ].
+
+	^ arrayOfProbability
 ]
