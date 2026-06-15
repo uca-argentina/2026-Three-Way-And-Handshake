@@ -286,75 +286,7 @@ SpecialSquaresTest >> test010WhenAShipLandsOnASpeedUpAndItLandsOnAMoonWalkThenTh
 ]
 
 { #category : 'running' }
-SpecialSquaresTest >> test011WhenABoardWith100SquaresIsCreatedThenItHas30SimpleSquares [
-
-	| aBoard |
-	aBoard := BoardFactory createABoardOf: 100.
-
-	self
-		assert: ((1 to: aBoard size) count: [ :i |
-				 (aBoard squareAt: i) class = SimpleSquare ])
-		equals: 30
-]
-
-{ #category : 'running' }
-SpecialSquaresTest >> test012WhenABoardWith100SquaresIsCreatedThenTheProportionsAreCorrect [
-
-	| aBoard |
-	aBoard := BoardFactory createABoardOf: 100.
-
-	self
-		assert: ((1 to: aBoard size) count: [ :i |
-				 (aBoard squareAt: i) class = SimpleSquare ])
-		equals: 30.
-	self
-		assert: ((1 to: aBoard size) count: [ :i |
-				 (aBoard squareAt: i) class = CardSquare ])
-		equals: 10.
-	self
-		assert: ((1 to: aBoard size) count: [ :i |
-				 (aBoard squareAt: i) class = WormHole ])
-		equals: 20.
-	self
-		assert: ((1 to: aBoard size) count: [ :i |
-				 (aBoard squareAt: i) class = SpeedUp ])
-		equals: 20.
-	self
-		assert: ((1 to: aBoard size) count: [ :i |
-				 (aBoard squareAt: i) class = MoonWalk ])
-		equals: 10.
-	self
-		assert: ((1 to: aBoard size) count: [ :i |
-				 (aBoard squareAt: i) class = HyperJump ])
-		equals: 8.
-	self
-		assert: ((1 to: aBoard size) count: [ :i |
-				 (aBoard squareAt: i) class = AtomicBomb ])
-		equals: 2
-]
-
-{ #category : 'running' }
-SpecialSquaresTest >> test013WhenABoardIsCreatedWithFactoryWithMoonWalkAndHyperJumpValuesThenItHasTheCorrectDistribution [
-
-	| aBoard |
-	aBoard := BoardFactory
-		          createABoardOf: 100
-		          withMoonWalkValues: #( 1 2 3 1 2 1 3 2 1 2 )
-		          withHyperJumpValues:
-			          #( #( 3 2 1 ) #( 5 4 ) #( 2 1 ) #( 4 3 2 ) #( 1 ) #( 3 2 )
-			             #( 5 4 3 ) #( 2 1 ) ).
-	self
-		assert: ((1 to: aBoard size) count: [ :i |
-				 (aBoard squareAt: i) class = MoonWalk ])
-		equals: 10.
-	self
-		assert: ((1 to: aBoard size) count: [ :i |
-				 (aBoard squareAt: i) class = HyperJump ])
-		equals: 8
-]
-
-{ #category : 'running' }
-SpecialSquaresTest >> test014WhenAShipLandsOnHyperJumpThenItMovesAnMAmountParsecs [
+SpecialSquaresTest >> test011WhenAShipLandsOnHyperJumpThenItMovesAnMAmountParsecs [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet aSecondShip aSquaresDictionary |
 	aFirstShip := Ship withName: 'Michael Jackson the MoonWalker'.
@@ -384,7 +316,7 @@ SpecialSquaresTest >> test014WhenAShipLandsOnHyperJumpThenItMovesAnMAmountParsec
 ]
 
 { #category : 'running' }
-SpecialSquaresTest >> test015WhenAShipLandsOnAHyperJumpWithLightYearsThenItMovesCorrectly [
+SpecialSquaresTest >> test012WhenAShipLandsOnAHyperJumpWithLightYearsThenItMovesCorrectly [
 
 	| aGame aFirstShip aBoard aLoadedDie aDiceSet aSquaresDictionary |
 	aFirstShip := Ship withName: 'Luke'.
@@ -407,7 +339,7 @@ SpecialSquaresTest >> test015WhenAShipLandsOnAHyperJumpWithLightYearsThenItMoves
 ]
 
 { #category : 'running' }
-SpecialSquaresTest >> test016WhenAShipLandsOnACardSquareThenItReceivesACard [
+SpecialSquaresTest >> test013WhenAShipLandsOnACardSquareThenItReceivesACard [
 
 	| aGame aFirstShip aBoard aDiceSet aLoadedDie |
 	aFirstShip := Ship withName: 'Luke'.
@@ -421,11 +353,11 @@ SpecialSquaresTest >> test016WhenAShipLandsOnACardSquareThenItReceivesACard [
 
 	aGame play.
 
-	self assert: aFirstShip cards size equals: 3. "ESTO FUE MODIFICADO, EL RESULTADO PASO DE SER 1 EN EL TEST VIEJO A SER 3 YA QUE AHORA LAS NAVES ARRANCAN CON 2 CARTAS RANDOM NI BIEN ARRANCAN"
+	self assert: aFirstShip cards size equals: 3.
 ]
 
 { #category : 'running' }
-SpecialSquaresTest >> test017WhenAShipLandsOnACardSquareThenItReceivesACardFromTheGameDeck [
+SpecialSquaresTest >> test014WhenAShipLandsOnACardSquareThenItReceivesACardFromTheGameDeck [
 
 	| aGame aFirstShip aBoard aDiceSet aLoadedDie |
 	aFirstShip := Ship withName: 'Luke'.
@@ -443,7 +375,7 @@ SpecialSquaresTest >> test017WhenAShipLandsOnACardSquareThenItReceivesACardFromT
 ]
 
 { #category : 'running' }
-SpecialSquaresTest >> test018WhenAHyperJumpIsCreatedWithAnEmptyArrayThenItCannotBeInstantiated [
+SpecialSquaresTest >> test015WhenAHyperJumpIsCreatedWithAnEmptyArrayThenItCannotBeInstantiated [
 
 	self
 		should: [ HyperJump skipping: #(  ) ]
@@ -455,10 +387,10 @@ SpecialSquaresTest >> test018WhenAHyperJumpIsCreatedWithAnEmptyArrayThenItCannot
 ]
 
 { #category : 'running' }
-SpecialSquaresTest >> test019WhenABoardFactoryIsCreatedWithSize0ThenItCannotBeInstantiated [
+SpecialSquaresTest >> test016WhenABoardFactoryIsCreatedWithSize0ThenItCannotBeInstantiated [
 
 	self
-		should: [ BoardFactory createABoardOf: 0 ]
+		should: [ BoardFactory createABoardOf: 0 shapingTheFabricWith: Dictionary new ]
 		raise: Error
 		withExceptionDo: [ :error |
 				self
@@ -467,7 +399,7 @@ SpecialSquaresTest >> test019WhenABoardFactoryIsCreatedWithSize0ThenItCannotBeIn
 ]
 
 { #category : 'running' }
-SpecialSquaresTest >> test020WhenABoardFactoryIsCreatedWIthProbabilitiesDifferentFrom100ThenItCannotBeInstantiated [
+SpecialSquaresTest >> test017WhenABoardFactoryIsCreatedWIthProbabilitiesDifferentFrom100ThenItCannotBeInstantiated [
 
 	| squaresAndProbabilities |
 
@@ -493,7 +425,7 @@ SpecialSquaresTest >> test020WhenABoardFactoryIsCreatedWIthProbabilitiesDifferen
 ]
 
 { #category : 'running' }
-SpecialSquaresTest >> test021WhenABoardIsCreatedWithPercentagesThenTheDistributionFollowsAlong [
+SpecialSquaresTest >> test018WhenABoardIsCreatedWithPercentagesThenTheDistributionFollowsAlong [
 
 	| squaresAndProbabilities aBoard |
 	squaresAndProbabilities := {

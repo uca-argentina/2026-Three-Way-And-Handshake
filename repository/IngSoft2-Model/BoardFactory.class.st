@@ -6,57 +6,6 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-BoardFactory class >> addAtomicBombsTo: squares for: aBoardSize [
-
-	aBoardSize * 2 // 100 timesRepeat: [ squares add: AtomicBomb new ]
-]
-
-{ #category : 'as yet unclassified' }
-BoardFactory class >> addCardSquaresTo: squares for: aBoardSize [
-
-	aBoardSize * 10 // 100 timesRepeat: [ squares add: CardSquare new ]
-]
-
-{ #category : 'as yet unclassified' }
-BoardFactory class >> addHyperJumpsTo: squares for: aBoardSize [
-
-	aBoardSize * 8 // 100 timesRepeat: [
-		squares add: (HyperJump skipping: #( 3 2 1 )) ]
-]
-
-{ #category : 'as yet unclassified' }
-BoardFactory class >> addHyperJumpsTo: squares withValues: aHyperJumpValues [
-
-	aHyperJumpValues do: [ :valuesList |
-		squares add: (HyperJump skipping: valuesList) ]
-]
-
-{ #category : 'as yet unclassified' }
-BoardFactory class >> addMoonWalksTo: squares for: aBoardSize [
-
-	aBoardSize * 10 // 100 timesRepeat: [
-		squares add: (MoonWalk lasts: 1) ]
-]
-
-{ #category : 'as yet unclassified' }
-BoardFactory class >> addMoonWalksTo: squares withValues: aMoonWalkValues [
-
-	aMoonWalkValues do: [ :value | squares add: (MoonWalk lasts: value) ]
-]
-
-{ #category : 'as yet unclassified' }
-BoardFactory class >> addSpeedUpsTo: squares for: aBoardSize [
-
-	aBoardSize * 20 // 100 timesRepeat: [ squares add: SpeedUp new ]
-]
-
-{ #category : 'as yet unclassified' }
-BoardFactory class >> addWormholesTo: squares for: aBoardSize [
-
-	aBoardSize * 20 // 100 timesRepeat: [ squares add: WormHole new ]
-]
-
-{ #category : 'as yet unclassified' }
 BoardFactory class >> assertValidProbabilities: aDictionaryOfSquaresAndProbabilities [
 
 	| totalSum |
@@ -89,27 +38,7 @@ BoardFactory class >> buildBoardOf: aBoardSize from: squares [
 ]
 
 { #category : 'as yet unclassified' }
-BoardFactory class >> createABoardOf: aBoardSize [
-
-	| squares |
-	self assertValidSize: aBoardSize.
-	squares := OrderedCollection new.
-	self addWormholesTo: squares for: aBoardSize.
-	self addCardSquaresTo: squares for: aBoardSize.
-	self addSpeedUpsTo: squares for: aBoardSize.
-	self addMoonWalksTo: squares for: aBoardSize.
-	self addHyperJumpsTo: squares for: aBoardSize.
-	self addAtomicBombsTo: squares for: aBoardSize.
-
-	self fillWithSimpleSquares: squares upTo: aBoardSize.
-
-	squares := squares shuffled.
-	^ self buildBoardOf: aBoardSize from: squares
-]
-
-{ #category : 'as yet unclassified' }
 BoardFactory class >> createABoardOf: aBoardSize shapingTheFabricWith: aDictionaryOfSquaresAndProbabilities [
-	"NOTA: No estamso agregando al board instancias configuradas. Si podemos agregar objetos new pero que no usan nuestros initialize, es decir, instancias basiconas. Es relevante para el nivel de profundidad de este tp ? tiene un arreglo facil pero deberia asumir como son las instancias, caso contrario hacer otro metodo el cual reciba instancias configuradas, la diferencia con este seria minima. Simplemente habria que sacar el new dentro del ciclo pero bueno. No parece tan necesario ya que el testeo dentro de este game va a ser poco. -G"
 
 	| arrayOfProbability squares |
 	self assertValidSize: aBoardSize.
@@ -122,29 +51,6 @@ BoardFactory class >> createABoardOf: aBoardSize shapingTheFabricWith: aDictiona
 		squares add: (arrayOfProbability at: ((1 to: 100) atRandom)) ].
 	
 	^ self buildBoardOf: aBoardSize from: squares
-]
-
-{ #category : 'as yet unclassified' }
-BoardFactory class >> createABoardOf: aBoardSize withMoonWalkValues: aMoonWalkValues withHyperJumpValues: aHyperJumpValues [
-
-	| squares |
-	self assertValidSize: aBoardSize.
-	squares := OrderedCollection new.
-	self addWormholesTo: squares for: aBoardSize.
-	self addSpeedUpsTo: squares for: aBoardSize.
-	self addMoonWalksTo: squares withValues: aMoonWalkValues.
-	self addHyperJumpsTo: squares withValues: aHyperJumpValues.
-	self addAtomicBombsTo: squares for: aBoardSize.
-	self fillWithSimpleSquares: squares upTo: aBoardSize.
-	squares := squares shuffled.
-	^ self buildBoardOf: aBoardSize from: squares
-]
-
-{ #category : 'as yet unclassified' }
-BoardFactory class >> fillWithSimpleSquares: squares upTo: aBoardSize [
-
-	aBoardSize - squares size timesRepeat: [
-		squares add: SimpleSquare new ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -172,7 +78,7 @@ BoardFactory class >> shapeArrayOfProbability: aDictionaryOfSquaresAndProbabilit
 	aDictionaryOfSquaresAndProbabilities keysAndValuesDo: [
 		:squareType
 		:amount |
-		amount timesRepeat: [ arrayOfProbability add: squareType new ] ].
+		amount timesRepeat: [ arrayOfProbability add: squareType new ] ]. "SACAR ESTE NEW SI DECIDIMOS PASAR INSTANCIAS"
 
 	^ arrayOfProbability
 ]
