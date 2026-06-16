@@ -429,13 +429,13 @@ SpecialSquaresTest >> test018WhenABoardIsCreatedWithPercentagesThenTheDistributi
 
 	| squaresAndProbabilities aBoard |
 	squaresAndProbabilities := {
-		                           (SimpleSquare -> 30).
-		                           (WormHole -> 20).
-		                           (SpeedUp -> 20).
-		                           (MoonWalk -> 10).
-		                           (HyperJump -> 8).
-		                           (AtomicBomb -> 2).
-		                           (CardSquare -> 10) } asDictionary.
+		                           ((SimpleSquare new) -> 30).
+		                           ((WormHole new) -> 20).
+		                           ((SpeedUp new) -> 20).
+		                           ((MoonWalk lasts: 1) -> 10).
+		                           ((HyperJump skipping: #(30 20 10)) -> 8).
+		                           ((AtomicBomb new) -> 2).
+		                           ((CardSquare new) -> 10) } asDictionary.
 
 	aBoard := BoardFactory
 		          createABoardOf: 100000

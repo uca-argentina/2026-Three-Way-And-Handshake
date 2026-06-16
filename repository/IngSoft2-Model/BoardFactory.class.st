@@ -78,7 +78,7 @@ BoardFactory class >> shapeArrayOfProbability: aDictionaryOfSquaresAndProbabilit
 	aDictionaryOfSquaresAndProbabilities keysAndValuesDo: [
 		:squareType
 		:amount |
-		amount timesRepeat: [ arrayOfProbability add: squareType new ] ]. "SACAR ESTE NEW SI DECIDIMOS PASAR INSTANCIAS"
+		amount timesRepeat: [ arrayOfProbability add: squareType ] ]. "AGREGAR NEW SI DECIDIMOS NO PASAR INSTANCIAS"
 
 	^ arrayOfProbability
 ]
