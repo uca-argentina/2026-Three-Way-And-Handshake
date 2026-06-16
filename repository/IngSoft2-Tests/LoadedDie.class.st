@@ -10,6 +10,14 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
+LoadedDie class >> assertIsInteger: aSetOfRolls [
+"Comentario de prueba"
+	aSetOfRolls do: [ :aNumberToBeRolled |
+			aNumberToBeRolled isInteger ifFalse: [
+				Error signal: 'LoadedDie sides cannot be other than integer type' ] ]
+]
+
+{ #category : 'as yet unclassified' }
 LoadedDie class >> assertPositiveSize: aSetOfRolls [
 "Comentario de prueba"
 	aSetOfRolls do: [ :aNumberToBeRolled |
@@ -18,18 +26,10 @@ LoadedDie class >> assertPositiveSize: aSetOfRolls [
 ]
 
 { #category : 'as yet unclassified' }
-LoadedDie class >> called: aSetOfRolls [
-"Comentario de prueba"
-	aSetOfRolls do: [ :aNumberToBeRolled |
-			aNumberToBeRolled isInteger ifFalse: [
-				Error signal: 'LoadedDie sides cannot be other than integer type' ] ]
-]
-
-{ #category : 'as yet unclassified' }
 LoadedDie class >> mustRoll: aSetOfRolls [
 "Comentario de prueba"
 
-	self called: aSetOfRolls.
+	self assertIsInteger: aSetOfRolls.
 	self assertPositiveSize: aSetOfRolls.
 
 	^ self new initializeWithMustRoll: aSetOfRolls

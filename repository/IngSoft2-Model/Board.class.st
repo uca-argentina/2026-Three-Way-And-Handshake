@@ -10,6 +10,13 @@ Class {
 }
 
 { #category : 'instance creation' }
+Board class >> assertIsInteger: aBoardSize [
+
+	aBoardSize isInteger ifFalse: [
+		Error signal: 'Board size cannot be other than integer' ]
+]
+
+{ #category : 'instance creation' }
 Board class >> assertPositiveSize: aBoardSize [
 
 	aBoardSize < 1 ifTrue: [
@@ -17,17 +24,10 @@ Board class >> assertPositiveSize: aBoardSize [
 ]
 
 { #category : 'instance creation' }
-Board class >> called: aBoardSize [
-
-	aBoardSize isInteger ifFalse: [
-		Error signal: 'Board size cannot be other than integer' ]
-]
-
-{ #category : 'instance creation' }
 Board class >> withSize: aBoardSize [
 
 	| aSquaresDictionary |
-	self called: aBoardSize.
+	self assertIsInteger: aBoardSize.
 	self assertPositiveSize: aBoardSize.
 	
 	aSquaresDictionary := Dictionary new.
@@ -38,6 +38,8 @@ Board class >> withSize: aBoardSize [
 { #category : 'as yet unclassified' }
 Board class >> withSize: aBoardSize and: aSquaresDictionary [
 
+	self assertIsInteger: aBoardSize.
+	self assertPositiveSize: aBoardSize.
 	^ self
 		  withSize: aBoardSize
 		  lengthInParsecs: aBoardSize
@@ -57,31 +59,21 @@ Board class >> withSize: aBoardSize and: anAnomaly on: aPosition [
 ]
 
 { #category : 'as yet unclassified' }
+Board class >> withSize: aBoardSize lengthInLightYears: aLengthInLightYears and: aSquaresDictionary [
+
+	^ self
+		  withSize: aBoardSize
+		  lengthInParsecs: aLengthInLightYears / 3
+		  and: aSquaresDictionary
+]
+
+{ #category : 'as yet unclassified' }
 Board class >> withSize: aBoardSize lengthInParsecs: aLengthInParsecs and: aSquaresDictionary [
 
 	^ self new
 		  initializeWithSize: aBoardSize
 		  lengthInParsecs: aLengthInParsecs
 		  and: aSquaresDictionary
-]
-
-{ #category : 'as yet unclassified' }
-Board >> countSquaresOfType: aSquareType [ 
-	| count |
-    count := 0.
-    1 to: self size do: [ :i |
-        ((self squareAt: i) isKindOf: aSquareType) 
-            ifTrue: [ count := count + 1 ]
-    ].
-    ^ count
-]
-
-{ #category : 'initialization' }
-Board >> initializeWithSize: aBoardSize and: aSquaresDictionary [
-
-	squares := OrderedCollection new: aBoardSize withAll: SimpleSquare new.
-    aSquaresDictionary keysAndValuesDo: [ :position :square |
-        squares at: position put: square ]
 ]
 
 { #category : 'initialization' }
@@ -97,21 +89,16 @@ Board >> initializeWithSize: aBoardSize lengthInParsecs: aLengthInParsecs and: a
 ]
 
 { #category : 'as yet unclassified' }
+Board >> lightYearsToSquares: amountOfLightYears [
+
+	^ self parsecsToSquares: amountOfLightYears / 3
+]
+
+{ #category : 'as yet unclassified' }
 Board >> parsecsToSquares: amountOfParsecs [
 	
 
 	^ amountOfParsecs * self size // lengthInParsecs
-]
-
-{ #category : 'as yet unclassified' }
-Board >> simpleSquareCount [
-
-	| count |
-	count := 0.
-	1 to: self size do: [ :i |
-			((self squareAt: i) isKindOf: SimpleSquare) ifTrue: [
-				count := count + 1 ] ].
-	^ count
 ]
 
 { #category : 'as yet unclassified' }

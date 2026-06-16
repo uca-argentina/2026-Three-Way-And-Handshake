@@ -286,42 +286,7 @@ SpecialSquaresTest >> test010WhenAShipLandsOnASpeedUpAndItLandsOnAMoonWalkThenTh
 ]
 
 { #category : 'running' }
-SpecialSquaresTest >> test011WhenABoardWith40SimpleSquaresIsCreatedThenItHas40 [
-
-	| aBoard |
-	
-	aBoard := BoardFactory createABoardOf: 100.
-	
-	self assert: (aBoard countSquaresOfType: SimpleSquare) equals: 40.
-]
-
-{ #category : 'running' }
-SpecialSquaresTest >> test012WhenABoardWith100SquaresIsCreatedThenTheProportionsAreCorrect [
-
-	| aBoard |
-	aBoard := BoardFactory createABoardOf: 100.
-
-	self assert: (aBoard countSquaresOfType: SimpleSquare) equals: 40.
-	self assert: (aBoard countSquaresOfType: WormHole) equals: 20.
-	self assert: (aBoard countSquaresOfType: SpeedUp) equals: 20.
-	self assert: (aBoard countSquaresOfType: MoonWalk) equals: 10.
-	self assert: (aBoard countSquaresOfType: HyperJump) equals: 8.
-	self assert: (aBoard countSquaresOfType: AtomicBomb) equals: 2
-]
-
-{ #category : 'running' }
-SpecialSquaresTest >> test013WhenABoardIsCreatedWithFactoryWithMoonWalkAndHyperJumpValuesThenItHasTheCorrectDistribution [
-    | aBoard |
-    aBoard := BoardFactory 
-        createABoardOf: 100 
-        withMoonWalkValues: #(1 2 3 1 2 1 3 2 1 2)
-        withHyperJumpValues: #(#(3 2 1) #(5 4) #(2 1) #(4 3 2) #(1) #(3 2) #(5 4 3) #(2 1)).
-    self assert: (aBoard countSquaresOfType: MoonWalk) equals: 10.
-    self assert: (aBoard countSquaresOfType: HyperJump) equals: 8.
-]
-
-{ #category : 'running' }
-SpecialSquaresTest >> test014WhenAShipLandsOnHyperJumpThenItMovesAnMAmountParsecs [
+SpecialSquaresTest >> test011WhenAShipLandsOnHyperJumpThenItMovesAnMAmountParsecs [
 
 	| aGame aFirstShip aCollectionOfShips aBoard aLoadedDie aDiceSet aSecondShip aSquaresDictionary |
 	aFirstShip := Ship withName: 'Michael Jackson the MoonWalker'.
@@ -348,4 +313,159 @@ SpecialSquaresTest >> test014WhenAShipLandsOnHyperJumpThenItMovesAnMAmountParsec
 	
 	self assert: (aGame squareOf: aFirstShip ) equals: 9.
 	self assert: (aGame squareOf: aSecondShip ) equals: 8.
+]
+
+{ #category : 'running' }
+SpecialSquaresTest >> test012WhenAShipLandsOnAHyperJumpWithLightYearsThenItMovesCorrectly [
+
+	| aGame aFirstShip aBoard aLoadedDie aDiceSet aSquaresDictionary |
+	aFirstShip := Ship withName: 'Luke'.
+	aSquaresDictionary := Dictionary new.
+	aSquaresDictionary
+		at: 5
+		put: (HyperJump skippingLightYears: #( 9 6 3 )).
+	aBoard := Board
+		          withSize: 10
+		          lengthInLightYears: 30
+		          and: aSquaresDictionary.
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+	aGame := Game
+		         playedOn: aBoard
+		         by: (OrderedCollection with: aFirstShip)
+		         throwing: aDiceSet.
+	aGame play.
+	self assert: (aGame squareOf: aFirstShip) equals: 8
+]
+
+{ #category : 'running' }
+SpecialSquaresTest >> test013WhenAShipLandsOnACardSquareThenItReceivesACard [
+
+	| aGame aFirstShip aBoard aDiceSet aLoadedDie |
+	aFirstShip := Ship withName: 'Luke'.
+	aBoard := Board withSize: 10 and: CardSquare new on: 5.
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+	aGame := Game
+		         playedOn: aBoard
+		         by: (OrderedCollection with: aFirstShip)
+		         throwing: aDiceSet.
+
+	aGame play.
+
+	self assert: aFirstShip cards size equals: 3.
+]
+
+{ #category : 'running' }
+SpecialSquaresTest >> test014WhenAShipLandsOnACardSquareThenItReceivesACardFromTheGameDeck [
+
+	| aGame aFirstShip aBoard aDiceSet aLoadedDie |
+	aFirstShip := Ship withName: 'Luke'.
+	aBoard := Board withSize: 10 and: CardSquare new on: 5.
+	aLoadedDie := LoadedDie mustRoll: #( 5 ).
+	aDiceSet := DiceSet withDice: (OrderedCollection with: aLoadedDie).
+	aGame := Game
+		         playedOn: aBoard
+		         by: (OrderedCollection with: aFirstShip)
+		         throwing: aDiceSet
+		         winningAt: 1
+		         having: { Overload }.
+	aGame play.
+	self assert: (aFirstShip cards last isKindOf: Overload)
+]
+
+{ #category : 'running' }
+SpecialSquaresTest >> test015WhenAHyperJumpIsCreatedWithAnEmptyArrayThenItCannotBeInstantiated [
+
+	self
+		should: [ HyperJump skipping: #(  ) ]
+		raise: Error
+		withExceptionDo: [ :error |
+				self
+					assert: error messageText
+					equals: 'A HyperJump must have at least one distance.' ]
+]
+
+{ #category : 'running' }
+SpecialSquaresTest >> test016WhenABoardFactoryIsCreatedWithSize0ThenItCannotBeInstantiated [
+
+	self
+		should: [ BoardFactory createABoardOf: 0 shapingTheFabricWith: Dictionary new ]
+		raise: Error
+		withExceptionDo: [ :error |
+				self
+					assert: error messageText
+					equals: 'Board size cannot be negative or zero' ]
+]
+
+{ #category : 'running' }
+SpecialSquaresTest >> test017WhenABoardFactoryIsCreatedWIthProbabilitiesDifferentFrom100ThenItCannotBeInstantiated [
+
+	| squaresAndProbabilities |
+
+	squaresAndProbabilities := {
+		                           (SimpleSquare -> 30).
+		                           (WormHole -> 20).
+		                           (SpeedUp -> 20).
+		                           (MoonWalk -> 10).
+		                           (HyperJump -> 8).
+		                           (AtomicBomb -> 2).
+		                           (CardSquare -> 0) } asDictionary.
+	self
+		should: [
+				BoardFactory
+					createABoardOf: 100
+					shapingTheFabricWith: squaresAndProbabilities ]
+		raise: Error
+		withExceptionDo: [ :error |
+				self
+					assert: error messageText
+					equals:
+					'The sum of all probabilities must be 100%, but it was 90%' ]
+]
+
+{ #category : 'running' }
+SpecialSquaresTest >> test018WhenABoardIsCreatedWithPercentagesThenTheDistributionFollowsAlong [
+
+	| squaresAndProbabilities aBoard |
+	squaresAndProbabilities := {
+		                           (SimpleSquare -> 30).
+		                           (WormHole -> 20).
+		                           (SpeedUp -> 20).
+		                           (MoonWalk -> 10).
+		                           (HyperJump -> 8).
+		                           (AtomicBomb -> 2).
+		                           (CardSquare -> 10) } asDictionary.
+
+	aBoard := BoardFactory
+		          createABoardOf: 100000
+		          shapingTheFabricWith: squaresAndProbabilities.
+
+	self assert: ((BoardFactory howMuchOf: SimpleSquare appearsIn: aBoard)
+			 closeTo: 30
+			 precision: 1.5).
+
+	self assert: ((BoardFactory howMuchOf: WormHole appearsIn: aBoard)
+			 closeTo: 20
+			 precision: 1).
+
+	self assert: ((BoardFactory howMuchOf: SpeedUp appearsIn: aBoard)
+			 closeTo: 20
+			 precision: 1).
+
+	self assert: ((BoardFactory howMuchOf: MoonWalk appearsIn: aBoard)
+			 closeTo: 10
+			 precision: 0.5).
+
+	self assert: ((BoardFactory howMuchOf: HyperJump appearsIn: aBoard)
+			 closeTo: 8
+			 precision: 0.4).
+
+	self assert: ((BoardFactory howMuchOf: AtomicBomb appearsIn: aBoard)
+			 closeTo: 2
+			 precision: 0.1).
+
+	self assert: ((BoardFactory howMuchOf: CardSquare appearsIn: aBoard)
+			 closeTo: 10
+			 precision: 0.5)
 ]
