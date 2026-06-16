@@ -9,6 +9,13 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
+Die class >> assertIsInteger: aNumberOfSides [
+
+	aNumberOfSides isInteger ifFalse: [
+		Error signal: 'Die sides cannot be other than integer type' ]
+]
+
+{ #category : 'as yet unclassified' }
 Die class >> assertPositiveSize: aNumberOfSides [
 
 	aNumberOfSides < 1 ifTrue: [
@@ -16,16 +23,9 @@ Die class >> assertPositiveSize: aNumberOfSides [
 ]
 
 { #category : 'as yet unclassified' }
-Die class >> called: aNumberOfSides [
-
-	aNumberOfSides isInteger ifFalse: [
-		Error signal: 'Die sides cannot be other than integer type' ]
-]
-
-{ #category : 'as yet unclassified' }
 Die class >> withSides: aNumberOfSides [
 
-	self called: aNumberOfSides.
+	self assertIsInteger: aNumberOfSides.
 	self assertPositiveSize: aNumberOfSides.
 
 

@@ -2,7 +2,8 @@ Class {
 	#name : 'Ship',
 	#superclass : 'Object',
 	#instVars : [
-		'name'
+		'name',
+		'cards'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -17,12 +18,6 @@ Ship class >> assertIsString: aName [
 ]
 
 { #category : 'as yet unclassified' }
-Ship class >> called: aName [
-
-	^ (self new) initializeWithName: aName
-]
-
-{ #category : 'as yet unclassified' }
 Ship class >> withName: aName [
 	
 	self assertIsString: aName.
@@ -30,8 +25,32 @@ Ship class >> withName: aName [
 	^ (self new) initializeWithName: aName
 ]
 
+{ #category : 'adding' }
+Ship >> addCard: aCard [
+	cards add: aCard.
+]
+
+{ #category : 'accessing' }
+Ship >> cards [
+
+	^ cards
+]
+
+{ #category : 'testing' }
+Ship >> hasCard: aCard [
+
+	^ cards includes: aCard
+]
+
 { #category : 'initialization' }
 Ship >> initializeWithName: aName [
 
-	name := aName
+	name := aName.
+	cards := OrderedCollection new.
+]
+
+{ #category : 'removing' }
+Ship >> removeCard: aCard [
+
+	cards remove: aCard
 ]

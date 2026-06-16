@@ -6,59 +6,79 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-BoardFactory class >> createABoardOf: aBoardSize [
+BoardFactory class >> assertValidProbabilities: aDictionaryOfSquaresAndProbabilities [
 
-	| squares aSquaresDictionary |
-	squares := OrderedCollection new.
+	| totalSum |
+	totalSum := aDictionaryOfSquaresAndProbabilities values sum.
+	
+	totalSum = 100 ifFalse: [ 
+		Error signal: ('The sum of all probabilities must be 100%, but it was {1}%' format: { totalSum }) 
+	]
+]
 
-	aBoardSize * 20 // 100 timesRepeat: [ squares add: WormHole new ].
-	aBoardSize * 20 // 100 timesRepeat: [ squares add: SpeedUp new ].
-	aBoardSize * 10 // 100 timesRepeat: [
-		squares add: (MoonWalk lasts: 1) ].
-	aBoardSize * 8 // 100 timesRepeat: [
-		squares add: (HyperJump skipping: #( 3 2 1 )) ].
-	aBoardSize * 2 // 100 timesRepeat: [ squares add: AtomicBomb new ].
+{ #category : 'asserting' }
+BoardFactory class >> assertValidSize: aBoardSize [
 
-	aBoardSize - squares size timesRepeat: [
-		squares add: SimpleSquare new ].
+	aBoardSize isInteger ifFalse: [
+		Error signal: 'Board size cannot be other than integer' ].
+	aBoardSize < 1 ifTrue: [
+		Error signal: 'Board size cannot be negative or zero' ]
+]
 
-	squares := squares shuffled.
+{ #category : 'as yet unclassified' }
+BoardFactory class >> buildBoardOf: aBoardSize from: squares [
 
+	| aSquaresDictionary |
 	aSquaresDictionary := Dictionary new.
 	squares doWithIndex: [ :square :index |
-			(square isKindOf: SimpleSquare) ifFalse: [
+			square isDefaultSquare ifFalse: [
 				aSquaresDictionary at: index put: square ] ].
 
 	^ Board withSize: aBoardSize and: aSquaresDictionary
 ]
 
 { #category : 'as yet unclassified' }
-BoardFactory class >> createABoardOf: aBoardSize withMoonWalkValues: aMoonWalkValues withHyperJumpValues: aHyperJumpValues [
+BoardFactory class >> createABoardOf: aBoardSize shapingTheFabricWith: aDictionaryOfSquaresAndProbabilities [
 
-	| squares aSquaresDictionary |
+	| arrayOfProbability squares |
+	self assertValidSize: aBoardSize.
+	self assertValidProbabilities: aDictionaryOfSquaresAndProbabilities.
+	
+	arrayOfProbability := self shapeArrayOfProbability: aDictionaryOfSquaresAndProbabilities.
 	squares := OrderedCollection new.
 
-	aBoardSize * 20 // 100 timesRepeat: [ squares add: WormHole new ].
+	aBoardSize timesRepeat: [
+		squares add: (arrayOfProbability at: ((1 to: 100) atRandom)) ].
 	
-	aBoardSize * 20 // 100 timesRepeat: [ squares add: SpeedUp new ].
+	^ self buildBoardOf: aBoardSize from: squares
+]
 
-	aMoonWalkValues do: [ :value | squares add: (MoonWalk lasts: value) ].
-	
-	aHyperJumpValues do: [ :valuesList |
-		squares add: (HyperJump skipping: valuesList) ].
+{ #category : 'as yet unclassified' }
+BoardFactory class >> howMuchOf: aSquareType appearsIn: aBoard [
 
-	aBoardSize * 2 // 100 timesRepeat: [ squares add: AtomicBomb new ].
+	| occurrences |
+	occurrences := 0.
 
-	aBoardSize - squares size timesRepeat: [
-		squares add: SimpleSquare new ].
+	1 to: aBoard size do: [ :index |
+			| currentSquare |
+			currentSquare := aBoard squareAt: index.
 
-	squares := squares shuffled.
+			"Quitamos el .class a aSquareType porque ya es una clase"
+			currentSquare class = aSquareType ifTrue: [
+				occurrences := occurrences + 1 ] ].
 
-	aSquaresDictionary := Dictionary new.
-	
-	squares doWithIndex: [ :square :index |
-			(square isKindOf: SimpleSquare) ifFalse: [
-				aSquaresDictionary at: index put: square ] ].
+	^ occurrences asFloat / aBoard size * 100
+]
 
-	^ Board withSize: aBoardSize and: aSquaresDictionary
+{ #category : 'as yet unclassified' }
+BoardFactory class >> shapeArrayOfProbability: aDictionaryOfSquaresAndProbabilities [
+
+	| arrayOfProbability |
+	arrayOfProbability := OrderedCollection new.
+	aDictionaryOfSquaresAndProbabilities keysAndValuesDo: [
+		:squareType
+		:amount |
+		amount timesRepeat: [ arrayOfProbability add: squareType new ] ]. "SACAR ESTE NEW SI DECIDIMOS PASAR INSTANCIAS"
+
+	^ arrayOfProbability
 ]
